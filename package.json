@@ -1,0 +1,20 @@
+{
+  "name": "rotjscookietut",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "rot-js": "^0.6.5"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^2.30.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.0"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "test": "echo \"lolol tests 😂\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
