@@ -1,7 +1,9 @@
-const Glyph = function(char, fg, bg) {
-  this._char = char || " ";
-  this._fg = fg || "white";
-  this._bg = bg || "black";
+import Colors from "./colors";
+
+const Glyph = function(properties = {}) {
+  this._char = properties.char || " ";
+  this._fg = properties.fg || Colors.white;
+  this._bg = properties.bg || Colors.black;
 };
 
 Glyph.prototype.getChar = function() {

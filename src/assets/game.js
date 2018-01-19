@@ -1,13 +1,20 @@
 import ROT from "rot-js";
+import Colors from "./colors";
 import Screen from "./screens";
-import { nullTile, wallTile, floorTile } from "./tile";
 
 const Game = {
   _display: null,
   _currentScreen: null,
+  _screenWidth: 80,
+  _screenHeight: 24,
 
   init: function() {
-    this._display = new ROT.Display({ width: 80, height: 20 });
+    this._display = new ROT.Display({
+      width: this._screenWidth,
+      height: this._screenHeight,
+      fg: Colors.white,
+      bg: Colors.black
+    });
     const game = this;
     const bindEventToScreen = function(event) {
       window.addEventListener(event, function(e) {
@@ -17,12 +24,24 @@ const Game = {
       });
     };
     bindEventToScreen("keydown");
-    bindEventToScreen("keyup");
-    bindEventToScreen("keypress");
+    // bindEventToScreen("keyup");
+    // bindEventToScreen("keypress");
+  },
+
+  refresh: function() {
+    this._currentScreen.render(this._display, this);
   },
 
   getDisplay: function() {
     return this._display;
+  },
+
+  getScreenWidth: function() {
+    return this._screenWidth;
+  },
+
+  getScreenHeight: function() {
+    return this._screenHeight;
   },
 
   switchScreen: function(screen) {
@@ -32,8 +51,8 @@ const Game = {
     this.getDisplay().clear();
     this._currentScreen = screen;
     if (!this._currentScreen !== null) {
-      this._currentScreen.enter();
-      this._currentScreen.render(this._display);
+      this._currentScreen.enter(this);
+      this.refresh();
     }
   }
 };
