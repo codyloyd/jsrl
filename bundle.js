@@ -69,8 +69,8 @@
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-  black: "#101020",
-  darkBlue: "#102B53",
+  black: "#000010",
+  darkBlue: "#283a6d",
   darkPurple: "#7e2553",
   darkGreen: "#008751",
   brown: "#ab5236",
@@ -90,6 +90,81 @@
 
 /***/ }),
 /* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return nullTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return floorTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return wallTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return stairsUpTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return stairsDownTile; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__colors__ = __webpack_require__(0);
+
+
+
+const Tile = function({
+  char,
+  fg,
+  bg,
+  isDiggable = false,
+  isWalkable = false,
+  blocksLight = true
+}) {
+  this._glyph = new __WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */]({ char, fg, bg });
+  this._isWalkable = isWalkable;
+  this._isDiggable = isDiggable;
+  this._blocksLight = blocksLight;
+};
+
+Tile.prototype.getGlyph = function() {
+  return this._glyph;
+};
+
+Tile.prototype.isWalkable = function() {
+  return this._isWalkable;
+};
+
+Tile.prototype.isDiggable = function() {
+  return this._isDiggable;
+};
+
+Tile.prototype.isBlockingLight = function() {
+  return this._blocksLight;
+};
+
+const nullTile = new Tile({});
+const floorTile = new Tile({
+  char: ".",
+  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].darkGray,
+  isWalkable: true,
+  blocksLight: false
+});
+const wallTile = new Tile({
+  char: "#",
+  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].brown,
+  isDiggable: true,
+  isWalkable: false,
+  blocksLight: true
+});
+const stairsUpTile = new Tile({
+  char: "<",
+  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].lightGray,
+  isWalkable: true,
+  blocksLight: false
+});
+const stairsDownTile = new Tile({
+  char: ">",
+  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].lightGray,
+  isWalkable: true,
+  blocksLight: false
+});
+
+
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -5717,139 +5792,37 @@ for (var p in ROT) {
   return ROT;
 }));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(8)))
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
-
-
-const Entity = function(properties) {
-  this._glyph = new __WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */](properties);
-  this._name = properties.name || "";
-  this._x = properties.x || 0;
-  this._y = properties.y || 0;
-  this._map = null;
-  this._game = properties.game || null;
-  this._attachedMixins = {};
-  this._attachedMixinGroups = {};
-  this._screen = properties.screen || null;
-
-  const mixins = properties.mixins || [];
-  mixins.forEach(mixin => {
-    for (let key in mixin) {
-      if (key != "init" && key != "name" && !this.hasOwnProperty(key)) {
-        this[key] = mixin[key];
-      }
-    }
-    this._attachedMixins[mixin.name] = true;
-    if (mixin.groupName) {
-      this._attachedMixinGroups[mixin.groupName] = true;
-    }
-    if (mixin.init) {
-      mixin.init.call(this, properties);
-    }
-  });
-};
-
-Entity.prototype.hasMixin = function(obj) {
-  if (typeof obj == "object") {
-    return this._attachedMixins[obj.name];
-  } else {
-    return this._attachedMixins[obj] || this._attachedMixinGroups[obj];
-  }
-};
-
-Entity.prototype.getGame = function() {
-  return this._game;
-};
-
-Entity.prototype.setMap = function(map) {
-  this._map = map;
-};
-
-Entity.prototype.getMap = function() {
-  return this._map;
-};
-
-Entity.prototype.getGlyph = function() {
-  return this._glyph;
-};
-
-Entity.prototype.setName = function(name) {
-  this._name = name;
-};
-
-Entity.prototype.setX = function(x) {
-  this._x = x;
-};
-
-Entity.prototype.setY = function(y) {
-  this._y = y;
-};
-
-Entity.prototype.getName = function() {
-  return this._name;
-};
-
-Entity.prototype.getX = function() {
-  return this._x;
-};
-
-Entity.prototype.getY = function() {
-  return this._y;
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Entity);
-
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(10)))
 
 /***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return nullTile; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return floorTile; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return wallTile; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__colors__ = __webpack_require__(0);
-
-
-
-const Tile = function({
-  char,
-  fg,
-  bg,
-  isDiggable = false,
-  isWalkable = false
-}) {
-  this._glyph = new __WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */]({ char, fg, bg });
-  this._isWalkable = isWalkable;
-  this._isDiggable = isDiggable;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return sendMessage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return sendMessageNearby; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getNeighborPositions; });
+const sendMessageNearby = function(map, centerX, centerY, centerZ, message) {
+  const entities = map.getEntitiesWithinRadius(centerX, centerY, centerZ, 5);
+  entities.forEach(entity => sendMessage(entity, message));
 };
 
-Tile.prototype.getGlyph = function() {
-  return this._glyph;
+const sendMessage = function(recipient, message) {
+  if (recipient.hasMixin("MessageRecipient")) {
+    recipient.receiveMessage(message);
+  }
 };
 
-Tile.prototype.isWalkable = function() {
-  return this._isWalkable;
+const getNeighborPositions = function(x, y) {
+  var tiles = [];
+  for (let dX = -1; dX < 2; dX++) {
+    for (let dY = -1; dY < 2; dY++) {
+      if (dX == 0 && dY == 0) continue;
+      tiles.push({ x: x + dX, y: y + dY });
+    }
+  }
+  return tiles.randomize();
 };
-
-Tile.prototype.isDiggable = function() {
-  return this._isDiggable;
-};
-
-const nullTile = new Tile({});
-const floorTile = new Tile({
-  char: ".",
-  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].darkGray,
-  isWalkable: true
-});
-const wallTile = new Tile({ char: "#", fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].brown, isDiggable: true });
 
 
 
@@ -5862,22 +5835,24 @@ const wallTile = new Tile({ char: "#", fg: __WEBPACK_IMPORTED_MODULE_1__colors__
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colors__ = __webpack_require__(0);
 
 
-const Glyph = function(properties = {}) {
-  this._char = properties.char || " ";
-  this._fg = properties.fg || __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white;
-  this._bg = properties.bg || __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black;
-};
+const Glyph = function({ char = " ", fg = __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white, bg = __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black }) {
+  const getChar = function() {
+    return char;
+  };
 
-Glyph.prototype.getChar = function() {
-  return this._char;
-};
+  const getBg = function() {
+    return bg;
+  };
 
-Glyph.prototype.getBg = function() {
-  return this._bg;
-};
+  const getFg = function() {
+    return fg;
+  };
 
-Glyph.prototype.getFg = function() {
-  return this._fg;
+  return {
+    getChar,
+    getBg,
+    getFg
+  };
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Glyph);
@@ -5888,20 +5863,66 @@ Glyph.prototype.getFg = function() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PlayerTemplate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FungusTemplate; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colors__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tile__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers__ = __webpack_require__(3);
 
 
 
-const Movable = {
-  name: "Movable",
-  tryMove: function(x, y, map) {
-    const tile = map.getTile(x, y);
-    const target = map.getEntityAt(x, y);
+
+const Entity = function({
+  name = "",
+  x = 0,
+  y = 0,
+  z = 0,
+  game = null,
+  screen = null,
+  mixins = []
+}) {
+  const glyph = Object(__WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */])(...arguments);
+  let map = null;
+  const attachedMixins = {};
+  const attachedMixinGroups = {};
+
+  const mixinObject = {};
+  mixins.forEach(mixinFactory => {
+    const mixin = mixinFactory(...arguments);
+
+    attachedMixins[mixin.name] = true;
+    delete mixin.name;
+    if (mixin.groupName) {
+      attachedMixinGroups[mixin.groupName] = true;
+      delete mixin.groupName;
+    }
+    Object.assign(mixinObject, mixin);
+  });
+
+  const tryMove = function(x, y, z) {
+    const map = this.getMap();
+    const tile = map.getTile(x, y, getZ());
+    const target = map.getEntityAt(x, y, getZ());
+    if (z < getZ()) {
+      if (tile != __WEBPACK_IMPORTED_MODULE_1__tile__["d" /* stairsUpTile */]) {
+        Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, "You can't go up here");
+      } else {
+        Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, `You ascend to level ${z + 1}`);
+        this.setPosition(x, y, z);
+      }
+    }
+    if (z > getZ()) {
+      if (tile != __WEBPACK_IMPORTED_MODULE_1__tile__["c" /* stairsDownTile */]) {
+        Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, "You can't go down here");
+      } else {
+        Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, `You descend to level ${z + 1}`);
+        this.setPosition(x, y, z);
+      }
+    }
     if (target) {
-      if (this.hasMixin("Attacker")) {
+      if (
+        hasMixin("Attacker") &&
+        this !== target &&
+        (this.hasMixin("PlayerActor") || target.hasMixin("PlayerActor"))
+      ) {
         this.attack(target);
         return true;
       } else {
@@ -5909,95 +5930,114 @@ const Movable = {
       }
     }
     if (tile.isWalkable()) {
-      this._x = x;
-      this._y = y;
+      this.setPosition(x, y, z);
+      const items = this.getMap().getItemsAt(x, y, z);
+      if (items) {
+        if (items.length === 1) {
+          Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, `You see ${items[0].describeA()}`);
+        } else {
+          Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, "There are several items here.");
+        }
+      }
       return true;
-    } else if (tile.isDiggable()) {
-      map.dig(x, y);
+    } else if (tile.isDiggable() && this.hasMixin("PlayerActor")) {
+      map.dig(x, y, z);
       return true;
     }
     return false;
-  }
-};
+  };
 
-const PlayerActor = {
-  name: "PlayerActor",
-  groupName: "Actor",
-  act: function() {
-    this._screen.render(this._game.getDisplay(), this._game);
-    this.getMap()
-      .getEngine()
-      .lock();
-  }
-};
+  const hasMixin = function(mixin) {
+    return attachedMixins[mixin] || attachedMixinGroups[mixin];
+  };
 
-const FungusActor = {
-  name: "FungusActor",
-  groupName: "Actor",
-  init: function() {
-    this._growthsRemaining = 5;
-  },
-  act: function() {
-    if (this._growthsRemaining > 0) {
-      if (Math.random() <= 0.1) {
-        const xOffset = Math.floor(Math.random() * 3) - 1;
-        const yOffset = Math.floor(Math.random() * 3) - 1;
-        if (xOffset != 0 || yOffset != 0) {
-          if (
-            this.getMap().isEmptyFloor(
-              this.getX() + xOffset,
-              this.getY() + yOffset
-            )
-          ) {
-            const entity = new __WEBPACK_IMPORTED_MODULE_1__entity__["a" /* default */](FungusTemplate);
-            entity.setX(this.getX() + xOffset);
-            entity.setY(this.getY() + yOffset);
-            this.getMap().addEntity(entity);
-            this._growthsRemaining--;
-          }
-        }
-      }
+  const getGame = function() {
+    return game;
+  };
+
+  const setMap = function(newMap) {
+    map = newMap;
+  };
+
+  const getMap = function() {
+    return map;
+  };
+
+  const getGlyph = function() {
+    return glyph;
+  };
+
+  const setName = function(newName) {
+    name = newName;
+  };
+
+  const setX = function(newX) {
+    x = newX;
+  };
+
+  const setY = function(newY) {
+    y = newY;
+  };
+
+  const setZ = function(newZ) {
+    z = newZ;
+  };
+
+  const getName = function() {
+    return name;
+  };
+
+  const getX = function() {
+    return x;
+  };
+
+  const getY = function() {
+    return y;
+  };
+
+  const getZ = function() {
+    return z;
+  };
+
+  const setPosition = function(newX, newY, newZ) {
+    const oldX = x;
+    const oldY = y;
+    const oldZ = z;
+    x = newX;
+    y = newY;
+    z = newZ;
+    if (map) {
+      map.updateEntityPosition(this, oldX, oldY, oldZ);
     }
-  }
+  };
+
+  const getScreen = function() {
+    return screen;
+  };
+  return Object.assign(
+    {
+      getX,
+      getY,
+      getZ,
+      setX,
+      setY,
+      setZ,
+      setPosition,
+      getName,
+      setName,
+      tryMove,
+      getGlyph,
+      setMap,
+      getMap,
+      getGame,
+      hasMixin,
+      getScreen
+    },
+    mixinObject
+  );
 };
 
-const Destructable = {
-  name: "Destructable",
-  init: function() {
-    this._hp = 1;
-  },
-  takeDamage: function(attacker, damage) {
-    this._hp -= damage;
-    if (this._hp <= 0) {
-      this.getMap().removeEntity(this);
-    }
-  }
-};
-
-const SimpleAttacker = {
-  name: "SimpleAttacker",
-  groupName: "Attacker",
-  attack: function(target) {
-    if (target.hasMixin("Destructable")) {
-      target.takeDamage(this, 1);
-    }
-  }
-};
-
-const PlayerTemplate = {
-  char: "@",
-  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white,
-  bg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black,
-  mixins: [Movable, PlayerActor, Destructable, SimpleAttacker]
-};
-
-const FungusTemplate = {
-  char: "F",
-  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].green,
-  mixins: [FungusActor, Destructable]
-};
-
-
+/* harmony default export */ __webpack_exports__["a"] = (Entity);
 
 
 /***/ }),
@@ -6006,10 +6046,10 @@ const FungusTemplate = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__colors__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__screens__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__screens__ = __webpack_require__(11);
 
 
 
@@ -6023,7 +6063,7 @@ const Game = {
   init: function() {
     this._display = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Display({
       width: this._screenWidth,
-      height: this._screenHeight,
+      height: this._screenHeight + 1,
       fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].white,
       bg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].black
     });
@@ -6037,7 +6077,7 @@ const Game = {
     };
     bindEventToScreen("keydown");
     // bindEventToScreen("keyup");
-    // bindEventToScreen("keypress");
+    bindEventToScreen("keypress");
   },
 
   refresh: function() {
@@ -6069,7 +6109,10 @@ const Game = {
   }
 };
 
+/* harmony default export */ __webpack_exports__["default"] = (Game);
+
 window.onload = function() {
+  console.log("test");
   if (!__WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.isSupported()) {
     alert("The rot.js library isn't supported by your browser.");
   } else {
@@ -6082,6 +6125,327 @@ window.onload = function() {
 
 /***/ }),
 /* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PlayerTemplate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EntityRepository; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__repository__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tile__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers__ = __webpack_require__(3);
+
+
+
+
+
+
+const Sight = function({ sightRadius = 5 }) {
+  return {
+    name: "Sight",
+    groupName: "Sight",
+    getSightRadius: function() {
+      return sightRadius;
+    }
+  };
+};
+
+const WanderActor = function() {
+  return {
+    name: "WanderActor",
+    groupName: "Actor",
+    act: function() {
+      const dirs = [-1, 0, 1];
+      const x = dirs.randomize()[0];
+      const y = dirs.randomize()[0];
+      this.tryMove(this.getX() + x, this.getY() + y, this.getZ());
+    }
+  };
+};
+
+const PlayerActor = function() {
+  return {
+    name: "PlayerActor",
+    groupName: "Actor",
+    act: function() {
+      if (this.getHp() < 1) {
+        this.getGame()._currentScreen.setGameEnded(true);
+        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(this, "you have died.  press ENTER");
+      }
+      this.getScreen().render(this.getGame().getDisplay(), this.getGame());
+      this.getMap()
+        .getEngine()
+        .lock();
+      this.clearMessages();
+    }
+  };
+};
+
+const FungusActor = function() {
+  let growthsRemaining = 5;
+
+  return {
+    name: "FungusActor",
+    groupName: "Actor",
+    act: function() {
+      if (growthsRemaining > 0) {
+        if (Math.random() <= 0.02) {
+          const xOffset = Math.floor(Math.random() * 3) - 1;
+          const yOffset = Math.floor(Math.random() * 3) - 1;
+          if (xOffset != 0 || yOffset != 0) {
+            if (
+              this.getMap().isEmptyFloor(
+                this.getX() + xOffset,
+                this.getY() + yOffset,
+                this.getZ()
+              )
+            ) {
+              const entity = EntityRepository.create("fungus");
+              entity.setPosition(
+                this.getX() + xOffset,
+                this.getY() + yOffset,
+                this.getZ()
+              );
+              this.getMap().addEntity(entity);
+              growthsRemaining--;
+              Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["c" /* sendMessageNearby */])(
+                this.getMap(),
+                entity.getX(),
+                entity.getY(),
+                entity.getZ(),
+                "The fungus is spreading"
+              );
+            }
+          }
+        }
+      }
+    }
+  };
+};
+
+const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
+  hp = !hp ? maxHp : hp;
+  return {
+    name: "Destructible",
+    getDefenseValue: function() {
+      return defenseValue;
+    },
+    getHp: function() {
+      return hp;
+    },
+    getMaxHp: function() {
+      return maxHp;
+    },
+    takeDamage: function(attacker, damage) {
+      hp -= damage;
+      if (hp <= 0) {
+        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(attacker, `You kill the ${this.getName()}!`);
+        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(this, `You DIE at the hand of the ${attacker.getName()}!`);
+        if (this.hasMixin("PlayerActor")) {
+          this.act();
+        } else {
+          this.getMap().removeEntity(this);
+        }
+      }
+    }
+  };
+};
+
+const MessageRecipient = function() {
+  let messages = [];
+  return {
+    name: "MessageRecipient",
+    receiveMessage: function(message) {
+      console.log(message);
+      messages.push(message);
+    },
+    getMessages: function() {
+      return messages;
+    },
+    clearMessages: function() {
+      messages = [];
+    }
+  };
+};
+
+const Attacker = function({ attackValue = 1 }) {
+  return {
+    name: "Attacker",
+    groupName: "Attacker",
+    getAttackValue: function() {
+      return attackValue;
+    },
+    attack: function(target) {
+      if (target.hasMixin("Destructible")) {
+        const attack = this.getAttackValue();
+        const defense = target.getDefenseValue();
+        const max = Math.max(0, attack - defense);
+        const damage = 1 + Math.floor(Math.random() * max);
+        target.takeDamage(this, damage);
+
+        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(
+          this,
+          `You strike the ${target.getName()} for ${damage} damage.`
+        );
+        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(
+          target,
+          `The ${this.getName()} strikes you for ${damage} damage.`
+        );
+      }
+    }
+  };
+};
+
+const InventoryHolder = function({ inventorySlots = 10 }) {
+  const items = [];
+  return {
+    name: "InventoryHolder",
+    init: function({ inventorySlots = 10 }) {
+      inventorySlots = inventorySlots;
+    },
+    getItems: function() {
+      return items;
+    },
+    getItem: function(i) {
+      return items[i];
+    },
+    addItem: function(item) {
+      for (let i = 0; i < 22; i++) {
+        if (!items[i]) {
+          items[i] = item;
+          return true;
+        }
+      }
+      return false;
+    },
+    removeItem: function(i) {
+      delete items[i];
+    },
+    canAddItem: function() {
+      for (let i = 0; i < inventorySlots; i++) {
+        if (!items[i]) {
+          return true;
+        }
+        return false;
+      }
+    },
+    pickUpItems: function(indices) {
+      const mapItems = this.getMap().getItemsAt(
+        this.getX(),
+        this.getY(),
+        this.getZ()
+      );
+      let added = 0;
+      indices.forEach(i => {
+        if (this.addItem(mapItems[i - added])) {
+          mapItems.splice(i - added, 1);
+          added++;
+        }
+      });
+      this.getMap().setItemsAt(this.getX(), this.getY(), this.getZ(), mapItems);
+      return added === indices.length;
+    },
+    dropItem: function(i) {
+      if (items[i]) {
+        if (this.getMap()) {
+          this.getMap().addItem(
+            this.getX(),
+            this.getY(),
+            this.getZ(),
+            items[i]
+          );
+        }
+        this.removeItem(i);
+      }
+    }
+  };
+};
+
+const PlayerTemplate = {
+  name: "ME",
+  char: "@",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white,
+  bg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black,
+  maxHp: 40,
+  attackValue: 10,
+  sightRadius: 18,
+  inventorySlots: 22,
+  mixins: [
+    PlayerActor,
+    Destructible,
+    Attacker,
+    MessageRecipient,
+    Sight,
+    InventoryHolder
+  ]
+};
+
+const EntityRepository = new __WEBPACK_IMPORTED_MODULE_2__repository__["a" /* default */]("entities", __WEBPACK_IMPORTED_MODULE_1__entity__["a" /* default */]);
+
+EntityRepository.define("fungus", {
+  name: "fungus",
+  char: "F",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].green,
+  maxHp: 4,
+  mixins: [FungusActor, Destructible]
+});
+
+EntityRepository.define("bat", {
+  name: "bat",
+  char: "B",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].indigo,
+  maxHp: 5,
+  attackValue: 14,
+  mixins: [WanderActor, Attacker, Destructible]
+});
+
+EntityRepository.define("newt", {
+  name: "newt",
+  char: ":",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].red,
+  maxHp: 3,
+  attackValue: 12,
+  mixins: [WanderActor, Attacker, Destructible]
+});
+
+
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const Repository = function(name, ctor) {
+  this._name = name;
+  this._ctor = ctor;
+  this._templates = {};
+};
+
+Repository.prototype.define = function(name, template) {
+  this._templates[name] = template;
+};
+
+Repository.prototype.create = function(name) {
+  const template = this._templates[name];
+  if (!template) {
+    throw new Error(
+      "No template named '" + name + "' in repository '" + this._name + "'"
+    );
+  }
+  return new this._ctor(template);
+};
+
+Repository.prototype.createRandom = function() {
+  return this.create(Object.keys(this._templates).random());
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Repository);
+
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports) {
 
 var g;
@@ -6108,7 +6472,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -6298,17 +6662,23 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__colors__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__entity__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tile__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__map__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entity__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__builder__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__tile__ = __webpack_require__(1);
+
+
+
 
 
 
@@ -6324,13 +6694,13 @@ const startScreen = {
     console.log("exited start screen");
   },
   render: function(display) {
-    display.drawText(1, 1, "%c{" + __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].blue + "}JavaScript RogueLike");
+    display.drawText(1, 1, "%c{" + __WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].blue + "}JavaScript RogueLike");
     display.drawText(1, 2, "Press [ENTER] to start");
   },
-  handleInput: function(inputType, inputData, Game) {
+  handleInput: function(inputType, inputData) {
     if (inputType === "keydown") {
       if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
-        Game.switchScreen(playScreen);
+        __WEBPACK_IMPORTED_MODULE_1__game__["default"].switchScreen(playScreen);
       }
     }
   }
@@ -6339,65 +6709,91 @@ const startScreen = {
 const playScreen = {
   _map: null,
   _player: null,
+  _gameEnded: false,
+  _subScreen: null,
 
-  move: function(dX, dY) {
+  setSubScreen: function(subScreen) {
+    this._subScreen = subScreen;
+    __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
+  },
+
+  setGameEnded: function(gameEnded) {
+    this._gameEnded = gameEnded;
+  },
+  move: function(dX, dY, dZ) {
     const newX = this._player.getX() + dX;
     const newY = this._player.getY() + dY;
-    this._player.tryMove(newX, newY, this._map);
+    const newZ = this._player.getZ() + dZ;
+    this._player.tryMove(newX, newY, newZ, this._map);
   },
 
   enter: function(game) {
     console.log("entered play screen");
-    const map = [];
-    const mapWidth = 100;
-    const mapHeight = 48;
-    for (let x = 0; x < mapWidth; x++) {
-      map.push([]);
-      for (let y = 0; y < mapHeight; y++) {
-        map[x].push(__WEBPACK_IMPORTED_MODULE_5__tile__["b" /* nullTile */]);
-      }
-    }
-    const generator = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Map.Cellular(mapWidth, mapHeight);
-    generator.randomize(0.5);
-
-    const totalIterations = 8;
-    for (let i = 0; i < totalIterations - 1; i++) {
-      generator.create();
-    }
-    generator.create(function(x, y, v) {
-      if (v === 1) {
-        map[x][y] = __WEBPACK_IMPORTED_MODULE_5__tile__["a" /* floorTile */];
-      } else {
-        map[x][y] = __WEBPACK_IMPORTED_MODULE_5__tile__["c" /* wallTile */];
-      }
-    });
-    this._player = new __WEBPACK_IMPORTED_MODULE_3__entity__["a" /* default */](
-      Object.assign(__WEBPACK_IMPORTED_MODULE_4__entities__["b" /* PlayerTemplate */], { screen: this, game })
+    const width = 100;
+    const height = 48;
+    const depth = 6;
+    const tiles = new __WEBPACK_IMPORTED_MODULE_5__builder__["a" /* default */](width, height, depth).getTiles();
+    this._player = new __WEBPACK_IMPORTED_MODULE_4__entity__["a" /* default */](
+      Object.assign(__WEBPACK_IMPORTED_MODULE_7__entities__["b" /* PlayerTemplate */], { screen: this, game })
     );
-    this._map = new __WEBPACK_IMPORTED_MODULE_1__map__["a" /* default */](map, this._player);
+    this._map = new __WEBPACK_IMPORTED_MODULE_2__map__["a" /* default */](tiles, this._player);
+    this._player.setMap(this._map);
+    console.log(this._player.getMap().getEngine());
     this._map.getEngine().start();
   },
   exit: function() {
     console.log("exited play screen");
   },
-  render: function(display, game) {
-    const screenWidth = game.getScreenWidth();
-    const screenHeight = game.getScreenHeight();
+  render: function(display) {
+    if (this._subScreen) {
+      this._subScreen.render(display);
+      return;
+    }
+    const screenWidth = __WEBPACK_IMPORTED_MODULE_1__game__["default"].getScreenWidth();
+    const screenHeight = __WEBPACK_IMPORTED_MODULE_1__game__["default"].getScreenHeight();
     var topLeftX = Math.max(0, this._player.getX() - screenWidth / 2);
     topLeftX = Math.min(topLeftX, this._map.getWidth() - screenWidth);
     var topLeftY = Math.max(0, this._player.getY() - screenHeight / 2);
     topLeftY = Math.min(topLeftY, this._map.getHeight() - screenHeight);
+    display.clear();
 
+    const visibleCells = [];
+    const currentDepth = this._player.getZ();
+    const map = this._map;
+    map
+      .getFov(currentDepth)
+      .compute(
+        this._player.getX(),
+        this._player.getY(),
+        this._player.getSightRadius(),
+        function(x, y, radius, visibility) {
+          visibleCells[x + `,` + y] = true;
+          map.setExplored(x, y, currentDepth, true);
+        }
+      );
     for (let x = topLeftX; x < topLeftX + screenWidth; x++) {
       for (let y = topLeftY; y < topLeftY + screenHeight; y++) {
-        const glyph = this._map.getTile(x, y).getGlyph();
-        display.draw(
-          x - topLeftX,
-          y - topLeftY,
-          glyph.getChar(),
-          glyph.getFg(),
-          glyph.getBg()
-        );
+        if (map.isExplored(x, y, currentDepth)) {
+          let glyph = this._map.getTile(x, y, this._player.getZ()).getGlyph();
+          let fg = __WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].darkBlue;
+          if (visibleCells[x + "," + y]) {
+            const items = map.getItemsAt(x, y, currentDepth);
+            if (items) {
+              glyph = items[items.length - 1];
+            }
+            if (map.getEntityAt(x, y, currentDepth)) {
+              glyph = map.getEntityAt(x, y, currentDepth).getGlyph();
+            }
+            fg = glyph.getFg();
+          }
+          display.draw(
+            x - topLeftX,
+            y - topLeftY,
+            glyph.getChar(),
+            fg,
+            glyph.getBg()
+          );
+        }
       }
     }
     display.draw(
@@ -6407,40 +6803,100 @@ const playScreen = {
       this._player.getGlyph().getFg(),
       this._player.getGlyph().getBg()
     );
-    var entities = this._map.getEntities();
-    entities.forEach(entity => {
-      if (
-        entity.getX() >= topLeftX &&
-        entity.getY() >= topLeftY &&
-        entity.getX() < topLeftX + screenWidth &&
-        entity.getY() < topLeftY + screenHeight
-      ) {
-        display.draw(
-          entity.getX() - topLeftX,
-          entity.getY() - topLeftY,
-          entity.getGlyph().getChar(),
-          entity.getGlyph().getFg(),
-          entity.getGlyph().getBg()
-        );
-      }
+    let messageY = 0;
+    this._player.getMessages().forEach(message => {
+      messageY += display.drawText(
+        0,
+        messageY,
+        `%c{${__WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].white}}%b{${__WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].black}}${message}`
+      );
     });
+    const stats = `%c{${__WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].white}}%b{${__WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].black}}HP: ${this._player.getHp()}/${this._player.getMaxHp()}`;
+    display.drawText(0, screenHeight, stats);
   },
-  handleInput: function(inputType, inputData, Game) {
+  handleInput: function(inputType, inputData) {
+    if (this._subScreen) {
+      this._subScreen.handleInput(inputType, inputData);
+      return;
+    }
     if (inputType === "keydown") {
       if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
-        Game.switchScreen(winScreen);
-      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_ESCAPE) {
-        Game.switchScreen(loseScreen);
+        if (this._gameEnded) {
+          __WEBPACK_IMPORTED_MODULE_1__game__["default"].switchScreen(loseScreen);
+        }
       }
       //movement
       if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_H) {
-        this.move(-1, 0);
+        this.move(-1, 0, 0);
       } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_L) {
-        this.move(1, 0);
+        this.move(1, 0, 0);
       } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_K) {
-        this.move(0, -1);
+        this.move(0, -1, 0);
       } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_J) {
-        this.move(0, 1);
+        this.move(0, 1, 0);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_Y) {
+        this.move(-1, -1, 0);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_U) {
+        this.move(1, -1, 0);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_B) {
+        this.move(-1, 1, 0);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_N) {
+        this.move(1, 1, 0);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_I) {
+        if (this._player.getItems().filter(x => x).length === 0) {
+          Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, "You are not carrying anything!");
+          __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
+        } else {
+          inventoryScreen.setup(this._player, this._player.getItems());
+          this.setSubScreen(inventoryScreen);
+        }
+        return;
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_D) {
+        if (this._player.getItems().filter(x => x).length === 0) {
+          Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, "You don't have anything to drop!");
+          __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
+        } else {
+          dropScreen.setup(this._player, this._player.getItems());
+          this.setSubScreen(dropScreen);
+        }
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_COMMA) {
+        const items = this._map.getItemsAt(
+          this._player.getX(),
+          this._player.getY(),
+          this._player.getZ(),
+          true
+        );
+        if (!items) {
+          Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, "There isn't anything to pick up here!");
+        } else if (items.length === 1) {
+          const item = items[0];
+          if (this._player.pickUpItems([0])) {
+            Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, `You pick up ${item.describeA()}`);
+          } else {
+            Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(
+              this._player,
+              "Your inventory was full! nothing was picked up."
+            );
+          }
+        } else {
+          pickUpScreen.setup(this._player, items);
+          this.setSubScreen(pickUpScreen);
+          return;
+        }
+
+        __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
+      } else {
+        return;
+      }
+      this._map.getEngine().unlock();
+    } else if (inputType === "keypress") {
+      const keyChar = String.fromCharCode(inputData.charCode);
+      if (keyChar === ">") {
+        this.move(0, 0, 1);
+      } else if (keyChar === "<") {
+        this.move(0, 0, -1);
+      } else {
+        return;
       }
       this._map.getEngine().unlock();
     }
@@ -6485,19 +6941,127 @@ const loseScreen = {
   }
 };
 
+const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
+  this._caption = caption;
+  this._okFunction = ok;
+  this._canSelectItem = canSelect;
+  this._canSelectMultipleItems = canSelectMultiple;
+
+  this.setup = function(player, items) {
+    this._player = player;
+    this._items = items;
+    this._selectedIndices = {};
+  };
+
+  this.render = function(display) {
+    const letters = `abcdefghijklmnopqrstuvwxyz`;
+    display.drawText(0, 0, this._caption);
+    let row = 0;
+    this._items.forEach((item, i) => {
+      const letter = letters.substring(i, i + 1);
+      const selectionState =
+        this._canSelectItem &&
+        this._canSelectMultipleItems &&
+        this._selectedIndices[i]
+          ? `+`
+          : `-`;
+      display.drawText(
+        0,
+        2 + i,
+        `${letter} ${selectionState} ${item.describe()}`
+      );
+    });
+  };
+  this.executeOkFunction = function() {
+    let selectedItems = {};
+    for (let key in this._selectedIndices) {
+      selectedItems[key] = this._items[key];
+    }
+    playScreen.setSubScreen(undefined);
+    if (this._okFunction(selectedItems)) {
+      this._player
+        .getMap()
+        .getEngine()
+        .unlock();
+    }
+  };
+  this.handleInput = function(inputType, inputData) {
+    if (inputType === "keydown") {
+      if (
+        inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_ESCAPE ||
+        (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN &&
+          (!this._canSelectItem ||
+            Object.keys(this._selectedIndices).length === 0))
+      ) {
+        playScreen.setSubScreen(undefined);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
+        this.executeOkFunction();
+      } else if (
+        this._canSelectItem &&
+        inputData.keyCode >= __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_A &&
+        inputData.keyCode <= __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_Z
+      ) {
+        let index = inputData.keyCode - __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_A;
+        if (this._items[index]) {
+          if (this._canSelectMultipleItems) {
+            if (this._selectedIndices[index]) {
+              delete this._selectedIndices[index];
+            } else {
+              this._selectedIndices[index] = true;
+            }
+            __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
+          } else {
+            this._selectedIndices[index] = true;
+            this.executeOkFunction();
+          }
+        }
+      }
+    }
+  };
+};
+
+const inventoryScreen = new ItemListScreen({
+  caption: "Inventory",
+  canSelect: false
+});
+
+const pickUpScreen = new ItemListScreen({
+  caption: "Choose the items you wish to pick up",
+  canSelect: true,
+  canSelectMultiple: true,
+  ok: function(selectedItems) {
+    if (!this._player.pickUpItems(Object.keys(selectedItems))) {
+      Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, "Your inventory is full!");
+    }
+    return true;
+  }
+});
+
+const dropScreen = new ItemListScreen({
+  caption: "Choose the item you wish to drop",
+  canSelect: true,
+  canSelectMultiple: false,
+  ok: function(selectedItems) {
+    this._player.dropItem(Object.keys(selectedItems)[0]);
+    return true;
+  }
+});
+
 /* harmony default export */ __webpack_exports__["a"] = ({ startScreen });
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rot_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rot_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__items__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rot_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rot_js__);
+
 
 
 
@@ -6505,14 +7069,27 @@ const loseScreen = {
 
 const GameMap = function(tiles, player) {
   this._tiles = tiles;
-  this._width = tiles.length;
-  this._height = tiles[0].length;
-  this._entities = [];
-  this._scheduler = new __WEBPACK_IMPORTED_MODULE_3_rot_js___default.a.Scheduler.Simple();
-  this._engine = new __WEBPACK_IMPORTED_MODULE_3_rot_js___default.a.Engine(this._scheduler);
-  this.addEntityAtRandomPosition(player);
-  for (let i = 0; i < 20; i++) {
-    this.addEntityAtRandomPosition(new __WEBPACK_IMPORTED_MODULE_1__entity__["a" /* default */](__WEBPACK_IMPORTED_MODULE_2__entities__["a" /* FungusTemplate */]));
+  this._depth = tiles.length;
+  this._width = tiles[0].length;
+  this._height = tiles[0][0].length;
+  this._entities = {};
+  this._items = {};
+  this._scheduler = new __WEBPACK_IMPORTED_MODULE_4_rot_js___default.a.Scheduler.Simple();
+  this._engine = new __WEBPACK_IMPORTED_MODULE_4_rot_js___default.a.Engine(this._scheduler);
+  this._explored = [];
+  this.setupExploredArray();
+  this._fov = [];
+  this.setupFov();
+  this.addEntityAtRandomPosition(player, 0);
+  for (let z = 0; z < this._depth; z++) {
+    for (let i = 0; i < 20; i++) {
+      const entity = __WEBPACK_IMPORTED_MODULE_2__entities__["a" /* EntityRepository */].createRandom();
+      this.addEntityAtRandomPosition(entity, z);
+    }
+    for (let i = 0; i < 15; i++) {
+      const item = __WEBPACK_IMPORTED_MODULE_3__items__["a" /* default */].createRandom();
+      this.addItemAtRandomPosition(item, z);
+    }
   }
 };
 
@@ -6522,86 +7099,462 @@ GameMap.prototype.getWidth = function() {
 GameMap.prototype.getHeight = function() {
   return this._height;
 };
+GameMap.prototype.getDepth = function() {
+  return this._depth;
+};
 
 GameMap.prototype.getEngine = function() {
   return this._engine;
+};
+
+GameMap.prototype.getItemsAt = function(x, y, z) {
+  return this._items[`${x},${y},${z}`];
+};
+
+GameMap.prototype.setItemsAt = function(x, y, z, items) {
+  const key = [`${x},${y},${z}`];
+  if (items.length === 0) {
+    if (this._items[key]) {
+      delete this._items[key];
+    }
+  } else {
+    this._items[key] = items;
+  }
+};
+
+GameMap.prototype.addItem = function(x, y, z, item) {
+  const key = [`${x},${y},${z}`];
+  if (this._items[key]) {
+    this._items[key].push(item);
+  } else {
+    this._items[key] = [item];
+  }
+};
+
+GameMap.prototype.addItemAtRandomPosition = function(item, z) {
+  const position = this.getRandomFloorPosition(z);
+  this.addItem(position.x, position.y, position.z, item);
 };
 
 GameMap.prototype.getEntities = function() {
   return this._entities;
 };
 
-GameMap.prototype.getEntityAt = function(x, y) {
-  for (let i = 0; i < this._entities.length; i++) {
-    const entity = this._entities[i];
-    if (entity.getX() == x && entity.getY() == y) {
-      return entity;
-    }
-  }
-  return false;
+GameMap.prototype.getEntityAt = function(x, y, z) {
+  return this._entities[`${x},${y},${z}`];
 };
 
-GameMap.prototype.addEntity = function(entity) {
+GameMap.prototype.getEntitiesWithinRadius = function(
+  centerX,
+  centerY,
+  centerZ,
+  radius
+) {
+  const results = [];
+  // Determine our bounds
+  var leftX = centerX - radius;
+  var rightX = centerX + radius;
+  var topY = centerY - radius;
+  var bottomY = centerY + radius;
+  // Iterate through our entities, adding any which are within the bounds
+  for (var key in this._entities) {
+    var entity = this._entities[key];
+    if (
+      entity.getX() >= leftX &&
+      entity.getX() <= rightX &&
+      entity.getY() >= topY &&
+      entity.getY() <= bottomY &&
+      entity.getZ() == centerZ
+    ) {
+      results.push(entity);
+    }
+  }
+  return results;
+};
+
+GameMap.prototype.updateEntityPosition = function(entity, oldX, oldY, oldZ) {
+  if (oldX) {
+    const oldKey = `${oldX},${oldY},${oldZ}`;
+    if (this._entities[oldKey] == entity) {
+      delete this._entities[oldKey];
+    }
+  }
   if (
     entity.getX() < 0 ||
     entity.getX() >= this._width ||
     entity.getY() < 0 ||
-    entity.getY() >= this._height
+    entity.getY() >= this._height ||
+    entity.getZ() < 0 ||
+    entity.getZ() >= this._depth
   ) {
-    throw new Error("Adding entity out of bounds.");
+    throw new Error("Entity position is out of bounds");
   }
+  const key = `${entity.getX()},${entity.getY()},${entity.getZ()}`;
+  if (this._entities[key]) {
+    // throw new Error("Tried to add an entity at an occupied position.");
+  }
+  this._entities[key] = entity;
+};
+
+GameMap.prototype.addEntity = function(entity) {
   entity.setMap(this);
-  this._entities.push(entity);
+  this.updateEntityPosition(entity);
   if (entity.hasMixin("Actor")) {
     this._scheduler.add(entity, true);
   }
 };
 
-GameMap.prototype.removeEntity = function(entityToRemove) {
-  for (let i = 0; i < this._entities.length; i++) {
-    const entity = this._entities[i];
-    if (entityToRemove == entity) {
-      this._entities.splice(i, 1);
-      break;
-    }
+GameMap.prototype.removeEntity = function(entity) {
+  const key = `${entity.getX()},${entity.getY()},${entity.getZ()}`;
+  if (this._entities[key] == entity) {
+    delete this._entities[key];
   }
-  if (entityToRemove.hasMixin("Actor")) {
-    this._scheduler.remove(entityToRemove);
+  if (entity.hasMixin("Actor")) {
+    this._scheduler.remove(entity);
   }
 };
 
-GameMap.prototype.addEntityAtRandomPosition = function(entity) {
-  const position = this.getRandomFloorPosition();
+GameMap.prototype.addEntityAtRandomPosition = function(entity, z) {
+  const position = this.getRandomFloorPosition(z);
   entity.setX(position.x);
   entity.setY(position.y);
+  entity.setZ(position.z);
   this.addEntity(entity);
 };
 
-GameMap.prototype.getTile = function(x, y) {
-  if (x < 0 || x >= this._width || y < 0 || y >= this._height) {
+GameMap.prototype.getTile = function(x, y, z) {
+  if (
+    x < 0 ||
+    x >= this._width ||
+    y < 0 ||
+    y >= this._height ||
+    z < 0 ||
+    z >= this._depth
+  ) {
     return __WEBPACK_IMPORTED_MODULE_0__tile__["b" /* nullTile */];
   } else {
-    return this._tiles[x][y] || __WEBPACK_IMPORTED_MODULE_0__tile__["b" /* nullTile */];
+    return this._tiles[z][x][y] || __WEBPACK_IMPORTED_MODULE_0__tile__["b" /* nullTile */];
   }
 };
 
-GameMap.prototype.isEmptyFloor = function(x, y) {
-  return this.getTile(x, y) == __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* floorTile */] && !this.getEntityAt(x, y);
+GameMap.prototype.isEmptyFloor = function(x, y, z) {
+  return this.getTile(x, y, z) == __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* floorTile */] && !this.getEntityAt(x, y, z);
 };
 
-GameMap.prototype.dig = function(x, y) {
-  if (this.getTile(x, y).isDiggable()) {
-    this._tiles[x][y] = __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* floorTile */];
+GameMap.prototype.dig = function(x, y, z) {
+  if (this.getTile(x, y, z).isDiggable()) {
+    this._tiles[z][x][y] = __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* floorTile */];
   }
 };
 
-GameMap.prototype.getRandomFloorPosition = function() {
+GameMap.prototype.getRandomFloorPosition = function(z) {
   let x = Math.floor(Math.random() * this._width);
   let y = Math.floor(Math.random() * this._height);
-  return this.isEmptyFloor(x, y) ? { x, y } : this.getRandomFloorPosition();
+  return this.isEmptyFloor(x, y, z)
+    ? { x, y, z }
+    : this.getRandomFloorPosition(z);
+};
+
+GameMap.prototype.setupFov = function() {
+  const map = this;
+  for (let z = 0; z < this._depth; z++) {
+    map._fov.push(
+      new __WEBPACK_IMPORTED_MODULE_4_rot_js___default.a.FOV.PreciseShadowcasting(
+        (x, y) => {
+          return !map.getTile(x, y, z).isBlockingLight();
+        },
+        { topology: 4 }
+      )
+    );
+  }
+};
+
+GameMap.prototype.getFov = function(z) {
+  return this._fov[z];
+};
+
+GameMap.prototype.setupExploredArray = function() {
+  for (let z = 0; z < this._depth; z++) {
+    this._explored[z] = new Array(this._width);
+    for (let x = 0; x < this._width; x++) {
+      this._explored[z][x] = new Array(this._height);
+      for (let y = 0; y < this._height; y++) {
+        this._explored[z][x][y] = false;
+      }
+    }
+  }
+};
+
+GameMap.prototype.setExplored = function(x, y, z, state) {
+  if (this.getTile(x, y, z) != __WEBPACK_IMPORTED_MODULE_0__tile__["b" /* nullTile */]) {
+    this._explored[z][x][y] = state;
+  }
+};
+
+GameMap.prototype.isExplored = function(x, y, z) {
+  if (this.getTile(x, y, z) != __WEBPACK_IMPORTED_MODULE_0__tile__["b" /* nullTile */]) {
+    return this._explored[z][x][y];
+  }
+  return false;
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (GameMap);
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repository__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__item__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__colors__ = __webpack_require__(0);
+
+
+
+
+const ItemRepository = new __WEBPACK_IMPORTED_MODULE_0__repository__["a" /* default */]("items", __WEBPACK_IMPORTED_MODULE_1__item__["a" /* default */]);
+
+ItemRepository.define("apple", {
+  name: "apple",
+  char: "%",
+  fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].red
+});
+
+ItemRepository.define("rock", {
+  name: "rock",
+  char: "*",
+  fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].lightGray
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (ItemRepository);
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
+
+
+const Item = function({ name = "" }) {
+  const glyph = Object(__WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */])(...arguments);
+
+  const getGlyph = function() {
+    return glyph;
+  };
+
+  const describe = function() {
+    return name;
+  };
+
+  const describeA = function(capitalize) {
+    const prefixes = capitalize ? [`A`, `An`] : [`a`, `an`];
+    const prefix = "aeiou".indexOf(describe()[0].toLowerCase()) >= 0 ? 1 : 0;
+    return prefixes[prefix] + " " + describe();
+  };
+
+  return Object.assign({ getGlyph, describe, describeA }, glyph);
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Item);
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tile__ = __webpack_require__(1);
+
+
+
+
+const Builder = function(width, height, depth) {
+  this._width = width;
+  this._height = height;
+  this._depth = depth;
+  this._tiles = new Array(depth);
+  this._regions = new Array(depth);
+
+  for (let z = 0; z < depth; z++) {
+    this._tiles[z] = this._generateLevel();
+    this._regions[z] = new Array(width);
+    for (let x = 0; x < width; x++) {
+      this._regions[z][x] = new Array(height);
+      for (let y = 0; y < height; y++) {
+        this._regions[z][x][y] = 0;
+      }
+    }
+  }
+  for (let z = 0; z < this._depth; z++) {
+    this._setupRegions(z);
+  }
+  this._connectAllRegions();
+};
+
+Builder.prototype.getTiles = function() {
+  return this._tiles;
+};
+
+Builder.prototype.getDepth = function() {
+  return this._depth;
+};
+
+Builder.prototype.getWidth = function() {
+  return this._width;
+};
+
+Builder.prototype.getHeight = function() {
+  return this._height;
+};
+
+Builder.prototype._generateLevel = function() {
+  const map = new Array(this._width);
+  for (let w = 0; w < this._width; w++) {
+    map[w] = new Array(this._height);
+  }
+
+  const generator = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Map.Cellular(this._width, this._height);
+  generator.randomize(0.5);
+
+  const totalIterations = 8;
+  for (let i = 0; i < totalIterations - 1; i++) {
+    generator.create();
+  }
+  generator.create(function(x, y, v) {
+    if (v === 1) {
+      map[x][y] = __WEBPACK_IMPORTED_MODULE_2__tile__["a" /* floorTile */];
+    } else {
+      map[x][y] = __WEBPACK_IMPORTED_MODULE_2__tile__["e" /* wallTile */];
+    }
+  });
+  return map;
+};
+
+Builder.prototype._canFillRegion = function(x, y, z) {
+  if (
+    x < 0 ||
+    y < 0 ||
+    z < 0 ||
+    x >= this._width ||
+    y >= this._height ||
+    z >= this._depth
+  ) {
+    return false;
+  }
+  if (this._regions[z][x][y] != 0) {
+    return false;
+  }
+  return this._tiles[z][x][y].isWalkable();
+};
+
+Builder.prototype._fillRegion = function(region, x, y, z) {
+  let tilesFilled = 1;
+  let tiles = [{ x, y }];
+  let tile;
+  let neighbors;
+  this._regions[z][x][y] = region;
+  while (tiles.length > 0) {
+    tile = tiles.pop();
+    neighbors = Object(__WEBPACK_IMPORTED_MODULE_1__helpers__["a" /* getNeighborPositions */])(tile.x, tile.y);
+    while (neighbors.length > 0) {
+      tile = neighbors.pop();
+      const walkable = this._canFillRegion(tile.x, tile.y, z);
+      if (this._canFillRegion(tile.x, tile.y, z)) {
+        this._regions[z][tile.x][tile.y] = region;
+        tiles.push(tile);
+        tilesFilled++;
+      }
+    }
+  }
+  return tilesFilled;
+};
+
+Builder.prototype._removeRegion = function(region, z) {
+  for (let x = 0; x < this._width; x++) {
+    for (let y = 0; y < this._height; y++) {
+      if (this._regions[z][x][y] == region) {
+        this._regions[z][x][y] = 0;
+        this._tiles[z][x][y] == __WEBPACK_IMPORTED_MODULE_2__tile__["e" /* wallTile */];
+      }
+    }
+  }
+};
+
+Builder.prototype._setupRegions = function(z) {
+  let region = 1;
+  let tilesFilled;
+  for (let x = 0; x < this._width; x++) {
+    for (let y = 0; y < this._height; y++) {
+      if (this._canFillRegion(x, y, z)) {
+        tilesFilled = this._fillRegion(region, x, y, z);
+        if (tilesFilled <= 20) {
+          this._removeRegion(region, z);
+        } else {
+          region++;
+        }
+      }
+    }
+  }
+};
+
+Builder.prototype._findRegionOverlaps = function(z, r1, r2) {
+  var matches = [];
+  for (let x = 0; x < this._width; x++) {
+    for (let y = 0; y < this._height; y++) {
+      if (
+        this._tiles[z][x][y] == __WEBPACK_IMPORTED_MODULE_2__tile__["a" /* floorTile */] &&
+        this._tiles[z + 1][x][y] == __WEBPACK_IMPORTED_MODULE_2__tile__["a" /* floorTile */] &&
+        this._regions[z][x][y] == r1 &&
+        this._regions[z + 1][x][y] == r2
+      )
+        matches.push({ x, y });
+    }
+  }
+  return matches.randomize();
+};
+
+Builder.prototype._connectRegions = function(z, r1, r2) {
+  const overlap = this._findRegionOverlaps(z, r1, r2);
+  if (overlap.length == 0) {
+    return false;
+  }
+  const point = overlap[0];
+  this._tiles[z][point.x][point.y] = __WEBPACK_IMPORTED_MODULE_2__tile__["c" /* stairsDownTile */];
+  this._tiles[z + 1][point.x][point.y] = __WEBPACK_IMPORTED_MODULE_2__tile__["d" /* stairsUpTile */];
+  return true;
+};
+
+Builder.prototype._connectAllRegions = function() {
+  for (let z = 0; z < this._depth - 1; z++) {
+    var connected = {};
+    var key;
+    for (let x = 0; x < this._width; x++) {
+      for (let y = 0; y < this._height; y++) {
+        key = this._regions[z][x][y] + "," + this._regions[z + 1][x][y];
+        if (
+          this._tiles[z][x][y] == __WEBPACK_IMPORTED_MODULE_2__tile__["a" /* floorTile */] &&
+          this._tiles[z + 1][x][y] == __WEBPACK_IMPORTED_MODULE_2__tile__["a" /* floorTile */] &&
+          !connected[key]
+        ) {
+          this._connectRegions(
+            z,
+            this._regions[z][x][y],
+            this._regions[z + 1][x][y]
+          );
+          connected[key] = true;
+        }
+      }
+    }
+  }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Builder);
 
 
 /***/ })
