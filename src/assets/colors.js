@@ -1,6 +1,6 @@
 export default {
-  black: "#101020",
-  darkBlue: "#102B53",
+  black: "#000010",
+  darkBlue: "#283a6d",
   darkPurple: "#7e2553",
   darkGreen: "#008751",
   brown: "#ab5236",

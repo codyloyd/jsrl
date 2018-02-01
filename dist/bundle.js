@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -68,29 +68,24 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
-
-
-const Game = {
-  _display: null,
-  init: function() {
-    this._display = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Display({ width: 80, height: 20 });
-  },
-  getDisplay() {
-    return this._display;
-  }
-};
-
-window.onload = function() {
-  if (!__WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.isSupported()) {
-    alert("The rot.js library isn't supported by your browser.");
-  } else {
-    Game.init();
-    document.body.appendChild(Game.getDisplay().getContainer());
-  }
-};
+/* harmony default export */ __webpack_exports__["a"] = ({
+  black: "#101020",
+  darkBlue: "#102B53",
+  darkPurple: "#7e2553",
+  darkGreen: "#008751",
+  brown: "#ab5236",
+  darkGray: "#5f574f",
+  lightGray: "#c2c3c7",
+  white: "#fff1f8",
+  red: "#ff0040",
+  orange: "#ffa300",
+  yellow: "#ffec27",
+  green: "#00e436",
+  blue: "#29adff",
+  indigo: "#83769c",
+  pink: "#ff77a8",
+  peach: "#ffccaa"
+});
 
 
 /***/ }),
@@ -5722,10 +5717,371 @@ for (var p in ROT) {
   return ROT;
 }));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(8)))
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
+
+
+const Entity = function(properties) {
+  this._glyph = new __WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */](properties);
+  this._name = properties.name || "";
+  this._x = properties.x || 0;
+  this._y = properties.y || 0;
+  this._map = null;
+  this._game = properties.game || null;
+  this._attachedMixins = {};
+  this._attachedMixinGroups = {};
+  this._screen = properties.screen || null;
+
+  const mixins = properties.mixins || [];
+  mixins.forEach(mixin => {
+    for (let key in mixin) {
+      if (key != "init" && key != "name" && !this.hasOwnProperty(key)) {
+        this[key] = mixin[key];
+      }
+    }
+    this._attachedMixins[mixin.name] = true;
+    if (mixin.groupName) {
+      this._attachedMixinGroups[mixin.groupName] = true;
+    }
+    if (mixin.init) {
+      mixin.init.call(this, properties);
+    }
+  });
+};
+
+Entity.prototype.hasMixin = function(obj) {
+  if (typeof obj == "object") {
+    return this._attachedMixins[obj.name];
+  } else {
+    return this._attachedMixins[obj] || this._attachedMixinGroups[obj];
+  }
+};
+
+Entity.prototype.getGame = function() {
+  return this._game;
+};
+
+Entity.prototype.setMap = function(map) {
+  this._map = map;
+};
+
+Entity.prototype.getMap = function() {
+  return this._map;
+};
+
+Entity.prototype.getGlyph = function() {
+  return this._glyph;
+};
+
+Entity.prototype.setName = function(name) {
+  this._name = name;
+};
+
+Entity.prototype.setX = function(x) {
+  this._x = x;
+};
+
+Entity.prototype.setY = function(y) {
+  this._y = y;
+};
+
+Entity.prototype.getName = function() {
+  return this._name;
+};
+
+Entity.prototype.getX = function() {
+  return this._x;
+};
+
+Entity.prototype.getY = function() {
+  return this._y;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Entity);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return nullTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return floorTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return wallTile; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__colors__ = __webpack_require__(0);
+
+
+
+const Tile = function({
+  char,
+  fg,
+  bg,
+  isDiggable = false,
+  isWalkable = false
+}) {
+  this._glyph = new __WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */]({ char, fg, bg });
+  this._isWalkable = isWalkable;
+  this._isDiggable = isDiggable;
+};
+
+Tile.prototype.getGlyph = function() {
+  return this._glyph;
+};
+
+Tile.prototype.isWalkable = function() {
+  return this._isWalkable;
+};
+
+Tile.prototype.isDiggable = function() {
+  return this._isDiggable;
+};
+
+const nullTile = new Tile({});
+const floorTile = new Tile({
+  char: ".",
+  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].darkGray,
+  isWalkable: true
+});
+const wallTile = new Tile({ char: "#", fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].brown, isDiggable: true });
+
+
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colors__ = __webpack_require__(0);
+
+
+const Glyph = function(properties = {}) {
+  this._char = properties.char || " ";
+  this._fg = properties.fg || __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white;
+  this._bg = properties.bg || __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black;
+};
+
+Glyph.prototype.getChar = function() {
+  return this._char;
+};
+
+Glyph.prototype.getBg = function() {
+  return this._bg;
+};
+
+Glyph.prototype.getFg = function() {
+  return this._fg;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Glyph);
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PlayerTemplate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FungusTemplate; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(2);
+
+
+
+const Movable = {
+  name: "Movable",
+  tryMove: function(x, y, map) {
+    const tile = map.getTile(x, y);
+    const target = map.getEntityAt(x, y);
+    if (target) {
+      if (this.hasMixin("Attacker")) {
+        this.attack(target);
+        return true;
+      } else {
+        return false;
+      }
+    }
+    if (tile.isWalkable()) {
+      this._x = x;
+      this._y = y;
+      return true;
+    } else if (tile.isDiggable()) {
+      map.dig(x, y);
+      return true;
+    }
+    return false;
+  }
+};
+
+const PlayerActor = {
+  name: "PlayerActor",
+  groupName: "Actor",
+  act: function() {
+    this._screen.render(this._game.getDisplay(), this._game);
+    this.getMap()
+      .getEngine()
+      .lock();
+  }
+};
+
+const FungusActor = {
+  name: "FungusActor",
+  groupName: "Actor",
+  init: function() {
+    this._growthsRemaining = 5;
+  },
+  act: function() {
+    if (this._growthsRemaining > 0) {
+      if (Math.random() <= 0.1) {
+        const xOffset = Math.floor(Math.random() * 3) - 1;
+        const yOffset = Math.floor(Math.random() * 3) - 1;
+        if (xOffset != 0 || yOffset != 0) {
+          if (
+            this.getMap().isEmptyFloor(
+              this.getX() + xOffset,
+              this.getY() + yOffset
+            )
+          ) {
+            const entity = new __WEBPACK_IMPORTED_MODULE_1__entity__["a" /* default */](FungusTemplate);
+            entity.setX(this.getX() + xOffset);
+            entity.setY(this.getY() + yOffset);
+            this.getMap().addEntity(entity);
+            this._growthsRemaining--;
+          }
+        }
+      }
+    }
+  }
+};
+
+const Destructable = {
+  name: "Destructable",
+  init: function() {
+    this._hp = 1;
+  },
+  takeDamage: function(attacker, damage) {
+    this._hp -= damage;
+    if (this._hp <= 0) {
+      this.getMap().removeEntity(this);
+    }
+  }
+};
+
+const SimpleAttacker = {
+  name: "SimpleAttacker",
+  groupName: "Attacker",
+  attack: function(target) {
+    if (target.hasMixin("Destructable")) {
+      target.takeDamage(this, 1);
+    }
+  }
+};
+
+const PlayerTemplate = {
+  char: "@",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white,
+  bg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black,
+  mixins: [Movable, PlayerActor, Destructable, SimpleAttacker]
+};
+
+const FungusTemplate = {
+  char: "F",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].green,
+  mixins: [FungusActor, Destructable]
+};
+
+
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__screens__ = __webpack_require__(9);
+
+
+
+
+const Game = {
+  _display: null,
+  _currentScreen: null,
+  _screenWidth: 80,
+  _screenHeight: 24,
+
+  init: function() {
+    this._display = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Display({
+      width: this._screenWidth,
+      height: this._screenHeight,
+      fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].white,
+      bg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].black
+    });
+    const game = this;
+    const bindEventToScreen = function(event) {
+      window.addEventListener(event, function(e) {
+        if (game._currentScreen !== null) {
+          game._currentScreen.handleInput(event, e, game);
+        }
+      });
+    };
+    bindEventToScreen("keydown");
+    // bindEventToScreen("keyup");
+    // bindEventToScreen("keypress");
+  },
+
+  refresh: function() {
+    this._currentScreen.render(this._display, this);
+  },
+
+  getDisplay: function() {
+    return this._display;
+  },
+
+  getScreenWidth: function() {
+    return this._screenWidth;
+  },
+
+  getScreenHeight: function() {
+    return this._screenHeight;
+  },
+
+  switchScreen: function(screen) {
+    if (this._currentScreen !== null) {
+      this._currentScreen.exit();
+    }
+    this.getDisplay().clear();
+    this._currentScreen = screen;
+    if (!this._currentScreen !== null) {
+      this._currentScreen.enter(this);
+      this.refresh();
+    }
+  }
+};
+
+window.onload = function() {
+  if (!__WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.isSupported()) {
+    alert("The rot.js library isn't supported by your browser.");
+  } else {
+    Game.init();
+    document.body.appendChild(Game.getDisplay().getContainer());
+    Game.switchScreen(__WEBPACK_IMPORTED_MODULE_2__screens__["a" /* default */].startScreen);
+  }
+};
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports) {
 
 var g;
@@ -5752,7 +6108,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 3 */
+/* 8 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -5939,6 +6295,313 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__entity__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entities__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tile__ = __webpack_require__(3);
+
+
+
+
+
+
+
+const startScreen = {
+  enter: function() {
+    console.log("entered start screen");
+  },
+  exit: function() {
+    console.log("exited start screen");
+  },
+  render: function(display) {
+    display.drawText(1, 1, "%c{" + __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].blue + "}JavaScript RogueLike");
+    display.drawText(1, 2, "Press [ENTER] to start");
+  },
+  handleInput: function(inputType, inputData, Game) {
+    if (inputType === "keydown") {
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
+        Game.switchScreen(playScreen);
+      }
+    }
+  }
+};
+
+const playScreen = {
+  _map: null,
+  _player: null,
+
+  move: function(dX, dY) {
+    const newX = this._player.getX() + dX;
+    const newY = this._player.getY() + dY;
+    this._player.tryMove(newX, newY, this._map);
+  },
+
+  enter: function(game) {
+    console.log("entered play screen");
+    const map = [];
+    const mapWidth = 100;
+    const mapHeight = 48;
+    for (let x = 0; x < mapWidth; x++) {
+      map.push([]);
+      for (let y = 0; y < mapHeight; y++) {
+        map[x].push(__WEBPACK_IMPORTED_MODULE_5__tile__["b" /* nullTile */]);
+      }
+    }
+    const generator = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Map.Cellular(mapWidth, mapHeight);
+    generator.randomize(0.5);
+
+    const totalIterations = 8;
+    for (let i = 0; i < totalIterations - 1; i++) {
+      generator.create();
+    }
+    generator.create(function(x, y, v) {
+      if (v === 1) {
+        map[x][y] = __WEBPACK_IMPORTED_MODULE_5__tile__["a" /* floorTile */];
+      } else {
+        map[x][y] = __WEBPACK_IMPORTED_MODULE_5__tile__["c" /* wallTile */];
+      }
+    });
+    this._player = new __WEBPACK_IMPORTED_MODULE_3__entity__["a" /* default */](
+      Object.assign(__WEBPACK_IMPORTED_MODULE_4__entities__["b" /* PlayerTemplate */], { screen: this, game })
+    );
+    this._map = new __WEBPACK_IMPORTED_MODULE_1__map__["a" /* default */](map, this._player);
+    this._map.getEngine().start();
+  },
+  exit: function() {
+    console.log("exited play screen");
+  },
+  render: function(display, game) {
+    const screenWidth = game.getScreenWidth();
+    const screenHeight = game.getScreenHeight();
+    var topLeftX = Math.max(0, this._player.getX() - screenWidth / 2);
+    topLeftX = Math.min(topLeftX, this._map.getWidth() - screenWidth);
+    var topLeftY = Math.max(0, this._player.getY() - screenHeight / 2);
+    topLeftY = Math.min(topLeftY, this._map.getHeight() - screenHeight);
+
+    for (let x = topLeftX; x < topLeftX + screenWidth; x++) {
+      for (let y = topLeftY; y < topLeftY + screenHeight; y++) {
+        const glyph = this._map.getTile(x, y).getGlyph();
+        display.draw(
+          x - topLeftX,
+          y - topLeftY,
+          glyph.getChar(),
+          glyph.getFg(),
+          glyph.getBg()
+        );
+      }
+    }
+    display.draw(
+      this._player.getX() - topLeftX,
+      this._player.getY() - topLeftY,
+      this._player.getGlyph().getChar(),
+      this._player.getGlyph().getFg(),
+      this._player.getGlyph().getBg()
+    );
+    var entities = this._map.getEntities();
+    entities.forEach(entity => {
+      if (
+        entity.getX() >= topLeftX &&
+        entity.getY() >= topLeftY &&
+        entity.getX() < topLeftX + screenWidth &&
+        entity.getY() < topLeftY + screenHeight
+      ) {
+        display.draw(
+          entity.getX() - topLeftX,
+          entity.getY() - topLeftY,
+          entity.getGlyph().getChar(),
+          entity.getGlyph().getFg(),
+          entity.getGlyph().getBg()
+        );
+      }
+    });
+  },
+  handleInput: function(inputType, inputData, Game) {
+    if (inputType === "keydown") {
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
+        Game.switchScreen(winScreen);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_ESCAPE) {
+        Game.switchScreen(loseScreen);
+      }
+      //movement
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_H) {
+        this.move(-1, 0);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_L) {
+        this.move(1, 0);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_K) {
+        this.move(0, -1);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_J) {
+        this.move(0, 1);
+      }
+      this._map.getEngine().unlock();
+    }
+  }
+};
+
+const winScreen = {
+  enter: function() {
+    console.log("Entered win screen.");
+  },
+  exit: function() {
+    console.log("Exited win screen.");
+  },
+  render: function(display) {
+    for (var i = 0; i < 22; i++) {
+      var r = Math.round(Math.random() * 255);
+      var g = Math.round(Math.random() * 255);
+      var b = Math.round(Math.random() * 255);
+      var background = __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Color.toRGB([r, g, b]);
+      display.drawText(2, i + 1, "%b{" + background + "}You win!");
+    }
+  },
+  handleInput: function(inputType, inputData) {
+    // Nothing to do here
+  }
+};
+
+const loseScreen = {
+  enter: function() {
+    console.log("Entered lose screen.");
+  },
+  exit: function() {
+    console.log("Exited lose screen.");
+  },
+  render: function(display) {
+    for (var i = 0; i < 22; i++) {
+      display.drawText(2, i + 1, "%b{red}You lose! :(");
+    }
+  },
+  handleInput: function(inputType, inputData) {
+    // Nothing to do here
+  }
+};
+
+/* harmony default export */ __webpack_exports__["a"] = ({ startScreen });
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rot_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rot_js__);
+
+
+
+
+
+const GameMap = function(tiles, player) {
+  this._tiles = tiles;
+  this._width = tiles.length;
+  this._height = tiles[0].length;
+  this._entities = [];
+  this._scheduler = new __WEBPACK_IMPORTED_MODULE_3_rot_js___default.a.Scheduler.Simple();
+  this._engine = new __WEBPACK_IMPORTED_MODULE_3_rot_js___default.a.Engine(this._scheduler);
+  this.addEntityAtRandomPosition(player);
+  for (let i = 0; i < 20; i++) {
+    this.addEntityAtRandomPosition(new __WEBPACK_IMPORTED_MODULE_1__entity__["a" /* default */](__WEBPACK_IMPORTED_MODULE_2__entities__["a" /* FungusTemplate */]));
+  }
+};
+
+GameMap.prototype.getWidth = function() {
+  return this._width;
+};
+GameMap.prototype.getHeight = function() {
+  return this._height;
+};
+
+GameMap.prototype.getEngine = function() {
+  return this._engine;
+};
+
+GameMap.prototype.getEntities = function() {
+  return this._entities;
+};
+
+GameMap.prototype.getEntityAt = function(x, y) {
+  for (let i = 0; i < this._entities.length; i++) {
+    const entity = this._entities[i];
+    if (entity.getX() == x && entity.getY() == y) {
+      return entity;
+    }
+  }
+  return false;
+};
+
+GameMap.prototype.addEntity = function(entity) {
+  if (
+    entity.getX() < 0 ||
+    entity.getX() >= this._width ||
+    entity.getY() < 0 ||
+    entity.getY() >= this._height
+  ) {
+    throw new Error("Adding entity out of bounds.");
+  }
+  entity.setMap(this);
+  this._entities.push(entity);
+  if (entity.hasMixin("Actor")) {
+    this._scheduler.add(entity, true);
+  }
+};
+
+GameMap.prototype.removeEntity = function(entityToRemove) {
+  for (let i = 0; i < this._entities.length; i++) {
+    const entity = this._entities[i];
+    if (entityToRemove == entity) {
+      this._entities.splice(i, 1);
+      break;
+    }
+  }
+  if (entityToRemove.hasMixin("Actor")) {
+    this._scheduler.remove(entityToRemove);
+  }
+};
+
+GameMap.prototype.addEntityAtRandomPosition = function(entity) {
+  const position = this.getRandomFloorPosition();
+  entity.setX(position.x);
+  entity.setY(position.y);
+  this.addEntity(entity);
+};
+
+GameMap.prototype.getTile = function(x, y) {
+  if (x < 0 || x >= this._width || y < 0 || y >= this._height) {
+    return __WEBPACK_IMPORTED_MODULE_0__tile__["b" /* nullTile */];
+  } else {
+    return this._tiles[x][y] || __WEBPACK_IMPORTED_MODULE_0__tile__["b" /* nullTile */];
+  }
+};
+
+GameMap.prototype.isEmptyFloor = function(x, y) {
+  return this.getTile(x, y) == __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* floorTile */] && !this.getEntityAt(x, y);
+};
+
+GameMap.prototype.dig = function(x, y) {
+  if (this.getTile(x, y).isDiggable()) {
+    this._tiles[x][y] = __WEBPACK_IMPORTED_MODULE_0__tile__["a" /* floorTile */];
+  }
+};
+
+GameMap.prototype.getRandomFloorPosition = function() {
+  let x = Math.floor(Math.random() * this._width);
+  let y = Math.floor(Math.random() * this._height);
+  return this.isEmptyFloor(x, y) ? { x, y } : this.getRandomFloorPosition();
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (GameMap);
 
 
 /***/ })

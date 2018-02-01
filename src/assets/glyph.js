@@ -1,21 +1,23 @@
 import Colors from "./colors";
 
-const Glyph = function(properties = {}) {
-  this._char = properties.char || " ";
-  this._fg = properties.fg || Colors.white;
-  this._bg = properties.bg || Colors.black;
-};
+const Glyph = function({ char = " ", fg = Colors.white, bg = Colors.black }) {
+  const getChar = function() {
+    return char;
+  };
 
-Glyph.prototype.getChar = function() {
-  return this._char;
-};
+  const getBg = function() {
+    return bg;
+  };
 
-Glyph.prototype.getBg = function() {
-  return this._bg;
-};
+  const getFg = function() {
+    return fg;
+  };
 
-Glyph.prototype.getFg = function() {
-  return this._fg;
+  return {
+    getChar,
+    getBg,
+    getFg
+  };
 };
 
 export default Glyph;

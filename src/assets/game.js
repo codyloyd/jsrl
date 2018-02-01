@@ -11,7 +11,7 @@ const Game = {
   init: function() {
     this._display = new ROT.Display({
       width: this._screenWidth,
-      height: this._screenHeight,
+      height: this._screenHeight + 1,
       fg: Colors.white,
       bg: Colors.black
     });
@@ -25,7 +25,7 @@ const Game = {
     };
     bindEventToScreen("keydown");
     // bindEventToScreen("keyup");
-    // bindEventToScreen("keypress");
+    bindEventToScreen("keypress");
   },
 
   refresh: function() {
@@ -56,6 +56,8 @@ const Game = {
     }
   }
 };
+
+export default Game;
 
 window.onload = function() {
   if (!ROT.isSupported()) {

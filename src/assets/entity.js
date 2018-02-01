@@ -1,79 +1,172 @@
 import Glyph from "./glyph";
+import { stairsUpTile, stairsDownTile } from "./tile";
+import { sendMessage } from "./helpers";
 
-const Entity = function(properties) {
-  this._glyph = new Glyph(properties);
-  this._name = properties.name || "";
-  this._x = properties.x || 0;
-  this._y = properties.y || 0;
-  this._map = null;
-  this._game = properties.game || null;
-  this._attachedMixins = {};
-  this._attachedMixinGroups = {};
-  this._screen = properties.screen || null;
+const Entity = function({
+  name = "",
+  x = 0,
+  y = 0,
+  z = 0,
+  game = null,
+  screen = null,
+  mixins = []
+}) {
+  const glyph = Glyph(...arguments);
+  let map = null;
+  const attachedMixins = {};
+  const attachedMixinGroups = {};
 
-  const mixins = properties.mixins || [];
-  mixins.forEach(mixin => {
-    for (let key in mixin) {
-      if (key != "init" && key != "name" && !this.hasOwnProperty(key)) {
-        this[key] = mixin[key];
+  const mixinObject = {};
+  mixins.forEach(mixinFactory => {
+    const mixin = mixinFactory(...arguments);
+
+    attachedMixins[mixin.name] = true;
+    delete mixin.name;
+    if (mixin.groupName) {
+      attachedMixinGroups[mixin.groupName] = true;
+      delete mixin.groupName;
+    }
+    Object.assign(mixinObject, mixin);
+  });
+
+  const tryMove = function(x, y, z) {
+    const map = this.getMap();
+    const tile = map.getTile(x, y, getZ());
+    const target = map.getEntityAt(x, y, getZ());
+    if (z < getZ()) {
+      if (tile != stairsUpTile) {
+        sendMessage(this, "You can't go up here");
+      } else {
+        sendMessage(this, `You ascend to level ${z + 1}`);
+        this.setPosition(x, y, z);
       }
     }
-    this._attachedMixins[mixin.name] = true;
-    if (mixin.groupName) {
-      this._attachedMixinGroups[mixin.groupName] = true;
+    if (z > getZ()) {
+      if (tile != stairsDownTile) {
+        sendMessage(this, "You can't go down here");
+      } else {
+        sendMessage(this, `You descend to level ${z + 1}`);
+        this.setPosition(x, y, z);
+      }
     }
-    if (mixin.init) {
-      mixin.init.call(this, properties);
+    if (target) {
+      if (
+        hasMixin("Attacker") &&
+        this !== target &&
+        (this.hasMixin("PlayerActor") || target.hasMixin("PlayerActor"))
+      ) {
+        this.attack(target);
+        return true;
+      } else {
+        return false;
+      }
     }
-  });
-};
+    if (tile.isWalkable()) {
+      this.setPosition(x, y, z);
+      const items = this.getMap().getItemsAt(x, y, z);
+      if (items) {
+        if (items.length === 1) {
+          sendMessage(this, `You see ${items[0].describeA()}`);
+        } else {
+          sendMessage(this, "There are several items here.");
+        }
+      }
+      return true;
+    } else if (tile.isDiggable() && this.hasMixin("PlayerActor")) {
+      map.dig(x, y, z);
+      return true;
+    }
+    return false;
+  };
 
-Entity.prototype.hasMixin = function(obj) {
-  if (typeof obj == "object") {
-    return this._attachedMixins[obj.name];
-  } else {
-    return this._attachedMixins[obj] || this._attachedMixinGroups[obj];
-  }
-};
+  const hasMixin = function(mixin) {
+    return attachedMixins[mixin] || attachedMixinGroups[mixin];
+  };
 
-Entity.prototype.getGame = function() {
-  return this._game;
-};
+  const getGame = function() {
+    return game;
+  };
 
-Entity.prototype.setMap = function(map) {
-  this._map = map;
-};
+  const setMap = function(newMap) {
+    map = newMap;
+  };
 
-Entity.prototype.getMap = function() {
-  return this._map;
-};
+  const getMap = function() {
+    return map;
+  };
 
-Entity.prototype.getGlyph = function() {
-  return this._glyph;
-};
+  const getGlyph = function() {
+    return glyph;
+  };
 
-Entity.prototype.setName = function(name) {
-  this._name = name;
-};
+  const setName = function(newName) {
+    name = newName;
+  };
 
-Entity.prototype.setX = function(x) {
-  this._x = x;
-};
+  const setX = function(newX) {
+    x = newX;
+  };
 
-Entity.prototype.setY = function(y) {
-  this._y = y;
-};
+  const setY = function(newY) {
+    y = newY;
+  };
 
-Entity.prototype.getName = function() {
-  return this._name;
-};
+  const setZ = function(newZ) {
+    z = newZ;
+  };
 
-Entity.prototype.getX = function() {
-  return this._x;
-};
+  const getName = function() {
+    return name;
+  };
 
-Entity.prototype.getY = function() {
-  return this._y;
+  const getX = function() {
+    return x;
+  };
+
+  const getY = function() {
+    return y;
+  };
+
+  const getZ = function() {
+    return z;
+  };
+
+  const setPosition = function(newX, newY, newZ) {
+    const oldX = x;
+    const oldY = y;
+    const oldZ = z;
+    x = newX;
+    y = newY;
+    z = newZ;
+    if (map) {
+      map.updateEntityPosition(this, oldX, oldY, oldZ);
+    }
+  };
+
+  const getScreen = function() {
+    return screen;
+  };
+  return Object.assign(
+    {
+      getX,
+      getY,
+      getZ,
+      setX,
+      setY,
+      setZ,
+      setPosition,
+      getName,
+      setName,
+      tryMove,
+      getGlyph,
+      setMap,
+      getMap,
+      getGame,
+      hasMixin,
+      getScreen
+    },
+    mixinObject
+  );
 };
 
 export default Entity;
