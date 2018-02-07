@@ -2,33 +2,31 @@ import Glyph from "./glyph";
 import Colors from "./colors";
 
 const Tile = function({
-  char,
-  fg,
-  bg,
   isDiggable = false,
   isWalkable = false,
   blocksLight = true
 }) {
-  this._glyph = new Glyph({ char, fg, bg });
-  this._isWalkable = isWalkable;
-  this._isDiggable = isDiggable;
-  this._blocksLight = blocksLight;
-};
+  const glyph = Glyph(...arguments);
 
-Tile.prototype.getGlyph = function() {
-  return this._glyph;
-};
+  const publicFunctions = {
+    getGlyph: function() {
+      return glyph;
+    },
 
-Tile.prototype.isWalkable = function() {
-  return this._isWalkable;
-};
+    isWalkable: function() {
+      return isWalkable;
+    },
 
-Tile.prototype.isDiggable = function() {
-  return this._isDiggable;
-};
+    isDiggable: function() {
+      return isDiggable;
+    },
 
-Tile.prototype.isBlockingLight = function() {
-  return this._blocksLight;
+    isBlockingLight: function() {
+      return blocksLight;
+    }
+  };
+
+  return Object.assign(publicFunctions, glyph);
 };
 
 const nullTile = new Tile({});

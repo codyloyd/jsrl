@@ -11,9 +11,10 @@ const GameMap = function(tiles, player) {
   this._height = tiles[0][0].length;
   this._entities = {};
   this._items = {};
-  this._scheduler = new ROT.Scheduler.Simple();
+  this._scheduler = new ROT.Scheduler.Speed();
   this._engine = new ROT.Engine(this._scheduler);
   this._explored = [];
+  this._player = player;
   this.setupExploredArray();
   this._fov = [];
   this.setupFov();
@@ -30,6 +31,9 @@ const GameMap = function(tiles, player) {
   }
 };
 
+GameMap.prototype.getPlayer = function() {
+  return this._player;
+};
 GameMap.prototype.getWidth = function() {
   return this._width;
 };
@@ -110,7 +114,7 @@ GameMap.prototype.getEntitiesWithinRadius = function(
 };
 
 GameMap.prototype.updateEntityPosition = function(entity, oldX, oldY, oldZ) {
-  if (oldX) {
+  if (typeof oldX === "number") {
     const oldKey = `${oldX},${oldY},${oldZ}`;
     if (this._entities[oldKey] == entity) {
       delete this._entities[oldKey];
@@ -172,6 +176,24 @@ GameMap.prototype.getTile = function(x, y, z) {
   } else {
     return this._tiles[z][x][y] || nullTile;
   }
+};
+
+GameMap.prototype.lookInDirection = function(direction, distance) {
+  const array = [];
+  const xmod = direction == 8 || direction == 2 ? 0 : direction == 6 ? 1 : -1;
+  const ymod = direction == 4 || direction == 6 ? 0 : direction == 2 ? 1 : -1;
+
+  for (let i = 1; i < distance + 1; i++) {
+    const x = this._player.getX() + xmod * i;
+    const y = this._player.getY() + ymod * i;
+    const z = this._player.getZ();
+    if (this.getEntityAt(x, y, z)) {
+      array.push(this.getEntityAt(x, y, z));
+    } else {
+      array.push({ tile: this.getTile(x, y, z), x, y, z });
+    }
+  }
+  return array;
 };
 
 GameMap.prototype.isEmptyFloor = function(x, y, z) {

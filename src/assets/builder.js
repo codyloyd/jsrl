@@ -54,6 +54,7 @@ Builder.prototype._generateLevel = function() {
   for (let i = 0; i < totalIterations - 1; i++) {
     generator.create();
   }
+  generator.connect();
   generator.create(function(x, y, v) {
     if (v === 1) {
       map[x][y] = floorTile;

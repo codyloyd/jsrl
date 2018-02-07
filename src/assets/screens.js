@@ -46,7 +46,9 @@ const playScreen = {
     const newX = this._player.getX() + dX;
     const newY = this._player.getY() + dY;
     const newZ = this._player.getZ() + dZ;
-    this._player.tryMove(newX, newY, newZ, this._map);
+    if (this._player.tryMove(newX, newY, newZ, this._map)) {
+      this._map.getEngine().unlock();
+    }
   },
 
   enter: function(game) {
@@ -96,7 +98,7 @@ const playScreen = {
     for (let x = topLeftX; x < topLeftX + screenWidth; x++) {
       for (let y = topLeftY; y < topLeftY + screenHeight; y++) {
         if (map.isExplored(x, y, currentDepth)) {
-          let glyph = this._map.getTile(x, y, this._player.getZ()).getGlyph();
+          let glyph = this._map.getTile(x, y, this._player.getZ());
           let fg = Colors.darkBlue;
           if (visibleCells[x + "," + y]) {
             const items = map.getItemsAt(x, y, currentDepth);
@@ -104,7 +106,7 @@ const playScreen = {
               glyph = items[items.length - 1];
             }
             if (map.getEntityAt(x, y, currentDepth)) {
-              glyph = map.getEntityAt(x, y, currentDepth).getGlyph();
+              glyph = map.getEntityAt(x, y, currentDepth);
             }
             fg = glyph.getFg();
           }
@@ -121,9 +123,9 @@ const playScreen = {
     display.draw(
       this._player.getX() - topLeftX,
       this._player.getY() - topLeftY,
-      this._player.getGlyph().getChar(),
-      this._player.getGlyph().getFg(),
-      this._player.getGlyph().getBg()
+      this._player.getChar(),
+      this._player.getFg(),
+      this._player.getBg()
     );
     let messageY = 0;
     this._player.getMessages().forEach(message => {
@@ -135,6 +137,12 @@ const playScreen = {
     });
     const stats = `%c{${Colors.white}}%b{${Colors.black}}HP: ${this._player.getHp()}/${this._player.getMaxHp()}`;
     display.drawText(0, screenHeight, stats);
+    const hungerState = this._player.getHungerState();
+    display.drawText(
+      screenWidth - hungerState.length,
+      screenHeight,
+      hungerState
+    );
   },
   handleInput: function(inputType, inputData) {
     if (this._subScreen) {
@@ -142,10 +150,11 @@ const playScreen = {
       return;
     }
     if (inputType === "keydown") {
-      if (inputData.keyCode === ROT.VK_RETURN) {
-        if (this._gameEnded) {
+      if (this._gameEnded) {
+        if (inputData.keyCode === ROT.VK_RETURN) {
           Game.switchScreen(loseScreen);
         }
+        return;
       }
       //movement
       if (inputData.keyCode === ROT.VK_H) {
@@ -164,23 +173,48 @@ const playScreen = {
         this.move(-1, 1, 0);
       } else if (inputData.keyCode === ROT.VK_N) {
         this.move(1, 1, 0);
+      } else if (inputData.keyCode === ROT.VK_T) {
+        this.showItemsSubScreen(
+          throwScreen,
+          this._player.getItems(),
+          "You don't have anything to throw!"
+        );
       } else if (inputData.keyCode === ROT.VK_I) {
-        if (this._player.getItems().filter(x => x).length === 0) {
-          sendMessage(this._player, "You are not carrying anything!");
-          Game.refresh();
-        } else {
-          inventoryScreen.setup(this._player, this._player.getItems());
-          this.setSubScreen(inventoryScreen);
-        }
+        this.showItemsSubScreen(
+          inventoryScreen,
+          this._player.getItems(),
+          "You aren't carrying anything!"
+        );
         return;
       } else if (inputData.keyCode === ROT.VK_D) {
-        if (this._player.getItems().filter(x => x).length === 0) {
-          sendMessage(this._player, "You don't have anything to drop!");
-          Game.refresh();
+        this.showItemsSubScreen(
+          dropScreen,
+          this._player.getItems(),
+          "You don't have anything to drop!"
+        );
+      } else if (inputData.keyCode === ROT.VK_E) {
+        this.showItemsSubScreen(
+          eatScreen,
+          this._player.getItems(),
+          "You don't have anything to eat!"
+        );
+      } else if (inputData.keyCode === ROT.VK_W) {
+        if (inputData.shiftKey) {
+          // Show the wear screen
+          this.showItemsSubScreen(
+            wearScreen,
+            this._player.getItems(),
+            "You have nothing to wear."
+          );
         } else {
-          dropScreen.setup(this._player, this._player.getItems());
-          this.setSubScreen(dropScreen);
+          // Show the wield screen
+          this.showItemsSubScreen(
+            wieldScreen,
+            this._player.getItems(),
+            "You have nothing to wield."
+          );
         }
+        return;
       } else if (inputData.keyCode === ROT.VK_COMMA) {
         const items = this._map.getItemsAt(
           this._player.getX(),
@@ -210,7 +244,7 @@ const playScreen = {
       } else {
         return;
       }
-      this._map.getEngine().unlock();
+      // this._map.getEngine().unlock();
     } else if (inputType === "keypress") {
       const keyChar = String.fromCharCode(inputData.charCode);
       if (keyChar === ">") {
@@ -222,6 +256,16 @@ const playScreen = {
       }
       this._map.getEngine().unlock();
     }
+  },
+  showItemsSubScreen: function(subScreen, items, emptyMessage) {
+    if (items && subScreen.setup(this._player, items) > 0) {
+      this._player.clearMessages();
+      Game.refresh();
+      this.setSubScreen(subScreen);
+    } else {
+      sendMessage(this._player, emptyMessage);
+    }
+    Game.refresh();
   }
 };
 
@@ -263,21 +307,64 @@ const loseScreen = {
   }
 };
 
-const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
+const directionScreen = function(okFunction) {
+  this.render = function(display) {
+    display.drawText(0, 1, "Which direction?");
+  };
+  this.handleInput = function(inputType, inputData) {
+    if (inputType == "keydown") {
+      let direction;
+      if (inputData.keyCode === ROT.VK_8 || inputData.keyCode === ROT.VK_K) {
+        direction = 8;
+      }
+      if (inputData.keyCode === ROT.VK_2 || inputData.keyCode === ROT.VK_J) {
+        direction = 2;
+      }
+      if (inputData.keyCode === ROT.VK_4 || inputData.keyCode === ROT.VK_H) {
+        direction = 4;
+      }
+      if (inputData.keyCode === ROT.VK_6 || inputData.keyCode === ROT.VK_L) {
+        direction = 6;
+      }
+      okFunction(direction);
+      playScreen.setSubScreen(undefined);
+      playScreen._map.getEngine().unlock();
+    }
+  };
+};
+
+const ItemListScreen = function({
+  caption,
+  ok,
+  canSelect,
+  canSelectMultiple,
+  hasNoItemOption,
+  isAcceptableFunction = function(x) {
+    return x;
+  },
+  noUnlock = false
+}) {
   this._caption = caption;
   this._okFunction = ok;
   this._canSelectItem = canSelect;
   this._canSelectMultipleItems = canSelectMultiple;
+  this._isAcceptableFunction = isAcceptableFunction;
+  this._hasNoItemOption = hasNoItemOption;
+  this._noUnlock = noUnlock;
 
   this.setup = function(player, items) {
     this._player = player;
-    this._items = items;
+    this._items = items.filter(isAcceptableFunction);
     this._selectedIndices = {};
+    return this._items.length;
   };
 
   this.render = function(display) {
     const letters = `abcdefghijklmnopqrstuvwxyz`;
     display.drawText(0, 0, this._caption);
+    if (this._hasNoItemOption) {
+      display.drawText(0, 1, `0 - no item`);
+    }
     let row = 0;
     this._items.forEach((item, i) => {
       const letter = letters.substring(i, i + 1);
@@ -287,10 +374,18 @@ const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
         this._selectedIndices[i]
           ? `+`
           : `-`;
+
+      let suffix = "";
+      if (this._items[i] === this._player.getArmor()) {
+        suffix = "(wearing)";
+      }
+      if (this._items[i] === this._player.getWeapon()) {
+        suffix = "(wielding)";
+      }
       display.drawText(
         0,
         2 + i,
-        `${letter} ${selectionState} ${item.describe()}`
+        `${letter} ${selectionState} ${item.describe()} ${suffix}`
       );
     });
   };
@@ -300,7 +395,7 @@ const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
       selectedItems[key] = this._items[key];
     }
     playScreen.setSubScreen(undefined);
-    if (this._okFunction(selectedItems)) {
+    if (this._okFunction(selectedItems) && !this._noUnlock) {
       this._player
         .getMap()
         .getEngine()
@@ -320,6 +415,13 @@ const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
         this.executeOkFunction();
       } else if (
         this._canSelectItem &&
+        this._hasNoItemOption &&
+        inputData.keyCode === ROT.VK_0
+      ) {
+        this._selectedIndices = {};
+        this.executeOkFunction();
+      } else if (
+        this._canSelectItem &&
         inputData.keyCode >= ROT.VK_A &&
         inputData.keyCode <= ROT.VK_Z
       ) {
@@ -331,16 +433,98 @@ const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
             } else {
               this._selectedIndices[index] = true;
             }
-            Game.refresh();
           } else {
             this._selectedIndices[index] = true;
             this.executeOkFunction();
           }
+          Game.refresh();
         }
       }
     }
   };
 };
+
+const throwScreen = new ItemListScreen({
+  caption: "Choose the item you want to throw",
+  canSelect: true,
+  canSelectMultiple: false,
+  isAcceptableFunction: function(item) {
+    return item.hasMixin("Throwable");
+  },
+  noUnlock: true,
+  ok: function(selectedItems) {
+    const item = selectedItems[Object.keys(selectedItems)[0]];
+    playScreen.setSubScreen(
+      new directionScreen(function(direction) {
+        playScreen._player.throwItem(item, direction);
+      })
+    );
+    return true;
+  }
+});
+
+const wieldScreen = new ItemListScreen({
+  caption: "Choose the item you wish to wield",
+  canSelect: true,
+  canSelectMultiple: false,
+  isAcceptableFunction: function(item) {
+    return item.hasMixin("Equippable") && item.isWieldable();
+  },
+  ok: function(selectedItems) {
+    const keys = Object.keys(selectedItems);
+    if (keys.length === 0) {
+      this._player.unwield();
+      sendMessage(this._player, "You are empty handed");
+    } else {
+      const item = selectedItems[keys[0]];
+      this._player.unequip(item);
+      this._player.wield(item);
+      sendMessage(this._player, `You are wielding ${item.describeA()}`);
+    }
+    return true;
+  }
+});
+
+const wearScreen = new ItemListScreen({
+  caption: "Choose the item you wish to wear",
+  canSelect: true,
+  canSelectMultiple: false,
+  isAcceptableFunction: function(item) {
+    return item.hasMixin("Equippable") && item.isWearable();
+  },
+  ok: function(selectedItems) {
+    const keys = Object.keys(selectedItems);
+    if (keys.length === 0) {
+      this._player.unwield();
+      sendMessage(this._player, "You are not wearing any armor");
+    } else {
+      const item = selectedItems[keys[0]];
+      this._player.unequip(item);
+      this._player.wear(item);
+      sendMessage(this._player, `You are wearing ${item.describeA()}`);
+    }
+    return true;
+  }
+});
+
+const eatScreen = new ItemListScreen({
+  caption: "Choose the item you wish to eat",
+  canSelect: true,
+  canSelectMultiple: false,
+  isAcceptableFunction: function(item) {
+    return item.hasMixin("Edible");
+  },
+  ok: function(selectedItems) {
+    const key = Object.keys(selectedItems)[0];
+    const item = selectedItems[key];
+    sendMessage(this._player, `You eat ${item.describeThe()}`);
+    item.eat(this._player);
+    if (!item.hasRemainingConsumptions()) {
+      this._player.removeItem(key);
+    }
+    return true;
+  }
+});
 
 const inventoryScreen = new ItemListScreen({
   caption: "Inventory",

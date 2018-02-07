@@ -60,7 +60,6 @@ const Game = {
 export default Game;
 
 window.onload = function() {
-  console.log("test");
   if (!ROT.isSupported()) {
     alert("The rot.js library isn't supported by your browser.");
   } else {
