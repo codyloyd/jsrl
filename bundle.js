@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -90,81 +90,6 @@
 
 /***/ }),
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return nullTile; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return floorTile; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return wallTile; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return stairsUpTile; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return stairsDownTile; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__colors__ = __webpack_require__(0);
-
-
-
-const Tile = function({
-  char,
-  fg,
-  bg,
-  isDiggable = false,
-  isWalkable = false,
-  blocksLight = true
-}) {
-  this._glyph = new __WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */]({ char, fg, bg });
-  this._isWalkable = isWalkable;
-  this._isDiggable = isDiggable;
-  this._blocksLight = blocksLight;
-};
-
-Tile.prototype.getGlyph = function() {
-  return this._glyph;
-};
-
-Tile.prototype.isWalkable = function() {
-  return this._isWalkable;
-};
-
-Tile.prototype.isDiggable = function() {
-  return this._isDiggable;
-};
-
-Tile.prototype.isBlockingLight = function() {
-  return this._blocksLight;
-};
-
-const nullTile = new Tile({});
-const floorTile = new Tile({
-  char: ".",
-  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].darkGray,
-  isWalkable: true,
-  blocksLight: false
-});
-const wallTile = new Tile({
-  char: "#",
-  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].brown,
-  isDiggable: true,
-  isWalkable: false,
-  blocksLight: true
-});
-const stairsUpTile = new Tile({
-  char: "<",
-  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].lightGray,
-  isWalkable: true,
-  blocksLight: false
-});
-const stairsDownTile = new Tile({
-  char: ">",
-  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].lightGray,
-  isWalkable: true,
-  blocksLight: false
-});
-
-
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -5792,7 +5717,80 @@ for (var p in ROT) {
   return ROT;
 }));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11), __webpack_require__(12)))
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return nullTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return floorTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return wallTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return stairsUpTile; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return stairsDownTile; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__colors__ = __webpack_require__(0);
+
+
+
+const Tile = function({
+  isDiggable = false,
+  isWalkable = false,
+  blocksLight = true
+}) {
+  const glyph = Object(__WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */])(...arguments);
+
+  const publicFunctions = {
+    getGlyph: function() {
+      return glyph;
+    },
+
+    isWalkable: function() {
+      return isWalkable;
+    },
+
+    isDiggable: function() {
+      return isDiggable;
+    },
+
+    isBlockingLight: function() {
+      return blocksLight;
+    }
+  };
+
+  return Object.assign(publicFunctions, glyph);
+};
+
+const nullTile = new Tile({});
+const floorTile = new Tile({
+  char: ".",
+  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].darkGray,
+  isWalkable: true,
+  blocksLight: false
+});
+const wallTile = new Tile({
+  char: "#",
+  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].brown,
+  isDiggable: true,
+  isWalkable: false,
+  blocksLight: true
+});
+const stairsUpTile = new Tile({
+  char: "<",
+  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].lightGray,
+  isWalkable: true,
+  blocksLight: false
+});
+const stairsDownTile = new Tile({
+  char: ">",
+  fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].lightGray,
+  isWalkable: true,
+  blocksLight: false
+});
+
+
+
 
 /***/ }),
 /* 3 */
@@ -5832,30 +5830,166 @@ const getNeighborPositions = function(x, y) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dynamicGlyph__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tile__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers__ = __webpack_require__(3);
 
 
-const Glyph = function({ char = " ", fg = __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white, bg = __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black }) {
-  const getChar = function() {
-    return char;
+
+
+const Entity = function({
+  x = 0,
+  y = 0,
+  z = 0,
+  game = null,
+  screen = null,
+  speed = 1000
+}) {
+  const dynamicGlyph = Object(__WEBPACK_IMPORTED_MODULE_0__dynamicGlyph__["a" /* default */])(...arguments);
+  let map = null;
+  let alive = true;
+
+  const publicFunctions = {
+    setSpeed: function(newSpeed) {
+      speed = newSpeed;
+    },
+    getSpeed: function() {
+      return speed;
+    },
+    tryMove: function(x, y, z) {
+      const map = this.getMap();
+      const tile = map.getTile(x, y, this.getZ());
+      const target = map.getEntityAt(x, y, this.getZ());
+      if (z < this.getZ()) {
+        if (tile != __WEBPACK_IMPORTED_MODULE_1__tile__["d" /* stairsUpTile */]) {
+          Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, "You can't go up here");
+        } else {
+          Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, `You ascend to level ${z + 1}`);
+          this.setPosition(x, y, z);
+        }
+      }
+      if (z > this.getZ()) {
+        if (tile != __WEBPACK_IMPORTED_MODULE_1__tile__["c" /* stairsDownTile */]) {
+          Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, "You can't go down here");
+        } else {
+          Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, `You descend to level ${z + 1}`);
+          this.setPosition(x, y, z);
+        }
+      }
+      if (target) {
+        if (
+          this.hasMixin("Attacker") &&
+          this !== target &&
+          (this.hasMixin("PlayerActor") || target.hasMixin("PlayerActor"))
+        ) {
+          this.attack(target);
+          return true;
+        } else {
+          return false;
+        }
+      }
+      if (tile.isWalkable()) {
+        this.setPosition(x, y, z);
+        const items = this.getMap().getItemsAt(x, y, z);
+        if (items) {
+          if (items.length === 1) {
+            Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, `You see ${items[0].describeA()}`);
+          } else {
+            Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, "There are several items here.");
+          }
+        }
+        return true;
+      } else if (tile.isDiggable() && this.hasMixin("PlayerActor")) {
+        map.dig(x, y, z);
+        return true;
+      }
+      return false;
+    },
+
+    getGame: function() {
+      return game;
+    },
+
+    setMap: function(newMap) {
+      map = newMap;
+    },
+
+    getMap: function() {
+      return map;
+    },
+
+    setName: function(newName) {
+      name = newName;
+    },
+
+    setX: function(newX) {
+      x = newX;
+    },
+
+    setY: function(newY) {
+      y = newY;
+    },
+
+    setZ: function(newZ) {
+      z = newZ;
+    },
+
+    getName: function() {
+      return name;
+    },
+
+    getX: function() {
+      return x;
+    },
+
+    getY: function() {
+      return y;
+    },
+
+    getZ: function() {
+      return z;
+    },
+
+    isEntity: true,
+
+    setPosition: function(newX, newY, newZ) {
+      const oldX = x;
+      const oldY = y;
+      const oldZ = z;
+      x = newX;
+      y = newY;
+      z = newZ;
+      if (map) {
+        map.updateEntityPosition(this, oldX, oldY, oldZ);
+      }
+    },
+
+    getScreen: function() {
+      return screen;
+    },
+
+    isAlive: function() {
+      return alive;
+    },
+
+    kill: function(message) {
+      if (!alive) {
+        return;
+      }
+      alive = false;
+      Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, message ? message : "You have died!");
+
+      if (this.hasMixin("PlayerActor")) {
+        this.act();
+      } else {
+        this.getMap().removeEntity(this);
+      }
+    }
   };
-
-  const getBg = function() {
-    return bg;
-  };
-
-  const getFg = function() {
-    return fg;
-  };
-
-  return {
-    getChar,
-    getBg,
-    getFg
-  };
+  return Object.assign(publicFunctions, dynamicGlyph);
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (Glyph);
+/* harmony default export */ __webpack_exports__["a"] = (Entity);
 
 
 /***/ }),
@@ -5863,181 +5997,108 @@ const Glyph = function({ char = " ", fg = __WEBPACK_IMPORTED_MODULE_0__colors__[
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tile__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers__ = __webpack_require__(3);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PlayerTemplate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EntityRepository; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__repository__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__items__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tile__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__helpers__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__entityMixins__ = __webpack_require__(17);
 
 
 
 
-const Entity = function({
-  name = "",
-  x = 0,
-  y = 0,
-  z = 0,
-  game = null,
-  screen = null,
-  mixins = []
-}) {
-  const glyph = Object(__WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */])(...arguments);
-  let map = null;
-  const attachedMixins = {};
-  const attachedMixinGroups = {};
 
-  const mixinObject = {};
-  mixins.forEach(mixinFactory => {
-    const mixin = mixinFactory(...arguments);
 
-    attachedMixins[mixin.name] = true;
-    delete mixin.name;
-    if (mixin.groupName) {
-      attachedMixinGroups[mixin.groupName] = true;
-      delete mixin.groupName;
-    }
-    Object.assign(mixinObject, mixin);
-  });
 
-  const tryMove = function(x, y, z) {
-    const map = this.getMap();
-    const tile = map.getTile(x, y, getZ());
-    const target = map.getEntityAt(x, y, getZ());
-    if (z < getZ()) {
-      if (tile != __WEBPACK_IMPORTED_MODULE_1__tile__["d" /* stairsUpTile */]) {
-        Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, "You can't go up here");
-      } else {
-        Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, `You ascend to level ${z + 1}`);
-        this.setPosition(x, y, z);
-      }
-    }
-    if (z > getZ()) {
-      if (tile != __WEBPACK_IMPORTED_MODULE_1__tile__["c" /* stairsDownTile */]) {
-        Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, "You can't go down here");
-      } else {
-        Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, `You descend to level ${z + 1}`);
-        this.setPosition(x, y, z);
-      }
-    }
-    if (target) {
-      if (
-        hasMixin("Attacker") &&
-        this !== target &&
-        (this.hasMixin("PlayerActor") || target.hasMixin("PlayerActor"))
-      ) {
-        this.attack(target);
-        return true;
-      } else {
-        return false;
-      }
-    }
-    if (tile.isWalkable()) {
-      this.setPosition(x, y, z);
-      const items = this.getMap().getItemsAt(x, y, z);
-      if (items) {
-        if (items.length === 1) {
-          Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, `You see ${items[0].describeA()}`);
-        } else {
-          Object(__WEBPACK_IMPORTED_MODULE_2__helpers__["b" /* sendMessage */])(this, "There are several items here.");
-        }
-      }
-      return true;
-    } else if (tile.isDiggable() && this.hasMixin("PlayerActor")) {
-      map.dig(x, y, z);
-      return true;
-    }
-    return false;
-  };
 
-  const hasMixin = function(mixin) {
-    return attachedMixins[mixin] || attachedMixinGroups[mixin];
-  };
-
-  const getGame = function() {
-    return game;
-  };
-
-  const setMap = function(newMap) {
-    map = newMap;
-  };
-
-  const getMap = function() {
-    return map;
-  };
-
-  const getGlyph = function() {
-    return glyph;
-  };
-
-  const setName = function(newName) {
-    name = newName;
-  };
-
-  const setX = function(newX) {
-    x = newX;
-  };
-
-  const setY = function(newY) {
-    y = newY;
-  };
-
-  const setZ = function(newZ) {
-    z = newZ;
-  };
-
-  const getName = function() {
-    return name;
-  };
-
-  const getX = function() {
-    return x;
-  };
-
-  const getY = function() {
-    return y;
-  };
-
-  const getZ = function() {
-    return z;
-  };
-
-  const setPosition = function(newX, newY, newZ) {
-    const oldX = x;
-    const oldY = y;
-    const oldZ = z;
-    x = newX;
-    y = newY;
-    z = newZ;
-    if (map) {
-      map.updateEntityPosition(this, oldX, oldY, oldZ);
-    }
-  };
-
-  const getScreen = function() {
-    return screen;
-  };
-  return Object.assign(
-    {
-      getX,
-      getY,
-      getZ,
-      setX,
-      setY,
-      setZ,
-      setPosition,
-      getName,
-      setName,
-      tryMove,
-      getGlyph,
-      setMap,
-      getMap,
-      getGame,
-      hasMixin,
-      getScreen
-    },
-    mixinObject
-  );
+const PlayerTemplate = {
+  name: "ME",
+  char: "@",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white,
+  bg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black,
+  maxHp: 40,
+  attackValue: 10,
+  sightRadius: 18,
+  inventorySlots: 22,
+  mixins: [
+    __WEBPACK_IMPORTED_MODULE_6__entityMixins__["i" /* PlayerActor */],
+    __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */],
+    __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */],
+    __WEBPACK_IMPORTED_MODULE_6__entityMixins__["h" /* MessageRecipient */],
+    __WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */],
+    __WEBPACK_IMPORTED_MODULE_6__entityMixins__["g" /* InventoryHolder */],
+    __WEBPACK_IMPORTED_MODULE_6__entityMixins__["e" /* FoodConsumer */],
+    __WEBPACK_IMPORTED_MODULE_6__entityMixins__["l" /* Thrower */],
+    __WEBPACK_IMPORTED_MODULE_6__entityMixins__["d" /* Equipper */]
+  ]
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (Entity);
+const EntityRepository = new __WEBPACK_IMPORTED_MODULE_2__repository__["a" /* default */]("entities", __WEBPACK_IMPORTED_MODULE_1__entity__["a" /* default */]);
+
+EntityRepository.define("fungus", {
+  name: "fungus",
+  char: "F",
+  speed: 250,
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].green,
+  maxHp: 4,
+  rngWeight: 2,
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["f" /* FungusActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */]]
+});
+
+EntityRepository.define("bat", {
+  name: "bat",
+  char: "B",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].indigo,
+  speed: 2000,
+  maxHp: 5,
+  attackValue: 3,
+  rngWeight: 4,
+  tasks: ["hunt", "wander"],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
+});
+
+EntityRepository.define("troll", {
+  name: "troll",
+  char: "T",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].green,
+  speed: 750,
+  maxHp: 25,
+  attackValue: 10,
+  sightRadius: 10,
+  rngWeight: 1,
+  tasks: ["hunt", "wander"],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
+});
+
+EntityRepository.define("kobold", {
+  name: "kobold",
+  char: "k",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].green,
+  speed: 1050,
+  maxHp: 15,
+  attackValue: 6,
+  sightRadius: 15,
+  rngWeight: 3,
+  tasks: ["hunt", "wander"],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
+});
+
+EntityRepository.define("newt", {
+  name: "newt",
+  char: ":",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].red,
+  maxHp: 3,
+  attackValue: 3,
+  rngWeight: 6,
+  sightRadius: 3,
+  tasks: ["hunt", "wander"],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
+});
+
+
 
 
 /***/ }),
@@ -6045,11 +6106,237 @@ const Entity = function({
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
+
+
+const Repository = function(name, ctor) {
+  this._name = name;
+  this._ctor = ctor;
+  this._templates = {};
+  this._randomTemplates = {};
+};
+
+Repository.prototype.define = function(name, template, options = {}) {
+  this._templates[name] = template;
+  if (!options["disableRandomCreation"]) {
+    this._randomTemplates[name] = template;
+  }
+};
+
+Repository.prototype.create = function(name, extraProperties) {
+  const template = this._templates[name];
+  if (!template) {
+    throw new Error(
+      "No template named '" + name + "' in repository '" + this._name + "'"
+    );
+  }
+  if (extraProperties) {
+    for (var key in extraProperties) {
+      template[key] = extraProperties[key];
+    }
+  }
+  return new this._ctor(template);
+};
+
+Repository.prototype.createRandom = function() {
+  const weightMap = Object.keys(
+    this._randomTemplates
+  ).reduce((obj, template) => {
+    const item = this._randomTemplates[template];
+    obj[template] = item.rngWeight || 1;
+    return obj;
+  }, {});
+  const item = __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.RNG.getWeightedValue(weightMap);
+  return this.create(item);
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Repository);
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repository__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__item__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__itemMixins__ = __webpack_require__(16);
+
+
+
+
+
+const ItemRepository = new __WEBPACK_IMPORTED_MODULE_0__repository__["a" /* default */]("items", __WEBPACK_IMPORTED_MODULE_1__item__["a" /* default */]);
+
+ItemRepository.define("healing potion", {
+  name: "potion",
+  char: "!",
+  fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].pink,
+  foodValue: 50,
+  healingValue: 10,
+  rngWeight: 3,
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["a" /* Edible */], __WEBPACK_IMPORTED_MODULE_3__itemMixins__["c" /* Throwable */]]
+});
+
+ItemRepository.define("super healing potion", {
+  name: "potion",
+  char: "!",
+  fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].darkGreen,
+  foodValue: 250,
+  healingValue: 100,
+  rngWeight: 1,
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["a" /* Edible */], __WEBPACK_IMPORTED_MODULE_3__itemMixins__["c" /* Throwable */]]
+});
+
+// food
+ItemRepository.define("apple", {
+  name: "apple",
+  char: "%",
+  foodValue: 100,
+  fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].red,
+  rngWeight: 6,
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["a" /* Edible */], __WEBPACK_IMPORTED_MODULE_3__itemMixins__["c" /* Throwable */]]
+});
+
+ItemRepository.define("ration", {
+  name: "food ration",
+  char: "%",
+  foodValue: 300,
+  fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].orange,
+  rngWeight: 4,
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["a" /* Edible */], __WEBPACK_IMPORTED_MODULE_3__itemMixins__["c" /* Throwable */]]
+});
+
+ItemRepository.define("rock", {
+  name: "rock",
+  char: "*",
+  rngWeight: 5,
+  fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].lightGray,
+  throwDamage: 6,
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["c" /* Throwable */]]
+});
+
+ItemRepository.define(
+  "corpse",
+  {
+    name: "corpse",
+    char: "%",
+    fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].pink,
+    foodValue: 75,
+    consuptions: 2,
+    mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["a" /* Edible */]]
+  },
+  { disableRandomCreation: true }
+);
+
+// weapons
+ItemRepository.define(
+  "dagger",
+  {
+    name: "dagger",
+    char: ")",
+    attackValue: 5,
+    wieldable: true,
+    throwDamage: 12,
+    mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["c" /* Throwable */], __WEBPACK_IMPORTED_MODULE_3__itemMixins__["b" /* Equippable */]],
+    fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].blue
+  },
+  {
+    // disableRandomCreation: true
+  }
+);
+
+ItemRepository.define(
+  "sword",
+  {
+    name: "sword",
+    char: ")",
+    attackValue: 10,
+    wieldable: true,
+    mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["b" /* Equippable */]],
+    fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].blue
+  },
+  {
+    disableRandomCreation: true
+  }
+);
+
+ItemRepository.define(
+  "awesomeSword",
+  {
+    name: "big awesome sword",
+    char: ")",
+    attackValue: 20,
+    wieldable: true,
+    mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["b" /* Equippable */]],
+    fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].blue
+  },
+  {
+    disableRandomCreation: true
+  }
+);
+
+// armor
+ItemRepository.define(
+  "tunic",
+  {
+    name: "tunic",
+    char: "[",
+    fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].peach,
+    defenseValue: 2,
+    wearable: true,
+    mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["b" /* Equippable */]]
+  },
+  {
+    disableRandomCreation: true
+  }
+);
+
+ItemRepository.define(
+  "chainmail",
+  {
+    name: "chainmail",
+    char: "[",
+    fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].peach,
+    defenseValue: 4,
+    wearable: true,
+    mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["b" /* Equippable */]]
+  },
+  {
+    disableRandomCreation: true
+  }
+);
+
+ItemRepository.define(
+  "platemail",
+  {
+    name: "platemail",
+    char: "[",
+    fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].peach,
+    defenseValue: 6,
+    wearable: true,
+    mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["b" /* Equippable */]]
+  },
+  {
+    disableRandomCreation: true
+  }
+);
+
+/* harmony default export */ __webpack_exports__["a"] = (ItemRepository);
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__colors__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__screens__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__screens__ = __webpack_require__(13);
 
 
 
@@ -6112,7 +6399,6 @@ const Game = {
 /* harmony default export */ __webpack_exports__["default"] = (Game);
 
 window.onload = function() {
-  console.log("test");
   if (!__WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.isSupported()) {
     alert("The rot.js library isn't supported by your browser.");
   } else {
@@ -6124,328 +6410,98 @@ window.onload = function() {
 
 
 /***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PlayerTemplate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EntityRepository; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colors__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__repository__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tile__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers__ = __webpack_require__(3);
-
-
-
-
-
-
-const Sight = function({ sightRadius = 5 }) {
-  return {
-    name: "Sight",
-    groupName: "Sight",
-    getSightRadius: function() {
-      return sightRadius;
-    }
-  };
-};
-
-const WanderActor = function() {
-  return {
-    name: "WanderActor",
-    groupName: "Actor",
-    act: function() {
-      const dirs = [-1, 0, 1];
-      const x = dirs.randomize()[0];
-      const y = dirs.randomize()[0];
-      this.tryMove(this.getX() + x, this.getY() + y, this.getZ());
-    }
-  };
-};
-
-const PlayerActor = function() {
-  return {
-    name: "PlayerActor",
-    groupName: "Actor",
-    act: function() {
-      if (this.getHp() < 1) {
-        this.getGame()._currentScreen.setGameEnded(true);
-        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(this, "you have died.  press ENTER");
-      }
-      this.getScreen().render(this.getGame().getDisplay(), this.getGame());
-      this.getMap()
-        .getEngine()
-        .lock();
-      this.clearMessages();
-    }
-  };
-};
-
-const FungusActor = function() {
-  let growthsRemaining = 5;
-
-  return {
-    name: "FungusActor",
-    groupName: "Actor",
-    act: function() {
-      if (growthsRemaining > 0) {
-        if (Math.random() <= 0.02) {
-          const xOffset = Math.floor(Math.random() * 3) - 1;
-          const yOffset = Math.floor(Math.random() * 3) - 1;
-          if (xOffset != 0 || yOffset != 0) {
-            if (
-              this.getMap().isEmptyFloor(
-                this.getX() + xOffset,
-                this.getY() + yOffset,
-                this.getZ()
-              )
-            ) {
-              const entity = EntityRepository.create("fungus");
-              entity.setPosition(
-                this.getX() + xOffset,
-                this.getY() + yOffset,
-                this.getZ()
-              );
-              this.getMap().addEntity(entity);
-              growthsRemaining--;
-              Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["c" /* sendMessageNearby */])(
-                this.getMap(),
-                entity.getX(),
-                entity.getY(),
-                entity.getZ(),
-                "The fungus is spreading"
-              );
-            }
-          }
-        }
-      }
-    }
-  };
-};
-
-const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
-  hp = !hp ? maxHp : hp;
-  return {
-    name: "Destructible",
-    getDefenseValue: function() {
-      return defenseValue;
-    },
-    getHp: function() {
-      return hp;
-    },
-    getMaxHp: function() {
-      return maxHp;
-    },
-    takeDamage: function(attacker, damage) {
-      hp -= damage;
-      if (hp <= 0) {
-        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(attacker, `You kill the ${this.getName()}!`);
-        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(this, `You DIE at the hand of the ${attacker.getName()}!`);
-        if (this.hasMixin("PlayerActor")) {
-          this.act();
-        } else {
-          this.getMap().removeEntity(this);
-        }
-      }
-    }
-  };
-};
-
-const MessageRecipient = function() {
-  let messages = [];
-  return {
-    name: "MessageRecipient",
-    receiveMessage: function(message) {
-      console.log(message);
-      messages.push(message);
-    },
-    getMessages: function() {
-      return messages;
-    },
-    clearMessages: function() {
-      messages = [];
-    }
-  };
-};
-
-const Attacker = function({ attackValue = 1 }) {
-  return {
-    name: "Attacker",
-    groupName: "Attacker",
-    getAttackValue: function() {
-      return attackValue;
-    },
-    attack: function(target) {
-      if (target.hasMixin("Destructible")) {
-        const attack = this.getAttackValue();
-        const defense = target.getDefenseValue();
-        const max = Math.max(0, attack - defense);
-        const damage = 1 + Math.floor(Math.random() * max);
-        target.takeDamage(this, damage);
-
-        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(
-          this,
-          `You strike the ${target.getName()} for ${damage} damage.`
-        );
-        Object(__WEBPACK_IMPORTED_MODULE_4__helpers__["b" /* sendMessage */])(
-          target,
-          `The ${this.getName()} strikes you for ${damage} damage.`
-        );
-      }
-    }
-  };
-};
-
-const InventoryHolder = function({ inventorySlots = 10 }) {
-  const items = [];
-  return {
-    name: "InventoryHolder",
-    init: function({ inventorySlots = 10 }) {
-      inventorySlots = inventorySlots;
-    },
-    getItems: function() {
-      return items;
-    },
-    getItem: function(i) {
-      return items[i];
-    },
-    addItem: function(item) {
-      for (let i = 0; i < 22; i++) {
-        if (!items[i]) {
-          items[i] = item;
-          return true;
-        }
-      }
-      return false;
-    },
-    removeItem: function(i) {
-      delete items[i];
-    },
-    canAddItem: function() {
-      for (let i = 0; i < inventorySlots; i++) {
-        if (!items[i]) {
-          return true;
-        }
-        return false;
-      }
-    },
-    pickUpItems: function(indices) {
-      const mapItems = this.getMap().getItemsAt(
-        this.getX(),
-        this.getY(),
-        this.getZ()
-      );
-      let added = 0;
-      indices.forEach(i => {
-        if (this.addItem(mapItems[i - added])) {
-          mapItems.splice(i - added, 1);
-          added++;
-        }
-      });
-      this.getMap().setItemsAt(this.getX(), this.getY(), this.getZ(), mapItems);
-      return added === indices.length;
-    },
-    dropItem: function(i) {
-      if (items[i]) {
-        if (this.getMap()) {
-          this.getMap().addItem(
-            this.getX(),
-            this.getY(),
-            this.getZ(),
-            items[i]
-          );
-        }
-        this.removeItem(i);
-      }
-    }
-  };
-};
-
-const PlayerTemplate = {
-  name: "ME",
-  char: "@",
-  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white,
-  bg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black,
-  maxHp: 40,
-  attackValue: 10,
-  sightRadius: 18,
-  inventorySlots: 22,
-  mixins: [
-    PlayerActor,
-    Destructible,
-    Attacker,
-    MessageRecipient,
-    Sight,
-    InventoryHolder
-  ]
-};
-
-const EntityRepository = new __WEBPACK_IMPORTED_MODULE_2__repository__["a" /* default */]("entities", __WEBPACK_IMPORTED_MODULE_1__entity__["a" /* default */]);
-
-EntityRepository.define("fungus", {
-  name: "fungus",
-  char: "F",
-  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].green,
-  maxHp: 4,
-  mixins: [FungusActor, Destructible]
-});
-
-EntityRepository.define("bat", {
-  name: "bat",
-  char: "B",
-  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].indigo,
-  maxHp: 5,
-  attackValue: 14,
-  mixins: [WanderActor, Attacker, Destructible]
-});
-
-EntityRepository.define("newt", {
-  name: "newt",
-  char: ":",
-  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].red,
-  maxHp: 3,
-  attackValue: 12,
-  mixins: [WanderActor, Attacker, Destructible]
-});
-
-
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-const Repository = function(name, ctor) {
-  this._name = name;
-  this._ctor = ctor;
-  this._templates = {};
-};
-
-Repository.prototype.define = function(name, template) {
-  this._templates[name] = template;
-};
-
-Repository.prototype.create = function(name) {
-  const template = this._templates[name];
-  if (!template) {
-    throw new Error(
-      "No template named '" + name + "' in repository '" + this._name + "'"
-    );
-  }
-  return new this._ctor(template);
-};
-
-Repository.prototype.createRandom = function() {
-  return this.create(Object.keys(this._templates).random());
-};
-
-/* harmony default export */ __webpack_exports__["a"] = (Repository);
-
-
-/***/ }),
 /* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__colors__ = __webpack_require__(0);
+
+
+const Glyph = function({ char = " ", fg = __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].white, bg = __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].black }) {
+  const publicFunctions = {
+    getChar: function() {
+      return char;
+    },
+
+    getBg: function() {
+      return bg;
+    },
+
+    getFg: function() {
+      return fg;
+    }
+  };
+
+  return publicFunctions;
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Glyph);
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(9);
+
+
+const DynamicGlyph = function({ name = "", mixins = [] }) {
+  const glyph = Object(__WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */])(...arguments);
+  const attachedMixins = {};
+  const attachedMixinGroups = {};
+
+  const mixinObject = {};
+  mixins.forEach(mixinFactory => {
+    const mixin = mixinFactory(...arguments);
+
+    attachedMixins[mixin.name] = true;
+    delete mixin.name;
+    if (mixin.groupName) {
+      attachedMixinGroups[mixin.groupName] = true;
+      delete mixin.groupName;
+    }
+    Object.assign(mixinObject, mixin);
+  });
+
+  const publicFunctions = {
+    hasMixin: function(mixin) {
+      return attachedMixins[mixin] || attachedMixinGroups[mixin];
+    },
+
+    setName: function(newName) {
+      name = newName;
+    },
+
+    getName: function() {
+      return name;
+    },
+
+    describe: function() {
+      return name;
+    },
+
+    describeA: function(capitalize) {
+      const prefixes = capitalize ? [`A`, `An`] : [`a`, `an`];
+      const prefix =
+        "aeiou".indexOf(this.describe()[0].toLowerCase()) >= 0 ? 1 : 0;
+      return prefixes[prefix] + " " + this.describe();
+    },
+
+    describeThe: function(capitalize) {
+      const prefix = capitalize ? `The` : `the`;
+      return prefix + " " + this.describe();
+    }
+  };
+
+  return Object.assign(publicFunctions, glyph, mixinObject);
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (DynamicGlyph);
+
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports) {
 
 var g;
@@ -6472,7 +6528,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -6662,20 +6718,20 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__map__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__game__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__map__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__colors__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entity__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__builder__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__entity__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__builder__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__tile__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__tile__ = __webpack_require__(2);
 
 
 
@@ -6724,7 +6780,9 @@ const playScreen = {
     const newX = this._player.getX() + dX;
     const newY = this._player.getY() + dY;
     const newZ = this._player.getZ() + dZ;
-    this._player.tryMove(newX, newY, newZ, this._map);
+    if (this._player.tryMove(newX, newY, newZ, this._map)) {
+      this._map.getEngine().unlock();
+    }
   },
 
   enter: function(game) {
@@ -6774,7 +6832,7 @@ const playScreen = {
     for (let x = topLeftX; x < topLeftX + screenWidth; x++) {
       for (let y = topLeftY; y < topLeftY + screenHeight; y++) {
         if (map.isExplored(x, y, currentDepth)) {
-          let glyph = this._map.getTile(x, y, this._player.getZ()).getGlyph();
+          let glyph = this._map.getTile(x, y, this._player.getZ());
           let fg = __WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].darkBlue;
           if (visibleCells[x + "," + y]) {
             const items = map.getItemsAt(x, y, currentDepth);
@@ -6782,7 +6840,7 @@ const playScreen = {
               glyph = items[items.length - 1];
             }
             if (map.getEntityAt(x, y, currentDepth)) {
-              glyph = map.getEntityAt(x, y, currentDepth).getGlyph();
+              glyph = map.getEntityAt(x, y, currentDepth);
             }
             fg = glyph.getFg();
           }
@@ -6799,9 +6857,9 @@ const playScreen = {
     display.draw(
       this._player.getX() - topLeftX,
       this._player.getY() - topLeftY,
-      this._player.getGlyph().getChar(),
-      this._player.getGlyph().getFg(),
-      this._player.getGlyph().getBg()
+      this._player.getChar(),
+      this._player.getFg(),
+      this._player.getBg()
     );
     let messageY = 0;
     this._player.getMessages().forEach(message => {
@@ -6813,6 +6871,12 @@ const playScreen = {
     });
     const stats = `%c{${__WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].white}}%b{${__WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].black}}HP: ${this._player.getHp()}/${this._player.getMaxHp()}`;
     display.drawText(0, screenHeight, stats);
+    const hungerState = this._player.getHungerState();
+    display.drawText(
+      screenWidth - hungerState.length,
+      screenHeight,
+      hungerState
+    );
   },
   handleInput: function(inputType, inputData) {
     if (this._subScreen) {
@@ -6820,10 +6884,11 @@ const playScreen = {
       return;
     }
     if (inputType === "keydown") {
-      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
-        if (this._gameEnded) {
+      if (this._gameEnded) {
+        if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
           __WEBPACK_IMPORTED_MODULE_1__game__["default"].switchScreen(loseScreen);
         }
+        return;
       }
       //movement
       if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_H) {
@@ -6842,23 +6907,48 @@ const playScreen = {
         this.move(-1, 1, 0);
       } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_N) {
         this.move(1, 1, 0);
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_T) {
+        this.showItemsSubScreen(
+          throwScreen,
+          this._player.getItems(),
+          "You don't have anything to throw!"
+        );
       } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_I) {
-        if (this._player.getItems().filter(x => x).length === 0) {
-          Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, "You are not carrying anything!");
-          __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
-        } else {
-          inventoryScreen.setup(this._player, this._player.getItems());
-          this.setSubScreen(inventoryScreen);
-        }
+        this.showItemsSubScreen(
+          inventoryScreen,
+          this._player.getItems(),
+          "You aren't carrying anything!"
+        );
         return;
       } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_D) {
-        if (this._player.getItems().filter(x => x).length === 0) {
-          Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, "You don't have anything to drop!");
-          __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
+        this.showItemsSubScreen(
+          dropScreen,
+          this._player.getItems(),
+          "You don't have anything to drop!"
+        );
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_E) {
+        this.showItemsSubScreen(
+          eatScreen,
+          this._player.getItems(),
+          "You don't have anything to eat!"
+        );
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_W) {
+        if (inputData.shiftKey) {
+          // Show the wear screen
+          this.showItemsSubScreen(
+            wearScreen,
+            this._player.getItems(),
+            "You have nothing to wear."
+          );
         } else {
-          dropScreen.setup(this._player, this._player.getItems());
-          this.setSubScreen(dropScreen);
+          // Show the wield screen
+          this.showItemsSubScreen(
+            wieldScreen,
+            this._player.getItems(),
+            "You have nothing to wield."
+          );
         }
+        return;
       } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_COMMA) {
         const items = this._map.getItemsAt(
           this._player.getX(),
@@ -6888,7 +6978,7 @@ const playScreen = {
       } else {
         return;
       }
-      this._map.getEngine().unlock();
+      // this._map.getEngine().unlock();
     } else if (inputType === "keypress") {
       const keyChar = String.fromCharCode(inputData.charCode);
       if (keyChar === ">") {
@@ -6900,6 +6990,16 @@ const playScreen = {
       }
       this._map.getEngine().unlock();
     }
+  },
+  showItemsSubScreen: function(subScreen, items, emptyMessage) {
+    if (items && subScreen.setup(this._player, items) > 0) {
+      this._player.clearMessages();
+      __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
+      this.setSubScreen(subScreen);
+    } else {
+      Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, emptyMessage);
+    }
+    __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
   }
 };
 
@@ -6941,21 +7041,64 @@ const loseScreen = {
   }
 };
 
-const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
+const directionScreen = function(okFunction) {
+  this.render = function(display) {
+    display.drawText(0, 1, "Which direction?");
+  };
+  this.handleInput = function(inputType, inputData) {
+    if (inputType == "keydown") {
+      let direction;
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_8 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_K) {
+        direction = 8;
+      }
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_2 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_J) {
+        direction = 2;
+      }
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_4 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_H) {
+        direction = 4;
+      }
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_6 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_L) {
+        direction = 6;
+      }
+      okFunction(direction);
+      playScreen.setSubScreen(undefined);
+      playScreen._map.getEngine().unlock();
+    }
+  };
+};
+
+const ItemListScreen = function({
+  caption,
+  ok,
+  canSelect,
+  canSelectMultiple,
+  hasNoItemOption,
+  isAcceptableFunction = function(x) {
+    return x;
+  },
+  noUnlock = false
+}) {
   this._caption = caption;
   this._okFunction = ok;
   this._canSelectItem = canSelect;
   this._canSelectMultipleItems = canSelectMultiple;
+  this._isAcceptableFunction = isAcceptableFunction;
+  this._hasNoItemOption = hasNoItemOption;
+  this._noUnlock = noUnlock;
 
   this.setup = function(player, items) {
     this._player = player;
-    this._items = items;
+    this._items = items.filter(isAcceptableFunction);
     this._selectedIndices = {};
+    return this._items.length;
   };
 
   this.render = function(display) {
     const letters = `abcdefghijklmnopqrstuvwxyz`;
     display.drawText(0, 0, this._caption);
+    if (this._hasNoItemOption) {
+      display.drawText(0, 1, `0 - no item`);
+    }
     let row = 0;
     this._items.forEach((item, i) => {
       const letter = letters.substring(i, i + 1);
@@ -6965,10 +7108,18 @@ const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
         this._selectedIndices[i]
           ? `+`
           : `-`;
+
+      let suffix = "";
+      if (this._items[i] === this._player.getArmor()) {
+        suffix = "(wearing)";
+      }
+      if (this._items[i] === this._player.getWeapon()) {
+        suffix = "(wielding)";
+      }
       display.drawText(
         0,
         2 + i,
-        `${letter} ${selectionState} ${item.describe()}`
+        `${letter} ${selectionState} ${item.describe()} ${suffix}`
       );
     });
   };
@@ -6978,7 +7129,7 @@ const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
       selectedItems[key] = this._items[key];
     }
     playScreen.setSubScreen(undefined);
-    if (this._okFunction(selectedItems)) {
+    if (this._okFunction(selectedItems) && !this._noUnlock) {
       this._player
         .getMap()
         .getEngine()
@@ -6998,6 +7149,13 @@ const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
         this.executeOkFunction();
       } else if (
         this._canSelectItem &&
+        this._hasNoItemOption &&
+        inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_0
+      ) {
+        this._selectedIndices = {};
+        this.executeOkFunction();
+      } else if (
+        this._canSelectItem &&
         inputData.keyCode >= __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_A &&
         inputData.keyCode <= __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_Z
       ) {
@@ -7009,16 +7167,98 @@ const ItemListScreen = function({ caption, ok, canSelect, canSelectMultiple }) {
             } else {
               this._selectedIndices[index] = true;
             }
-            __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
           } else {
             this._selectedIndices[index] = true;
             this.executeOkFunction();
           }
+          __WEBPACK_IMPORTED_MODULE_1__game__["default"].refresh();
         }
       }
     }
   };
 };
+
+const throwScreen = new ItemListScreen({
+  caption: "Choose the item you want to throw",
+  canSelect: true,
+  canSelectMultiple: false,
+  isAcceptableFunction: function(item) {
+    return item.hasMixin("Throwable");
+  },
+  noUnlock: true,
+  ok: function(selectedItems) {
+    const item = selectedItems[Object.keys(selectedItems)[0]];
+    playScreen.setSubScreen(
+      new directionScreen(function(direction) {
+        playScreen._player.throwItem(item, direction);
+      })
+    );
+    return true;
+  }
+});
+
+const wieldScreen = new ItemListScreen({
+  caption: "Choose the item you wish to wield",
+  canSelect: true,
+  canSelectMultiple: false,
+  isAcceptableFunction: function(item) {
+    return item.hasMixin("Equippable") && item.isWieldable();
+  },
+  ok: function(selectedItems) {
+    const keys = Object.keys(selectedItems);
+    if (keys.length === 0) {
+      this._player.unwield();
+      Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, "You are empty handed");
+    } else {
+      const item = selectedItems[keys[0]];
+      this._player.unequip(item);
+      this._player.wield(item);
+      Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, `You are wielding ${item.describeA()}`);
+    }
+    return true;
+  }
+});
+
+const wearScreen = new ItemListScreen({
+  caption: "Choose the item you wish to wear",
+  canSelect: true,
+  canSelectMultiple: false,
+  isAcceptableFunction: function(item) {
+    return item.hasMixin("Equippable") && item.isWearable();
+  },
+  ok: function(selectedItems) {
+    const keys = Object.keys(selectedItems);
+    if (keys.length === 0) {
+      this._player.unwield();
+      Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, "You are not wearing any armor");
+    } else {
+      const item = selectedItems[keys[0]];
+      this._player.unequip(item);
+      this._player.wear(item);
+      Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, `You are wearing ${item.describeA()}`);
+    }
+    return true;
+  }
+});
+
+const eatScreen = new ItemListScreen({
+  caption: "Choose the item you wish to eat",
+  canSelect: true,
+  canSelectMultiple: false,
+  isAcceptableFunction: function(item) {
+    return item.hasMixin("Edible");
+  },
+  ok: function(selectedItems) {
+    const key = Object.keys(selectedItems)[0];
+    const item = selectedItems[key];
+    Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, `You eat ${item.describeThe()}`);
+    item.eat(this._player);
+    if (!item.hasRemainingConsumptions()) {
+      this._player.removeItem(key);
+    }
+    return true;
+  }
+});
 
 const inventoryScreen = new ItemListScreen({
   caption: "Inventory",
@@ -7051,15 +7291,15 @@ const dropScreen = new ItemListScreen({
 
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__items__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rot_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tile__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__entity__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entities__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__items__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rot_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rot_js__);
 
 
@@ -7074,9 +7314,10 @@ const GameMap = function(tiles, player) {
   this._height = tiles[0][0].length;
   this._entities = {};
   this._items = {};
-  this._scheduler = new __WEBPACK_IMPORTED_MODULE_4_rot_js___default.a.Scheduler.Simple();
+  this._scheduler = new __WEBPACK_IMPORTED_MODULE_4_rot_js___default.a.Scheduler.Speed();
   this._engine = new __WEBPACK_IMPORTED_MODULE_4_rot_js___default.a.Engine(this._scheduler);
   this._explored = [];
+  this._player = player;
   this.setupExploredArray();
   this._fov = [];
   this.setupFov();
@@ -7093,6 +7334,9 @@ const GameMap = function(tiles, player) {
   }
 };
 
+GameMap.prototype.getPlayer = function() {
+  return this._player;
+};
 GameMap.prototype.getWidth = function() {
   return this._width;
 };
@@ -7173,7 +7417,7 @@ GameMap.prototype.getEntitiesWithinRadius = function(
 };
 
 GameMap.prototype.updateEntityPosition = function(entity, oldX, oldY, oldZ) {
-  if (oldX) {
+  if (typeof oldX === "number") {
     const oldKey = `${oldX},${oldY},${oldZ}`;
     if (this._entities[oldKey] == entity) {
       delete this._entities[oldKey];
@@ -7235,6 +7479,24 @@ GameMap.prototype.getTile = function(x, y, z) {
   } else {
     return this._tiles[z][x][y] || __WEBPACK_IMPORTED_MODULE_0__tile__["b" /* nullTile */];
   }
+};
+
+GameMap.prototype.lookInDirection = function(direction, distance) {
+  const array = [];
+  const xmod = direction == 8 || direction == 2 ? 0 : direction == 6 ? 1 : -1;
+  const ymod = direction == 4 || direction == 6 ? 0 : direction == 2 ? 1 : -1;
+
+  for (let i = 1; i < distance + 1; i++) {
+    const x = this._player.getX() + xmod * i;
+    const y = this._player.getY() + ymod * i;
+    const z = this._player.getZ();
+    if (this.getEntityAt(x, y, z)) {
+      array.push(this.getEntityAt(x, y, z));
+    } else {
+      array.push({ tile: this.getTile(x, y, z), x, y, z });
+    }
+  }
+  return array;
 };
 
 GameMap.prototype.isEmptyFloor = function(x, y, z) {
@@ -7302,74 +7564,631 @@ GameMap.prototype.isExplored = function(x, y, z) {
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__repository__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__item__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dynamicGlyph__ = __webpack_require__(10);
 
 
+const Item = function() {
+  const glyph = Object(__WEBPACK_IMPORTED_MODULE_0__dynamicGlyph__["a" /* default */])(...arguments);
 
-
-const ItemRepository = new __WEBPACK_IMPORTED_MODULE_0__repository__["a" /* default */]("items", __WEBPACK_IMPORTED_MODULE_1__item__["a" /* default */]);
-
-ItemRepository.define("apple", {
-  name: "apple",
-  char: "%",
-  fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].red
-});
-
-ItemRepository.define("rock", {
-  name: "rock",
-  char: "*",
-  fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].lightGray
-});
-
-/* harmony default export */ __webpack_exports__["a"] = (ItemRepository);
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__glyph__ = __webpack_require__(4);
-
-
-const Item = function({ name = "" }) {
-  const glyph = Object(__WEBPACK_IMPORTED_MODULE_0__glyph__["a" /* default */])(...arguments);
-
-  const getGlyph = function() {
-    return glyph;
-  };
-
-  const describe = function() {
-    return name;
-  };
-
-  const describeA = function(capitalize) {
-    const prefixes = capitalize ? [`A`, `An`] : [`a`, `an`];
-    const prefix = "aeiou".indexOf(describe()[0].toLowerCase()) >= 0 ? 1 : 0;
-    return prefixes[prefix] + " " + describe();
-  };
-
-  return Object.assign({ getGlyph, describe, describeA }, glyph);
+  return Object.assign({}, glyph);
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (Item);
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(2);
+const Throwable = function({ throwDamage = 1 }) {
+  return {
+    name: "Throwable",
+    getThrowDamage: function() {
+      return throwDamage;
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["c"] = Throwable;
+
+
+const Edible = function({
+  foodValue = 5,
+  maxConsumptions = 1,
+  healingValue = 0
+}) {
+  let remainingConsumptions = maxConsumptions;
+  return {
+    name: "Edible",
+    eat: function(entity) {
+      if (entity.hasMixin("FoodConsumer")) {
+        if (this.hasRemainingConsumptions()) {
+          entity.modifyFullnessBy(foodValue);
+          entity.setHp(entity.getHp() + healingValue);
+          remainingConsumptions--;
+        }
+      }
+    },
+    hasRemainingConsumptions: function() {
+      return remainingConsumptions > 0;
+    },
+    describe: function() {
+      if (maxConsumptions != remainingConsumptions) {
+        return "partly eaten " + this.getName();
+      } else {
+        return this.getName();
+      }
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = Edible;
+
+
+const Equippable = function({
+  attackValue = 0,
+  defenseValue = 0,
+  wieldable = false,
+  wearable = false
+}) {
+  return {
+    name: "Equippable",
+    getAttackValue: function() {
+      return attackValue;
+    },
+    getDefenseValue: function() {
+      return defenseValue;
+    },
+    isWieldable: function() {
+      return wieldable;
+    },
+    isWearable: function() {
+      return wearable;
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = Equippable;
+
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__colors__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__entity__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__repository__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__items__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__tile__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__entities__ = __webpack_require__(5);
+
+
+
+
+
+
+
+
+
+const Sight = function({ sightRadius = 5 }) {
+  return {
+    name: "Sight",
+    groupName: "Sight",
+    getSightRadius: function() {
+      return sightRadius;
+    },
+    canSee: function(entity) {
+      if (
+        !entity ||
+        this.getMap() !== entity.getMap() ||
+        this.getZ() !== entity.getZ()
+      ) {
+        return false;
+      }
+      const otherX = entity.getX();
+      const otherY = entity.getY();
+
+      if (
+        (otherX - this.getX()) * (otherX - this.getX()) +
+          (otherY - this.getY()) * (otherY - this.getY()) >
+        sightRadius * sightRadius
+      ) {
+        return false;
+      }
+
+      let found = false;
+      this.getMap()
+        .getFov(this.getZ())
+        .compute(this.getX(), this.getY(), sightRadius, function(
+          x,
+          y,
+          radius,
+          visibility
+        ) {
+          if (x === otherX && y === otherY) {
+            found = true;
+          }
+        });
+      return found;
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["j"] = Sight;
+
+
+const TaskActor = function({ tasks = ["wander"] }) {
+  return {
+    name: "TaskActor",
+    groupName: "Actor",
+    act: function() {
+      for (let i = 0; i < tasks.length; i++) {
+        const task = tasks[i];
+        if (this.canDoTask(task)) {
+          this[task]();
+          break;
+        }
+      }
+    },
+    canDoTask: function(task) {
+      if (task === "hunt") {
+        return this.hasMixin("Sight") && this.canSee(this.getMap().getPlayer());
+      } else if (task === "wander") {
+        return true;
+      } else {
+        throw new Error("tried to perform undefined task");
+      }
+    },
+    hunt: function() {
+      const player = this.getMap().getPlayer();
+      const offsets =
+        Math.abs(player.getX() - this.getX()) +
+        Math.abs(player.getY() - this.getY());
+      if (offsets === 1 && this.hasMixin("Attacker")) {
+        this.attack(player);
+        return;
+      }
+
+      const source = this;
+      const z = source.getZ();
+      const path = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Path.AStar(
+        player.getX(),
+        player.getY(),
+        function(x, y) {
+          var entity = source.getMap().getEntityAt(x, y, z);
+          if (entity && entity !== player && entity !== source) {
+            return false;
+          }
+          return source
+            .getMap()
+            .getTile(x, y, z)
+            .isWalkable();
+        },
+        { topology: 4 }
+      );
+      let count = 0;
+      path.compute(source.getX(), source.getY(), function(x, y) {
+        if (count == 1) {
+          source.tryMove(x, y, z);
+        }
+        count++;
+      });
+    },
+    wander: function() {
+      const dirs = [-1, 0, 1];
+      const x = dirs.randomize()[0];
+      const y = dirs.randomize()[0];
+      this.tryMove(this.getX() + x, this.getY() + y, this.getZ());
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["k"] = TaskActor;
+
+
+const FoodConsumer = function({
+  maxFullness = 1000,
+  fullness,
+  fullnessDepetionRate = 1
+}) {
+  fullness = fullness ? fullness : maxFullness / 2;
+  return {
+    name: "FoodConsumer",
+    addTurnHunger: function() {
+      this.modifyFullnessBy(-fullnessDepetionRate);
+    },
+    modifyFullnessBy: function(points) {
+      fullness += points;
+      if (fullness <= 0) {
+        this.kill("You have died of starvation!");
+      } else if (fullness > maxFullness) {
+        this.kill("You've eaten yourself to death you pig!");
+      }
+    },
+    getHungerState: function() {
+      const perPercent = maxFullness / 100;
+      if (fullness <= perPercent * 5) {
+        return "Starving";
+      } else if (fullness <= perPercent * 25) {
+        return "Hungry";
+      } else if (fullness >= perPercent * 95) {
+        return "Oversatiated";
+      } else if (fullness >= perPercent * 75) {
+        return "Full";
+      } else {
+        return "Not Hungry";
+      }
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["e"] = FoodConsumer;
+
+
+const CorpseDropper = function({ corpseDropRate = 100 }) {
+  return {
+    name: "CorpseDropper",
+    tryDropCorpse: function() {
+      if (Math.round(Math.random() * 100) < corpseDropRate) {
+        this.getMap().addItem(
+          this.getX(),
+          this.getY(),
+          this.getZ(),
+          __WEBPACK_IMPORTED_MODULE_4__items__["a" /* default */].create("corpse", {
+            name: "dead " + this.getName(),
+            fg: this.getFg()
+          })
+        );
+      }
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["b"] = CorpseDropper;
+
+
+const PlayerActor = function() {
+  let acting = false;
+  return {
+    name: "PlayerActor",
+    groupName: "Actor",
+    act: function() {
+      if (acting) return;
+
+      if (!this.isAlive()) {
+        this.getGame()._currentScreen.setGameEnded(true);
+        Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this, "press ENTER to continue");
+      }
+      acting = true;
+      this.addTurnHunger();
+      this.getScreen().render(this.getGame().getDisplay(), this.getGame());
+      this.getMap()
+        .getEngine()
+        .lock();
+      this.clearMessages();
+      acting = false;
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["i"] = PlayerActor;
+
+
+const FungusActor = function() {
+  let growthsRemaining = 5;
+
+  return {
+    name: "FungusActor",
+    groupName: "Actor",
+    act: function() {
+      if (growthsRemaining > 0) {
+        if (Math.random() <= 0.02) {
+          const xOffset = Math.floor(Math.random() * 3) - 1;
+          const yOffset = Math.floor(Math.random() * 3) - 1;
+          if (xOffset != 0 || yOffset != 0) {
+            if (
+              this.getMap().isEmptyFloor(
+                this.getX() + xOffset,
+                this.getY() + yOffset,
+                this.getZ()
+              )
+            ) {
+              const entity = __WEBPACK_IMPORTED_MODULE_7__entities__["a" /* EntityRepository */].create("fungus");
+              entity.setPosition(
+                this.getX() + xOffset,
+                this.getY() + yOffset,
+                this.getZ()
+              );
+              this.getMap().addEntity(entity);
+              growthsRemaining--;
+              Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["c" /* sendMessageNearby */])(
+                this.getMap(),
+                entity.getX(),
+                entity.getY(),
+                entity.getZ(),
+                "The fungus is spreading"
+              );
+            }
+          }
+        }
+      }
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["f"] = FungusActor;
+
+
+const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
+  hp = !hp ? maxHp : hp;
+  return {
+    name: "Destructible",
+    getDefenseValue: function() {
+      let mod = 0;
+      if (this.hasMixin("Equipper")) {
+        if (this.getWeapon()) {
+          mod += this.getWeapon().getDefenseValue();
+        }
+        if (this.getArmor()) {
+          mod += this.getArmor().getDefenseValue();
+        }
+      }
+      return defenseValue + mod;
+    },
+    setHp: function(newHp) {
+      hp = Math.min(newHp, maxHp);
+    },
+    getHp: function() {
+      return hp;
+    },
+    getMaxHp: function() {
+      return maxHp;
+    },
+    takeDamage: function(attacker, damage) {
+      hp -= damage;
+      if (hp <= 0) {
+        Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(attacker, `You kill the ${this.getName()}`);
+        if (this.hasMixin("CorpseDropper")) {
+          this.tryDropCorpse();
+        }
+        this.kill();
+      }
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["c"] = Destructible;
+
+
+const MessageRecipient = function() {
+  let messages = [];
+  return {
+    name: "MessageRecipient",
+    receiveMessage: function(message) {
+      console.log(message);
+      messages.push(message);
+    },
+    getMessages: function() {
+      return messages;
+    },
+    clearMessages: function() {
+      messages = [];
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["h"] = MessageRecipient;
+
+
+const Attacker = function({ attackValue = 1 }) {
+  return {
+    name: "Attacker",
+    groupName: "Attacker",
+    getAttackValue: function() {
+      let mod = 0;
+      if (this.hasMixin("Equipper")) {
+        if (this.getWeapon()) {
+          mod += this.getWeapon().getAttackValue();
+        }
+        if (this.getArmor()) {
+          mod += this.getArmor().getAttackValue();
+        }
+      }
+      return attackValue + mod;
+    },
+    attack: function(target) {
+      if (target.hasMixin("Destructible")) {
+        const attack = this.getAttackValue();
+        const defense = target.getDefenseValue();
+        const max = Math.max(0, attack - defense);
+        const damage = Math.max(max - Math.floor(Math.random() * 3), 1);
+        Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(
+          this,
+          `You strike the ${target.getName()} for ${damage} damage.`
+        );
+        Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(
+          target,
+          `The ${this.getName()} strikes you for ${damage} damage.`
+        );
+
+        target.takeDamage(this, damage);
+      }
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["a"] = Attacker;
+
+
+const Thrower = function({ throwingDistance = 5 }) {
+  return {
+    name: "Thrower",
+    throwItem: function(item, direction = 8) {
+      const rangeArray = this.getMap().lookInDirection(
+        direction,
+        throwingDistance
+      );
+      let itemLanded = false;
+      this.removeItem(item);
+      for (let i = 0; i < rangeArray.length; i++) {
+        let mapTile = rangeArray[i];
+        if (mapTile.isEntity) {
+          if (mapTile.hasMixin("Destructible")) {
+            const damage = item.getThrowDamage();
+            this.getMap().addItem(
+              mapTile.getX(),
+              mapTile.getY(),
+              mapTile.getZ(),
+              item
+            );
+            Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(
+              this,
+              `Your ${item.describe()} strikes the ${mapTile.getName()} for ${damage} damage.`
+            );
+            mapTile.takeDamage(this, damage);
+            itemLanded = true;
+            break;
+          }
+        } else if (mapTile.tile == __WEBPACK_IMPORTED_MODULE_5__tile__["e" /* wallTile */]) {
+          const xmod =
+            direction == 8 || direction == 2 ? 0 : direction == 6 ? 1 : -1;
+          const ymod =
+            direction == 4 || direction == 6 ? 0 : direction == 2 ? 1 : -1;
+          this.getMap().addItem(
+            mapTile.x - xmod,
+            mapTile.y - ymod,
+            mapTile.z,
+            item
+          );
+          itemLanded = true;
+          break;
+        }
+      }
+      if (!itemLanded) {
+        const mapTile = rangeArray[rangeArray.length - 1];
+        this.getMap().addItem(mapTile.x, mapTile.y, mapTile.z, item);
+      }
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["l"] = Thrower;
+
+
+const InventoryHolder = function({ inventorySlots = 10 }) {
+  const items = [];
+  return {
+    name: "InventoryHolder",
+    init: function({ inventorySlots = 10 }) {
+      inventorySlots = inventorySlots;
+    },
+    getItems: function() {
+      return items;
+    },
+    getItem: function(i) {
+      return items[i];
+    },
+    addItem: function(item) {
+      for (let i = 0; i < 22; i++) {
+        if (!items[i]) {
+          items[i] = item;
+          return true;
+        }
+      }
+      return false;
+    },
+    removeItem: function(i) {
+      if (typeof i.getName === "function") {
+        i = items.indexOf(i);
+      }
+      if (items[i] && this.hasMixin("Equipper")) {
+        this.unequip(items[i]);
+      }
+      delete items[i];
+    },
+    canAddItem: function() {
+      for (let i = 0; i < inventorySlots; i++) {
+        if (!items[i]) {
+          return true;
+        }
+        return false;
+      }
+    },
+    pickUpItems: function(indices) {
+      const mapItems = this.getMap().getItemsAt(
+        this.getX(),
+        this.getY(),
+        this.getZ()
+      );
+      let added = 0;
+      indices.forEach(i => {
+        if (this.addItem(mapItems[i - added])) {
+          mapItems.splice(i - added, 1);
+          added++;
+        }
+      });
+      this.getMap().setItemsAt(this.getX(), this.getY(), this.getZ(), mapItems);
+      return added === indices.length;
+    },
+    dropItem: function(i) {
+      if (items[i]) {
+        if (this.getMap()) {
+          this.getMap().addItem(
+            this.getX(),
+            this.getY(),
+            this.getZ(),
+            items[i]
+          );
+        }
+        this.removeItem(i);
+      }
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["g"] = InventoryHolder;
+
+
+const Equipper = function({ weapon = null, armor = null }) {
+  return {
+    name: "Equipper",
+    wield: function(newWeapon) {
+      weapon = newWeapon;
+    },
+    unwield: function() {
+      weapon = null;
+    },
+    wear: function(newArmor) {
+      armor = newArmor;
+    },
+    takeOff: function() {
+      armor = null;
+    },
+    getWeapon: function() {
+      return weapon;
+    },
+    getArmor: function() {
+      return armor;
+    },
+    unequip: function(item) {
+      if (item === armor) {
+        this.takeOff();
+      }
+      if (item === weapon) {
+        this.unwield();
+      }
+    }
+  };
+};
+/* harmony export (immutable) */ __webpack_exports__["d"] = Equipper;
+
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rot_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rot_js__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tile__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tile__ = __webpack_require__(2);
 
 
 
@@ -7426,6 +8245,7 @@ Builder.prototype._generateLevel = function() {
   for (let i = 0; i < totalIterations - 1; i++) {
     generator.create();
   }
+  generator.connect();
   generator.create(function(x, y, v) {
     if (v === 1) {
       map[x][y] = __WEBPACK_IMPORTED_MODULE_2__tile__["a" /* floorTile */];
