@@ -19,9 +19,9 @@ const Builder = function(width, height, depth) {
       }
     }
   }
-  for (let z = 0; z < this._depth; z++) {
-    this._setupRegions(z);
-  }
+  // for (let z = 0; z < this._depth; z++) {
+  //   this._setupRegions(z);
+  // }
   this._connectAllRegions();
 };
 
@@ -47,19 +47,22 @@ Builder.prototype._generateLevel = function() {
     map[w] = new Array(this._height);
   }
 
-  const generator = new ROT.Map.Cellular(this._width, this._height);
-  generator.randomize(0.5);
+  console.log(ROT.Map)
+  const generator = new ROT.Map.Digger(this._width, this._height,{roomWidth: [7,9], roomHeight: [7,9]});
+  // const generator = new ROT.Map.Uniform(this._width, this._height);
+  // const generator = new ROT.Map.Rogue(this._width, this.height)
+  // generator.randomize(0.5);
 
-  const totalIterations = 8;
-  for (let i = 0; i < totalIterations - 1; i++) {
-    generator.create();
-  }
-  generator.connect();
+  // const totalIterations = 8;
+  // for (let i = 0; i < totalIterations - 1; i++) {
+  //   generator.create();
+  // }
+  // generator.connect();
   generator.create(function(x, y, v) {
     if (v === 1) {
-      map[x][y] = floorTile;
-    } else {
       map[x][y] = wallTile;
+    } else {
+      map[x][y] = floorTile;
     }
   });
   return map;

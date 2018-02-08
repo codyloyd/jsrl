@@ -16,13 +16,21 @@ const startScreen = {
     console.log("exited start screen");
   },
   render: function(display) {
-    display.drawText(1, 1, "%c{" + Colors.blue + "}JavaScript RogueLike");
-    display.drawText(1, 2, "Press [ENTER] to start");
+    const screenWidth = Game.getScreenWidth();
+    const screenHeight = Game.getScreenHeight();
+    display.drawText(screenWidth/2-10, 5, "%c{" + Colors.blue + "}Kill The Warrior Orc");
+    display.drawText(screenWidth/2-11, 6, "Press [ENTER] to start");
+    const easyMessage =  "Press [SHIFT+ENTER] to start stupid easy version"
+    display.drawText(screenWidth/2 - (easyMessage.length/2), 10, "%c{" +Colors.darkGray+ "}"+easyMessage);
   },
   handleInput: function(inputType, inputData) {
     if (inputType === "keydown") {
       if (inputData.keyCode === ROT.VK_RETURN) {
-        Game.switchScreen(playScreen);
+        if(inputData.shiftKey){
+          Game.switchScreen(playScreen, 'easy');
+        } else {
+          Game.switchScreen(playScreen);
+        }
       }
     }
   }
@@ -33,6 +41,7 @@ const playScreen = {
   _player: null,
   _gameEnded: false,
   _subScreen: null,
+  _gameWon: false,
 
   setSubScreen: function(subScreen) {
     this._subScreen = subScreen;
@@ -51,24 +60,30 @@ const playScreen = {
     }
   },
 
-  enter: function(game) {
-    console.log("entered play screen");
-    const width = 100;
+  enter: function(game, opt) {
+    const easyMode = opt === 'easy'
+    console.log(easyMode)
+
+    const width = 80;
     const height = 48;
     const depth = 6;
     const tiles = new Builder(width, height, depth).getTiles();
     this._player = new Entity(
       Object.assign(PlayerTemplate, { screen: this, game })
     );
-    this._map = new GameMap(tiles, this._player);
+    this._map = new GameMap(tiles, this._player, easyMode);
     this._player.setMap(this._map);
-    console.log(this._player.getMap().getEngine());
     this._map.getEngine().start();
   },
   exit: function() {
     console.log("exited play screen");
   },
   render: function(display) {
+    if (!this._map.getFinalBoss().isAlive()){
+      sendMessage(this._player, "YOU WIN THE GAME.  Press [Enter]")
+      this._gameWon = true      
+    }
+    
     if (this._subScreen) {
       this._subScreen.render(display);
       return;
@@ -153,6 +168,12 @@ const playScreen = {
       if (this._gameEnded) {
         if (inputData.keyCode === ROT.VK_RETURN) {
           Game.switchScreen(loseScreen);
+        }
+        return;
+      }
+      if (this._gameWon) {
+        if (inputData.keyCode === ROT.VK_RETURN) {
+          Game.switchScreen(winScreen);
         }
         return;
       }

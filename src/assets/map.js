@@ -4,7 +4,7 @@ import { EntityRepository } from "./entities";
 import ItemRepository from "./items";
 import ROT from "rot-js";
 
-const GameMap = function(tiles, player) {
+const GameMap = function(tiles, player, easyMode) {
   this._tiles = tiles;
   this._depth = tiles.length;
   this._width = tiles[0].length;
@@ -24,12 +24,34 @@ const GameMap = function(tiles, player) {
       const entity = EntityRepository.createRandom();
       this.addEntityAtRandomPosition(entity, z);
     }
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 5; i++) {
       const item = ItemRepository.createRandom();
       this.addItemAtRandomPosition(item, z);
     }
+    if (z > 1) {
+      for (let i = 0; i < 5; i++) {
+        const zombie = EntityRepository.create("warrior zombie");
+        this.addEntityAtRandomPosition(zombie, z);
+      }
+      for (let i = 0; i < 5; i++) {
+        const troll = EntityRepository.create("troll");
+        this.addEntityAtRandomPosition(troll, z);
+      }
+    }
   }
+  if (easyMode) {
+    this._finalBoss = EntityRepository.create('easyWarriorOrc')
+    this.addEntityAtRandomPosition(this._finalBoss, 0)
+  } else {
+    this._finalBoss = EntityRepository.create('warriorOrc')
+    this.addEntityAtRandomPosition(this._finalBoss, 5)
+  }
+
 };
+
+GameMap.prototype.getFinalBoss = function() {
+  return this._finalBoss
+}
 
 GameMap.prototype.getPlayer = function() {
   return this._player;

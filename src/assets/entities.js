@@ -28,6 +28,7 @@ const PlayerTemplate = {
   attackValue: 10,
   sightRadius: 18,
   inventorySlots: 22,
+  items: ["ration", "sword"],
   mixins: [
     PlayerActor,
     Destructible,
@@ -73,9 +74,11 @@ EntityRepository.define("troll", {
   maxHp: 25,
   attackValue: 10,
   sightRadius: 10,
-  rngWeight: 1,
+  rngWeight: 2,
+  itemProbability: .3,
   tasks: ["hunt", "wander"],
-  mixins: [Sight, TaskActor, Attacker, Destructible, CorpseDropper]
+  items: ["sword", "potion"],
+  mixins: [Sight, TaskActor, Attacker, Destructible, CorpseDropper, InventoryHolder]
 });
 
 EntityRepository.define("kobold", {
@@ -87,9 +90,28 @@ EntityRepository.define("kobold", {
   attackValue: 6,
   sightRadius: 15,
   rngWeight: 3,
+  itemProbability: .3,
   tasks: ["hunt", "wander"],
-  mixins: [Sight, TaskActor, Attacker, Destructible, CorpseDropper]
+  items: ["rock", "dagger"],
+  mixins: [InventoryHolder, Sight, TaskActor, Attacker, Destructible, CorpseDropper]
 });
+
+EntityRepository.define("warrior zombie", {
+  name: "warrior zombie",
+  char: "Z",
+  fg: Colors.darkGreen,
+  speed: 1900,
+  maxHp: 35,
+  attackValue: 6,
+  sightRadius: 35,
+  rngWeight: 2,
+  itemProbability: .5,
+  tasks: ["hunt", "wander"],
+  items: ["big awesome sword", "potion"],
+  mixins: [InventoryHolder, Sight, TaskActor, Attacker, Destructible, CorpseDropper]
+},
+  { disableRandomCreation: true }
+);
 
 EntityRepository.define("newt", {
   name: "newt",
@@ -102,5 +124,33 @@ EntityRepository.define("newt", {
   tasks: ["hunt", "wander"],
   mixins: [Sight, TaskActor, Attacker, Destructible, CorpseDropper]
 });
+
+EntityRepository.define("warriorOrc", {
+  name: "Warrior Orc",
+  char: "O",
+  fg: Colors.yellow,
+  speed: 900,
+  maxHp: 150,
+  attackValue: 10,
+  sightRadius: 20,
+  tasks: ["hunt", "wander"],
+  mixins: [Sight, TaskActor, Attacker, Destructible, CorpseDropper]
+},
+  { disableRandomCreation: true }
+)
+
+EntityRepository.define("easyWarriorOrc", {
+  name: "Weak Pansy Warrior Orc",
+  char: "O",
+  fg: Colors.yellow,
+  speed: 900,
+  maxHp: 10,
+  attackValue: 10,
+  sightRadius: 20,
+  tasks: ["hunt", "wander"],
+  mixins: [Sight, TaskActor, Attacker, Destructible, CorpseDropper]
+},
+  { disableRandomCreation: true }
+)
 
 export { PlayerTemplate, EntityRepository };

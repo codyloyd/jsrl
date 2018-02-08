@@ -129,18 +129,18 @@ export const FoodConsumer = function({
       this.modifyFullnessBy(-fullnessDepetionRate);
     },
     modifyFullnessBy: function(points) {
-      fullness += points;
+      fullness = Math.min(fullness + points, maxFullness);
       if (fullness <= 0) {
-        this.kill("You have died of starvation!");
+        this.takeDamage(this, 1)
+        sendMessage(this, 'you REALLY need to eat something')
       } else if (fullness > maxFullness) {
-        this.kill("You've eaten yourself to death you pig!");
       }
     },
     getHungerState: function() {
       const perPercent = maxFullness / 100;
-      if (fullness <= perPercent * 5) {
+      if (fullness <= perPercent * 15) {
         return "Starving";
-      } else if (fullness <= perPercent * 25) {
+      } else if (fullness <= perPercent * 35) {
         return "Hungry";
       } else if (fullness >= perPercent * 95) {
         return "Oversatiated";
@@ -153,7 +153,7 @@ export const FoodConsumer = function({
   };
 };
 
-export const CorpseDropper = function({ corpseDropRate = 100 }) {
+export const CorpseDropper = function({ corpseDropRate = 60 }) {
   return {
     name: "CorpseDropper",
     tryDropCorpse: function() {
@@ -174,11 +174,14 @@ export const CorpseDropper = function({ corpseDropRate = 100 }) {
 
 export const PlayerActor = function() {
   let acting = false;
+  let turnCounter = 0;
   return {
     name: "PlayerActor",
     groupName: "Actor",
     act: function() {
       if (acting) return;
+
+      turnCounter++
 
       if (!this.isAlive()) {
         this.getGame()._currentScreen.setGameEnded(true);
@@ -186,6 +189,11 @@ export const PlayerActor = function() {
       }
       acting = true;
       this.addTurnHunger();
+      if (this.getHungerState() == "Not Hungry") {
+        if(turnCounter % 6 == 0) {
+          this.addHp(1)
+        }
+      }
       this.getScreen().render(this.getGame().getDisplay(), this.getGame());
       this.getMap()
         .getEngine()
@@ -257,6 +265,9 @@ export const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
     setHp: function(newHp) {
       hp = Math.min(newHp, maxHp);
     },
+    addHp: function(amount) {
+      this.setHp(hp + amount)
+    },
     getHp: function() {
       return hp;
     },
@@ -269,6 +280,9 @@ export const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
         sendMessage(attacker, `You kill the ${this.getName()}`);
         if (this.hasMixin("CorpseDropper")) {
           this.tryDropCorpse();
+        }
+        if (this.hasMixin("InventoryHolder")) {
+          this.dropAllItems()
         }
         this.kill();
       }
@@ -382,13 +396,10 @@ export const Thrower = function({ throwingDistance = 5 }) {
   };
 };
 
-export const InventoryHolder = function({ inventorySlots = 10 }) {
-  const items = [];
+export const InventoryHolder = function({ inventorySlots = 10, items=[], itemProbability=1 }) {
+  items = items.map(item => Math.random() < itemProbability ? ItemRepository.create(item) : null)
   return {
     name: "InventoryHolder",
-    init: function({ inventorySlots = 10 }) {
-      inventorySlots = inventorySlots;
-    },
     getItems: function() {
       return items;
     },
@@ -436,6 +447,9 @@ export const InventoryHolder = function({ inventorySlots = 10 }) {
       });
       this.getMap().setItemsAt(this.getX(), this.getY(), this.getZ(), mapItems);
       return added === indices.length;
+    },
+    dropAllItems: function() {
+      items.forEach((item, i) => this.dropItem(i))
     },
     dropItem: function(i) {
       if (items[i]) {

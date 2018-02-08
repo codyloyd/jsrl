@@ -5,7 +5,7 @@ import { Throwable, Edible, Equippable } from "./itemMixins";
 
 const ItemRepository = new Repository("items", Item);
 
-ItemRepository.define("healing potion", {
+ItemRepository.define("potion", {
   name: "potion",
   char: "!",
   fg: Colors.pink,
@@ -15,8 +15,8 @@ ItemRepository.define("healing potion", {
   mixins: [Edible, Throwable]
 });
 
-ItemRepository.define("super healing potion", {
-  name: "potion",
+ItemRepository.define("super duper potion", {
+  name: "super duper potion",
   char: "!",
   fg: Colors.darkGreen,
   foodValue: 250,
@@ -99,7 +99,7 @@ ItemRepository.define(
 );
 
 ItemRepository.define(
-  "awesomeSword",
+  "big awesome sword",
   {
     name: "big awesome sword",
     char: ")",

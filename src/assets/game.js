@@ -5,15 +5,17 @@ import Screen from "./screens";
 const Game = {
   _display: null,
   _currentScreen: null,
-  _screenWidth: 80,
-  _screenHeight: 24,
+  _screenWidth: 100,
+  _screenHeight: 30,
 
   init: function() {
     this._display = new ROT.Display({
       width: this._screenWidth,
       height: this._screenHeight + 1,
       fg: Colors.white,
-      bg: Colors.black
+      bg: Colors.black,
+      fontWeight: 'bold',
+      spacing: 1
     });
     const game = this;
     const bindEventToScreen = function(event) {
@@ -44,14 +46,14 @@ const Game = {
     return this._screenHeight;
   },
 
-  switchScreen: function(screen) {
+  switchScreen: function(screen, opt) {
     if (this._currentScreen !== null) {
       this._currentScreen.exit();
     }
     this.getDisplay().clear();
     this._currentScreen = screen;
     if (!this._currentScreen !== null) {
-      this._currentScreen.enter(this);
+      this._currentScreen.enter(this, opt);
       this.refresh();
     }
   }
