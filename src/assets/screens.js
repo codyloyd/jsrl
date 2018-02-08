@@ -178,21 +178,21 @@ const playScreen = {
         return;
       }
       //movement
-      if (inputData.keyCode === ROT.VK_H) {
+      if (inputData.keyCode === ROT.VK_H || inputData.keyCode == ROT.VK_4 || inputData.keyCode == ROT.VK_LEFT) {
         this.move(-1, 0, 0);
-      } else if (inputData.keyCode === ROT.VK_L) {
+      } else if (inputData.keyCode === ROT.VK_L || inputData.keyCode == ROT.VK_6 || inputData.keyCode == ROT.VK_RIGHT) {
         this.move(1, 0, 0);
-      } else if (inputData.keyCode === ROT.VK_K) {
+      } else if (inputData.keyCode === ROT.VK_K || inputData.keyCode == ROT.VK_8 || inputData.keyCode == ROT.VK_UP) {
         this.move(0, -1, 0);
-      } else if (inputData.keyCode === ROT.VK_J) {
+      } else if (inputData.keyCode === ROT.VK_J || inputData.keyCode == ROT.VK_2 || inputData.keyCode == ROT.VK_DOWN) {
         this.move(0, 1, 0);
-      } else if (inputData.keyCode === ROT.VK_Y) {
+      } else if (inputData.keyCode === ROT.VK_Y|| inputData.keyCode == ROT.VK_7) {
         this.move(-1, -1, 0);
-      } else if (inputData.keyCode === ROT.VK_U) {
+      } else if (inputData.keyCode === ROT.VK_U|| inputData.keyCode == ROT.VK_9) {
         this.move(1, -1, 0);
-      } else if (inputData.keyCode === ROT.VK_B) {
+      } else if (inputData.keyCode === ROT.VK_B|| inputData.keyCode == ROT.VK_1) {
         this.move(-1, 1, 0);
-      } else if (inputData.keyCode === ROT.VK_N) {
+      } else if (inputData.keyCode === ROT.VK_N|| inputData.keyCode == ROT.VK_3) {
         this.move(1, 1, 0);
       } else if (inputData.keyCode === ROT.VK_T) {
         this.showItemsSubScreen(

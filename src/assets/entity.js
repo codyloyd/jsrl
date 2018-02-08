@@ -64,9 +64,6 @@ const Entity = function({
           }
         }
         return true;
-      } else if (tile.isDiggable() && this.hasMixin("PlayerActor")) {
-        map.dig(x, y, z);
-        return true;
       }
       return false;
     },
