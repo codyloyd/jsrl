@@ -6023,6 +6023,7 @@ const PlayerTemplate = {
   attackValue: 10,
   sightRadius: 18,
   inventorySlots: 22,
+  items: ["ration", "sword"],
   mixins: [
     __WEBPACK_IMPORTED_MODULE_6__entityMixins__["i" /* PlayerActor */],
     __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */],
@@ -6068,9 +6069,11 @@ EntityRepository.define("troll", {
   maxHp: 25,
   attackValue: 10,
   sightRadius: 10,
-  rngWeight: 1,
+  rngWeight: 2,
+  itemProbability: .3,
   tasks: ["hunt", "wander"],
-  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
+  items: ["sword", "potion"],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["g" /* InventoryHolder */]]
 });
 
 EntityRepository.define("kobold", {
@@ -6082,9 +6085,28 @@ EntityRepository.define("kobold", {
   attackValue: 6,
   sightRadius: 15,
   rngWeight: 3,
+  itemProbability: .3,
   tasks: ["hunt", "wander"],
-  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
+  items: ["rock", "dagger"],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["g" /* InventoryHolder */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
 });
+
+EntityRepository.define("warrior zombie", {
+  name: "warrior zombie",
+  char: "Z",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].darkGreen,
+  speed: 1900,
+  maxHp: 35,
+  attackValue: 6,
+  sightRadius: 35,
+  rngWeight: 2,
+  itemProbability: .5,
+  tasks: ["hunt", "wander"],
+  items: ["big awesome sword", "potion"],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["g" /* InventoryHolder */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
+},
+  { disableRandomCreation: true }
+);
 
 EntityRepository.define("newt", {
   name: "newt",
@@ -6097,6 +6119,34 @@ EntityRepository.define("newt", {
   tasks: ["hunt", "wander"],
   mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
 });
+
+EntityRepository.define("warriorOrc", {
+  name: "Warrior Orc",
+  char: "O",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].yellow,
+  speed: 900,
+  maxHp: 150,
+  attackValue: 10,
+  sightRadius: 20,
+  tasks: ["hunt", "wander"],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
+},
+  { disableRandomCreation: true }
+)
+
+EntityRepository.define("easyWarriorOrc", {
+  name: "Weak Pansy Warrior Orc",
+  char: "O",
+  fg: __WEBPACK_IMPORTED_MODULE_0__colors__["a" /* default */].yellow,
+  speed: 900,
+  maxHp: 10,
+  attackValue: 10,
+  sightRadius: 20,
+  tasks: ["hunt", "wander"],
+  mixins: [__WEBPACK_IMPORTED_MODULE_6__entityMixins__["j" /* Sight */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["k" /* TaskActor */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["a" /* Attacker */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["c" /* Destructible */], __WEBPACK_IMPORTED_MODULE_6__entityMixins__["b" /* CorpseDropper */]]
+},
+  { disableRandomCreation: true }
+)
 
 
 
@@ -6170,7 +6220,7 @@ Repository.prototype.createRandom = function() {
 
 const ItemRepository = new __WEBPACK_IMPORTED_MODULE_0__repository__["a" /* default */]("items", __WEBPACK_IMPORTED_MODULE_1__item__["a" /* default */]);
 
-ItemRepository.define("healing potion", {
+ItemRepository.define("potion", {
   name: "potion",
   char: "!",
   fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].pink,
@@ -6180,8 +6230,8 @@ ItemRepository.define("healing potion", {
   mixins: [__WEBPACK_IMPORTED_MODULE_3__itemMixins__["a" /* Edible */], __WEBPACK_IMPORTED_MODULE_3__itemMixins__["c" /* Throwable */]]
 });
 
-ItemRepository.define("super healing potion", {
-  name: "potion",
+ItemRepository.define("super duper potion", {
+  name: "super duper potion",
   char: "!",
   fg: __WEBPACK_IMPORTED_MODULE_2__colors__["a" /* default */].darkGreen,
   foodValue: 250,
@@ -6264,7 +6314,7 @@ ItemRepository.define(
 );
 
 ItemRepository.define(
-  "awesomeSword",
+  "big awesome sword",
   {
     name: "big awesome sword",
     char: ")",
@@ -6344,15 +6394,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 const Game = {
   _display: null,
   _currentScreen: null,
-  _screenWidth: 80,
-  _screenHeight: 24,
+  _screenWidth: 100,
+  _screenHeight: 30,
 
   init: function() {
     this._display = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Display({
       width: this._screenWidth,
       height: this._screenHeight + 1,
       fg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].white,
-      bg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].black
+      bg: __WEBPACK_IMPORTED_MODULE_1__colors__["a" /* default */].black,
+      fontWeight: 'bold',
+      spacing: 1
     });
     const game = this;
     const bindEventToScreen = function(event) {
@@ -6383,14 +6435,14 @@ const Game = {
     return this._screenHeight;
   },
 
-  switchScreen: function(screen) {
+  switchScreen: function(screen, opt) {
     if (this._currentScreen !== null) {
       this._currentScreen.exit();
     }
     this.getDisplay().clear();
     this._currentScreen = screen;
     if (!this._currentScreen !== null) {
-      this._currentScreen.enter(this);
+      this._currentScreen.enter(this, opt);
       this.refresh();
     }
   }
@@ -6750,13 +6802,21 @@ const startScreen = {
     console.log("exited start screen");
   },
   render: function(display) {
-    display.drawText(1, 1, "%c{" + __WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].blue + "}JavaScript RogueLike");
-    display.drawText(1, 2, "Press [ENTER] to start");
+    const screenWidth = __WEBPACK_IMPORTED_MODULE_1__game__["default"].getScreenWidth();
+    const screenHeight = __WEBPACK_IMPORTED_MODULE_1__game__["default"].getScreenHeight();
+    display.drawText(screenWidth/2-10, 5, "%c{" + __WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].blue + "}Kill The Warrior Orc");
+    display.drawText(screenWidth/2-11, 6, "Press [ENTER] to start");
+    const easyMessage =  "Press [SHIFT+ENTER] to start stupid easy version"
+    display.drawText(screenWidth/2 - (easyMessage.length/2), 10, "%c{" +__WEBPACK_IMPORTED_MODULE_3__colors__["a" /* default */].darkGray+ "}"+easyMessage);
   },
   handleInput: function(inputType, inputData) {
     if (inputType === "keydown") {
       if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
-        __WEBPACK_IMPORTED_MODULE_1__game__["default"].switchScreen(playScreen);
+        if(inputData.shiftKey){
+          __WEBPACK_IMPORTED_MODULE_1__game__["default"].switchScreen(playScreen, 'easy');
+        } else {
+          __WEBPACK_IMPORTED_MODULE_1__game__["default"].switchScreen(playScreen);
+        }
       }
     }
   }
@@ -6767,6 +6827,7 @@ const playScreen = {
   _player: null,
   _gameEnded: false,
   _subScreen: null,
+  _gameWon: false,
 
   setSubScreen: function(subScreen) {
     this._subScreen = subScreen;
@@ -6785,24 +6846,30 @@ const playScreen = {
     }
   },
 
-  enter: function(game) {
-    console.log("entered play screen");
-    const width = 100;
+  enter: function(game, opt) {
+    const easyMode = opt === 'easy'
+    console.log(easyMode)
+
+    const width = 80;
     const height = 48;
     const depth = 6;
     const tiles = new __WEBPACK_IMPORTED_MODULE_5__builder__["a" /* default */](width, height, depth).getTiles();
     this._player = new __WEBPACK_IMPORTED_MODULE_4__entity__["a" /* default */](
       Object.assign(__WEBPACK_IMPORTED_MODULE_7__entities__["b" /* PlayerTemplate */], { screen: this, game })
     );
-    this._map = new __WEBPACK_IMPORTED_MODULE_2__map__["a" /* default */](tiles, this._player);
+    this._map = new __WEBPACK_IMPORTED_MODULE_2__map__["a" /* default */](tiles, this._player, easyMode);
     this._player.setMap(this._map);
-    console.log(this._player.getMap().getEngine());
     this._map.getEngine().start();
   },
   exit: function() {
     console.log("exited play screen");
   },
   render: function(display) {
+    if (!this._map.getFinalBoss().isAlive()){
+      Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this._player, "YOU WIN THE GAME.  Press [Enter]")
+      this._gameWon = true      
+    }
+    
     if (this._subScreen) {
       this._subScreen.render(display);
       return;
@@ -6887,6 +6954,12 @@ const playScreen = {
       if (this._gameEnded) {
         if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
           __WEBPACK_IMPORTED_MODULE_1__game__["default"].switchScreen(loseScreen);
+        }
+        return;
+      }
+      if (this._gameWon) {
+        if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RETURN) {
+          __WEBPACK_IMPORTED_MODULE_1__game__["default"].switchScreen(winScreen);
         }
         return;
       }
@@ -7307,7 +7380,7 @@ const dropScreen = new ItemListScreen({
 
 
 
-const GameMap = function(tiles, player) {
+const GameMap = function(tiles, player, easyMode) {
   this._tiles = tiles;
   this._depth = tiles.length;
   this._width = tiles[0].length;
@@ -7327,12 +7400,34 @@ const GameMap = function(tiles, player) {
       const entity = __WEBPACK_IMPORTED_MODULE_2__entities__["a" /* EntityRepository */].createRandom();
       this.addEntityAtRandomPosition(entity, z);
     }
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 5; i++) {
       const item = __WEBPACK_IMPORTED_MODULE_3__items__["a" /* default */].createRandom();
       this.addItemAtRandomPosition(item, z);
     }
+    if (z > 1) {
+      for (let i = 0; i < 5; i++) {
+        const zombie = __WEBPACK_IMPORTED_MODULE_2__entities__["a" /* EntityRepository */].create("warrior zombie");
+        this.addEntityAtRandomPosition(zombie, z);
+      }
+      for (let i = 0; i < 5; i++) {
+        const troll = __WEBPACK_IMPORTED_MODULE_2__entities__["a" /* EntityRepository */].create("troll");
+        this.addEntityAtRandomPosition(troll, z);
+      }
+    }
   }
+  if (easyMode) {
+    this._finalBoss = __WEBPACK_IMPORTED_MODULE_2__entities__["a" /* EntityRepository */].create('easyWarriorOrc')
+    this.addEntityAtRandomPosition(this._finalBoss, 0)
+  } else {
+    this._finalBoss = __WEBPACK_IMPORTED_MODULE_2__entities__["a" /* EntityRepository */].create('warriorOrc')
+    this.addEntityAtRandomPosition(this._finalBoss, 5)
+  }
+
 };
+
+GameMap.prototype.getFinalBoss = function() {
+  return this._finalBoss
+}
 
 GameMap.prototype.getPlayer = function() {
   return this._player;
@@ -7803,18 +7898,18 @@ const FoodConsumer = function({
       this.modifyFullnessBy(-fullnessDepetionRate);
     },
     modifyFullnessBy: function(points) {
-      fullness += points;
+      fullness = Math.min(fullness + points, maxFullness);
       if (fullness <= 0) {
-        this.kill("You have died of starvation!");
+        this.takeDamage(this, 1)
+        Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this, 'you REALLY need to eat something')
       } else if (fullness > maxFullness) {
-        this.kill("You've eaten yourself to death you pig!");
       }
     },
     getHungerState: function() {
       const perPercent = maxFullness / 100;
-      if (fullness <= perPercent * 5) {
+      if (fullness <= perPercent * 15) {
         return "Starving";
-      } else if (fullness <= perPercent * 25) {
+      } else if (fullness <= perPercent * 35) {
         return "Hungry";
       } else if (fullness >= perPercent * 95) {
         return "Oversatiated";
@@ -7829,7 +7924,7 @@ const FoodConsumer = function({
 /* harmony export (immutable) */ __webpack_exports__["e"] = FoodConsumer;
 
 
-const CorpseDropper = function({ corpseDropRate = 100 }) {
+const CorpseDropper = function({ corpseDropRate = 60 }) {
   return {
     name: "CorpseDropper",
     tryDropCorpse: function() {
@@ -7852,11 +7947,14 @@ const CorpseDropper = function({ corpseDropRate = 100 }) {
 
 const PlayerActor = function() {
   let acting = false;
+  let turnCounter = 0;
   return {
     name: "PlayerActor",
     groupName: "Actor",
     act: function() {
       if (acting) return;
+
+      turnCounter++
 
       if (!this.isAlive()) {
         this.getGame()._currentScreen.setGameEnded(true);
@@ -7864,6 +7962,11 @@ const PlayerActor = function() {
       }
       acting = true;
       this.addTurnHunger();
+      if (this.getHungerState() == "Not Hungry") {
+        if(turnCounter % 6 == 0) {
+          this.addHp(1)
+        }
+      }
       this.getScreen().render(this.getGame().getDisplay(), this.getGame());
       this.getMap()
         .getEngine()
@@ -7939,6 +8042,9 @@ const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
     setHp: function(newHp) {
       hp = Math.min(newHp, maxHp);
     },
+    addHp: function(amount) {
+      this.setHp(hp + amount)
+    },
     getHp: function() {
       return hp;
     },
@@ -7951,6 +8057,9 @@ const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
         Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(attacker, `You kill the ${this.getName()}`);
         if (this.hasMixin("CorpseDropper")) {
           this.tryDropCorpse();
+        }
+        if (this.hasMixin("InventoryHolder")) {
+          this.dropAllItems()
         }
         this.kill();
       }
@@ -8072,13 +8181,10 @@ const Thrower = function({ throwingDistance = 5 }) {
 /* harmony export (immutable) */ __webpack_exports__["l"] = Thrower;
 
 
-const InventoryHolder = function({ inventorySlots = 10 }) {
-  const items = [];
+const InventoryHolder = function({ inventorySlots = 10, items=[], itemProbability=1 }) {
+  items = items.map(item => Math.random() < itemProbability ? __WEBPACK_IMPORTED_MODULE_4__items__["a" /* default */].create(item) : null)
   return {
     name: "InventoryHolder",
-    init: function({ inventorySlots = 10 }) {
-      inventorySlots = inventorySlots;
-    },
     getItems: function() {
       return items;
     },
@@ -8126,6 +8232,9 @@ const InventoryHolder = function({ inventorySlots = 10 }) {
       });
       this.getMap().setItemsAt(this.getX(), this.getY(), this.getZ(), mapItems);
       return added === indices.length;
+    },
+    dropAllItems: function() {
+      items.forEach((item, i) => this.dropItem(i))
     },
     dropItem: function(i) {
       if (items[i]) {
@@ -8210,9 +8319,9 @@ const Builder = function(width, height, depth) {
       }
     }
   }
-  for (let z = 0; z < this._depth; z++) {
-    this._setupRegions(z);
-  }
+  // for (let z = 0; z < this._depth; z++) {
+  //   this._setupRegions(z);
+  // }
   this._connectAllRegions();
 };
 
@@ -8238,19 +8347,22 @@ Builder.prototype._generateLevel = function() {
     map[w] = new Array(this._height);
   }
 
-  const generator = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Map.Cellular(this._width, this._height);
-  generator.randomize(0.5);
+  console.log(__WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Map)
+  const generator = new __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.Map.Digger(this._width, this._height,{roomWidth: [7,9], roomHeight: [7,9]});
+  // const generator = new ROT.Map.Uniform(this._width, this._height);
+  // const generator = new ROT.Map.Rogue(this._width, this.height)
+  // generator.randomize(0.5);
 
-  const totalIterations = 8;
-  for (let i = 0; i < totalIterations - 1; i++) {
-    generator.create();
-  }
-  generator.connect();
+  // const totalIterations = 8;
+  // for (let i = 0; i < totalIterations - 1; i++) {
+  //   generator.create();
+  // }
+  // generator.connect();
   generator.create(function(x, y, v) {
     if (v === 1) {
-      map[x][y] = __WEBPACK_IMPORTED_MODULE_2__tile__["a" /* floorTile */];
-    } else {
       map[x][y] = __WEBPACK_IMPORTED_MODULE_2__tile__["e" /* wallTile */];
+    } else {
+      map[x][y] = __WEBPACK_IMPORTED_MODULE_2__tile__["a" /* floorTile */];
     }
   });
   return map;
