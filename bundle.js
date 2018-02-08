@@ -5899,9 +5899,6 @@ const Entity = function({
           }
         }
         return true;
-      } else if (tile.isDiggable() && this.hasMixin("PlayerActor")) {
-        map.dig(x, y, z);
-        return true;
       }
       return false;
     },
@@ -6964,21 +6961,21 @@ const playScreen = {
         return;
       }
       //movement
-      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_H) {
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_H || inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_4 || inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_LEFT) {
         this.move(-1, 0, 0);
-      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_L) {
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_L || inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_6 || inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RIGHT) {
         this.move(1, 0, 0);
-      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_K) {
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_K || inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_8 || inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_UP) {
         this.move(0, -1, 0);
-      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_J) {
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_J || inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_2 || inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_DOWN) {
         this.move(0, 1, 0);
-      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_Y) {
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_Y|| inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_7) {
         this.move(-1, -1, 0);
-      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_U) {
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_U|| inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_9) {
         this.move(1, -1, 0);
-      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_B) {
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_B|| inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_1) {
         this.move(-1, 1, 0);
-      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_N) {
+      } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_N|| inputData.keyCode == __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_3) {
         this.move(1, 1, 0);
       } else if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_T) {
         this.showItemsSubScreen(
