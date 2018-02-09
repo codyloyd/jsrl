@@ -29762,26 +29762,28 @@ const loseScreen = {
 
 const directionScreen = function(okFunction) {
   this.render = function(display) {
-    display.drawText(0, 1, "Which direction?");
+    display.drawText(0, 0, "Which direction?");
   };
   this.handleInput = function(inputType, inputData) {
     if (inputType == "keydown") {
       let direction;
-      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_8 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_K) {
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_UP || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_8 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_K) {
         direction = 8;
       }
-      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_2 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_J) {
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_DOWN || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_2 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_J) {
         direction = 2;
       }
-      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_4 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_H) {
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_LEFT || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_4 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_H) {
         direction = 4;
       }
-      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_6 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_L) {
+      if (inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_RIGHT || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_6 || inputData.keyCode === __WEBPACK_IMPORTED_MODULE_0_rot_js___default.a.VK_L) {
         direction = 6;
       }
-      okFunction(direction);
-      playScreen.setSubScreen(undefined);
-      playScreen._map.getEngine().unlock();
+      if (direction) {
+        okFunction(direction);
+        playScreen.setSubScreen(undefined);
+        playScreen._map.getEngine().unlock();
+      }
     }
   };
 };
@@ -30607,7 +30609,6 @@ const PlayerActor = function() {
         const score = (this.getKillCount()) * (this.getZ() + 1)
         const name = prompt(`your score was ${score}.  Enter your name to submit it to the leaderboard.`)
         if (name) {
-          console.log('testtttt')
           this.getGame()._highScoresDB.add({name, score})
         }
         Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this, "press ENTER to continue");
@@ -30790,7 +30791,11 @@ const Attacker = function({ attackValue = 1 }) {
 const Thrower = function({ throwingDistance = 5 }) {
   return {
     name: "Thrower",
-    throwItem: function(item, direction = 8) {
+    throwItem: function(item, direction) {
+      if(!direction) {
+        Object(__WEBPACK_IMPORTED_MODULE_6__helpers__["b" /* sendMessage */])(this, 'invalid direction')
+        return;
+      };
       const rangeArray = this.getMap().lookInDirection(
         direction,
         throwingDistance
