@@ -27,8 +27,8 @@ const PlayerTemplate = {
   maxHp: 40,
   attackValue: 10,
   sightRadius: 18,
-  inventorySlots: 22,
-  items: ["ration", "sword"],
+  inventorySlots: 10,
+  items: ["ration"],
   mixins: [
     PlayerActor,
     Destructible,

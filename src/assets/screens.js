@@ -305,6 +305,14 @@ const winScreen = {
       var background = ROT.Color.toRGB([r, g, b]);
       display.drawText(2, i + 1, "%b{" + background + "}You win!");
     }
+    display.drawText(16,2,'HIGH SCORES')
+    Game._highScoresDB.orderBy('score', 'desc').limit(15).get().then((querySnapshot) => {
+      let i = 1
+      querySnapshot.forEach((doc) => {
+        display.drawText(18, i+2, `%c{white}${i}: ${doc.data().name}: ${doc.data().score}`)
+        i++
+      });
+    });
   },
   handleInput: function(inputType, inputData) {
     // Nothing to do here
@@ -319,9 +327,15 @@ const loseScreen = {
     console.log("Exited lose screen.");
   },
   render: function(display) {
-    for (var i = 0; i < 22; i++) {
-      display.drawText(2, i + 1, "%b{red}You lose! :(");
-    }
+    display.drawText(0,0,'YOU LOSE SUCKA!')
+    display.drawText(1,2,'HIGH SCORES')
+    Game._highScoresDB.orderBy('score', 'desc').limit(15).get().then((querySnapshot) => {
+      let i = 1
+      querySnapshot.forEach((doc) => {
+        display.drawText(18, i+2, `%c{white}${i}: ${doc.data().name}: ${doc.data().score}`)
+        i++
+      });
+    });
   },
   handleInput: function(inputType, inputData) {
     // Nothing to do here

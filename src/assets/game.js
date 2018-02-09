@@ -1,12 +1,31 @@
 import ROT from "rot-js";
 import Colors from "./colors";
 import Screen from "./screens";
+import * as firebase from "firebase";
+
+require("firebase/firestore");
+
+firebase.initializeApp({
+  apiKey:'AIzaSyAXOyEARiK9iNGZYrtLb-_KUuag15wE94g',
+  projectId:'warriororc-rl'
+});
+
+const db = firebase.firestore();
+const highScoresDB = db.collection("games")
+
+highScoresDB.orderBy('score', 'desc').limit(3).get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data().name}: ${doc.data().score}`);
+    });
+});
+
 
 const Game = {
   _display: null,
   _currentScreen: null,
-  _screenWidth: 100,
+  _screenWidth: 80,
   _screenHeight: 30,
+  _highScoresDB: highScoresDB,
 
   init: function() {
     this._display = new ROT.Display({

@@ -185,6 +185,12 @@ export const PlayerActor = function() {
 
       if (!this.isAlive()) {
         this.getGame()._currentScreen.setGameEnded(true);
+        const score = (this.getKillCount()) * (this.getZ() + 1)
+        const name = prompt(`your score was ${score}.  Enter your name to submit it to the leaderboard.`)
+        if (name) {
+          console.log('testtttt')
+          this.getGame()._highScoresDB.add({name, score})
+        }
         sendMessage(this, "press ENTER to continue");
       }
       acting = true;
@@ -284,6 +290,7 @@ export const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
         if (this.hasMixin("InventoryHolder")) {
           this.dropAllItems()
         }
+        attacker.addKill(this.getMaxHp());
         this.kill();
       }
     }
@@ -308,6 +315,7 @@ export const MessageRecipient = function() {
 };
 
 export const Attacker = function({ attackValue = 1 }) {
+  let killCounter = 0;
   return {
     name: "Attacker",
     groupName: "Attacker",
@@ -322,6 +330,12 @@ export const Attacker = function({ attackValue = 1 }) {
         }
       }
       return attackValue + mod;
+    },
+    getKillCount: function() {
+      return killCounter;
+    },
+    addKill: function(amount){
+      killCounter += amount
     },
     attack: function(target) {
       if (target.hasMixin("Destructible")) {
@@ -401,7 +415,7 @@ export const InventoryHolder = function({ inventorySlots = 10, items=[], itemPro
   return {
     name: "InventoryHolder",
     getItems: function() {
-      return items;
+      return items.sort((a,b) => a.getName() > b.getName());
     },
     getItem: function(i) {
       return items[i];
