@@ -636,7 +636,7 @@ const eatScreen = new ItemListScreen({
     item.eat(this._player);
     if (!item.hasRemainingConsumptions()) {
       console.log("is being removed");
-      this._player.removeItem(key);
+      this._player.removeItem(item);
     }
     return true;
   }
