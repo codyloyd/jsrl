@@ -18,16 +18,24 @@ const startScreen = {
   render: function(display) {
     const screenWidth = Game.getScreenWidth();
     const screenHeight = Game.getScreenHeight();
-    display.drawText(screenWidth/2-10, 5, "%c{" + Colors.blue + "}Kill The Warrior Orc");
-    display.drawText(screenWidth/2-11, 6, "Press [ENTER] to start");
-    const easyMessage =  "Press [SHIFT+ENTER] to start stupid easy version"
-    display.drawText(screenWidth/2 - (easyMessage.length/2), 10, "%c{" +Colors.darkGray+ "}"+easyMessage);
+    display.drawText(
+      screenWidth / 2 - 10,
+      5,
+      "%c{" + Colors.blue + "}Kill The Warrior Orc"
+    );
+    display.drawText(screenWidth / 2 - 11, 6, "Press [ENTER] to start");
+    const easyMessage = "Press [SHIFT+ENTER] to start stupid easy version";
+    display.drawText(
+      screenWidth / 2 - easyMessage.length / 2,
+      10,
+      "%c{" + Colors.darkGray + "}" + easyMessage
+    );
   },
   handleInput: function(inputType, inputData) {
     if (inputType === "keydown") {
       if (inputData.keyCode === ROT.VK_RETURN) {
-        if(inputData.shiftKey){
-          Game.switchScreen(playScreen, 'easy');
+        if (inputData.shiftKey) {
+          Game.switchScreen(playScreen, "easy");
         } else {
           Game.switchScreen(playScreen);
         }
@@ -42,6 +50,7 @@ const playScreen = {
   _gameEnded: false,
   _subScreen: null,
   _gameWon: false,
+  _easyMode: false,
 
   setSubScreen: function(subScreen) {
     this._subScreen = subScreen;
@@ -61,8 +70,7 @@ const playScreen = {
   },
 
   enter: function(game, opt) {
-    const easyMode = opt === 'easy'
-    console.log(easyMode)
+    this._easyMode = opt === "easy";
 
     const width = 80;
     const height = 48;
@@ -71,7 +79,7 @@ const playScreen = {
     this._player = new Entity(
       Object.assign(PlayerTemplate, { screen: this, game })
     );
-    this._map = new GameMap(tiles, this._player, easyMode);
+    this._map = new GameMap(tiles, this._player, this._easyMode);
     this._player.setMap(this._map);
     this._map.getEngine().start();
   },
@@ -79,11 +87,20 @@ const playScreen = {
     console.log("exited play screen");
   },
   render: function(display) {
-    if (!this._map.getFinalBoss().isAlive()){
-      sendMessage(this._player, "YOU WIN THE GAME.  Press [Enter]")
-      this._gameWon = true      
+    if (!this._map.getFinalBoss().isAlive()) {
+      const score =
+        this._player.getKillCount() * (this._player.getZ() + 1) +
+        (this._easyMode ? 200 : 1000);
+      const name = prompt(
+        `YOU WIN! Your score was ${score}.  Enter your name to submit it to the leaderboard.`
+      );
+      if (name) {
+        Game._highScoresDB.add({ name, score });
+      }
+      sendMessage(this._player, "YOU WIN THE GAME.  Press [Enter]");
+      this._gameWon = true;
     }
-    
+
     if (this._subScreen) {
       this._subScreen.render(display);
       return;
@@ -178,21 +195,49 @@ const playScreen = {
         return;
       }
       //movement
-      if (inputData.keyCode === ROT.VK_H || inputData.keyCode == ROT.VK_4 || inputData.keyCode == ROT.VK_LEFT) {
+      if (
+        inputData.keyCode === ROT.VK_H ||
+        inputData.keyCode == ROT.VK_4 ||
+        inputData.keyCode == ROT.VK_LEFT
+      ) {
         this.move(-1, 0, 0);
-      } else if (inputData.keyCode === ROT.VK_L || inputData.keyCode == ROT.VK_6 || inputData.keyCode == ROT.VK_RIGHT) {
+      } else if (
+        inputData.keyCode === ROT.VK_L ||
+        inputData.keyCode == ROT.VK_6 ||
+        inputData.keyCode == ROT.VK_RIGHT
+      ) {
         this.move(1, 0, 0);
-      } else if (inputData.keyCode === ROT.VK_K || inputData.keyCode == ROT.VK_8 || inputData.keyCode == ROT.VK_UP) {
+      } else if (
+        inputData.keyCode === ROT.VK_K ||
+        inputData.keyCode == ROT.VK_8 ||
+        inputData.keyCode == ROT.VK_UP
+      ) {
         this.move(0, -1, 0);
-      } else if (inputData.keyCode === ROT.VK_J || inputData.keyCode == ROT.VK_2 || inputData.keyCode == ROT.VK_DOWN) {
+      } else if (
+        inputData.keyCode === ROT.VK_J ||
+        inputData.keyCode == ROT.VK_2 ||
+        inputData.keyCode == ROT.VK_DOWN
+      ) {
         this.move(0, 1, 0);
-      } else if (inputData.keyCode === ROT.VK_Y|| inputData.keyCode == ROT.VK_7) {
+      } else if (
+        inputData.keyCode === ROT.VK_Y ||
+        inputData.keyCode == ROT.VK_7
+      ) {
         this.move(-1, -1, 0);
-      } else if (inputData.keyCode === ROT.VK_U|| inputData.keyCode == ROT.VK_9) {
+      } else if (
+        inputData.keyCode === ROT.VK_U ||
+        inputData.keyCode == ROT.VK_9
+      ) {
         this.move(1, -1, 0);
-      } else if (inputData.keyCode === ROT.VK_B|| inputData.keyCode == ROT.VK_1) {
+      } else if (
+        inputData.keyCode === ROT.VK_B ||
+        inputData.keyCode == ROT.VK_1
+      ) {
         this.move(-1, 1, 0);
-      } else if (inputData.keyCode === ROT.VK_N|| inputData.keyCode == ROT.VK_3) {
+      } else if (
+        inputData.keyCode === ROT.VK_N ||
+        inputData.keyCode == ROT.VK_3
+      ) {
         this.move(1, 1, 0);
       } else if (inputData.keyCode === ROT.VK_T) {
         this.showItemsSubScreen(
@@ -305,14 +350,22 @@ const winScreen = {
       var background = ROT.Color.toRGB([r, g, b]);
       display.drawText(2, i + 1, "%b{" + background + "}You win!");
     }
-    display.drawText(16,2,'HIGH SCORES')
-    Game._highScoresDB.orderBy('score', 'desc').limit(15).get().then((querySnapshot) => {
-      let i = 1
-      querySnapshot.forEach((doc) => {
-        display.drawText(18, i+2, `%c{white}${i}: ${doc.data().name}: ${doc.data().score}`)
-        i++
+    display.drawText(16, 2, "HIGH SCORES");
+    Game._highScoresDB
+      .orderBy("score", "desc")
+      .limit(15)
+      .get()
+      .then(querySnapshot => {
+        let i = 1;
+        querySnapshot.forEach(doc => {
+          display.drawText(
+            18,
+            i + 2,
+            `%c{white}${i}: ${doc.data().name}: ${doc.data().score}`
+          );
+          i++;
+        });
       });
-    });
   },
   handleInput: function(inputType, inputData) {
     // Nothing to do here
@@ -327,15 +380,23 @@ const loseScreen = {
     console.log("Exited lose screen.");
   },
   render: function(display) {
-    display.drawText(0,0,'YOU LOSE SUCKA!')
-    display.drawText(1,2,'HIGH SCORES')
-    Game._highScoresDB.orderBy('score', 'desc').limit(15).get().then((querySnapshot) => {
-      let i = 1
-      querySnapshot.forEach((doc) => {
-        display.drawText(18, i+2, `%c{white}${i}: ${doc.data().name}: ${doc.data().score}`)
-        i++
+    display.drawText(0, 0, "YOU LOSE SUCKA!");
+    display.drawText(1, 2, "HIGH SCORES");
+    Game._highScoresDB
+      .orderBy("score", "desc")
+      .limit(15)
+      .get()
+      .then(querySnapshot => {
+        let i = 1;
+        querySnapshot.forEach(doc => {
+          display.drawText(
+            18,
+            i + 2,
+            `%c{white}${i}: ${doc.data().name}: ${doc.data().score}`
+          );
+          i++;
+        });
       });
-    });
   },
   handleInput: function(inputType, inputData) {
     // Nothing to do here
@@ -349,16 +410,32 @@ const directionScreen = function(okFunction) {
   this.handleInput = function(inputType, inputData) {
     if (inputType == "keydown") {
       let direction;
-      if (inputData.keyCode === ROT.VK_UP || inputData.keyCode === ROT.VK_8 || inputData.keyCode === ROT.VK_K) {
+      if (
+        inputData.keyCode === ROT.VK_UP ||
+        inputData.keyCode === ROT.VK_8 ||
+        inputData.keyCode === ROT.VK_K
+      ) {
         direction = 8;
       }
-      if (inputData.keyCode === ROT.VK_DOWN || inputData.keyCode === ROT.VK_2 || inputData.keyCode === ROT.VK_J) {
+      if (
+        inputData.keyCode === ROT.VK_DOWN ||
+        inputData.keyCode === ROT.VK_2 ||
+        inputData.keyCode === ROT.VK_J
+      ) {
         direction = 2;
       }
-      if (inputData.keyCode === ROT.VK_LEFT || inputData.keyCode === ROT.VK_4 || inputData.keyCode === ROT.VK_H) {
+      if (
+        inputData.keyCode === ROT.VK_LEFT ||
+        inputData.keyCode === ROT.VK_4 ||
+        inputData.keyCode === ROT.VK_H
+      ) {
         direction = 4;
       }
-      if (inputData.keyCode === ROT.VK_RIGHT || inputData.keyCode === ROT.VK_6 || inputData.keyCode === ROT.VK_L) {
+      if (
+        inputData.keyCode === ROT.VK_RIGHT ||
+        inputData.keyCode === ROT.VK_6 ||
+        inputData.keyCode === ROT.VK_L
+      ) {
         direction = 6;
       }
       if (direction) {
@@ -554,9 +631,11 @@ const eatScreen = new ItemListScreen({
   ok: function(selectedItems) {
     const key = Object.keys(selectedItems)[0];
     const item = selectedItems[key];
+    console.log(item);
     sendMessage(this._player, `You eat ${item.describeThe()}`);
     item.eat(this._player);
     if (!item.hasRemainingConsumptions()) {
+      console.log("is being removed");
       this._player.removeItem(key);
     }
     return true;

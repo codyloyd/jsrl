@@ -6,19 +6,12 @@ import * as firebase from "firebase";
 require("firebase/firestore");
 
 firebase.initializeApp({
-  apiKey:'AIzaSyAXOyEARiK9iNGZYrtLb-_KUuag15wE94g',
-  projectId:'warriororc-rl'
+  apiKey: "AIzaSyAXOyEARiK9iNGZYrtLb-_KUuag15wE94g",
+  projectId: "warriororc-rl"
 });
 
 const db = firebase.firestore();
-const highScoresDB = db.collection("games")
-
-highScoresDB.orderBy('score', 'desc').limit(3).get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data().name}: ${doc.data().score}`);
-    });
-});
-
+const highScoresDB = db.collection("games");
 
 const Game = {
   _display: null,
@@ -33,7 +26,7 @@ const Game = {
       height: this._screenHeight + 1,
       fg: Colors.white,
       bg: Colors.black,
-      fontWeight: 'bold',
+      fontWeight: "bold",
       spacing: 1
     });
     const game = this;

@@ -21,6 +21,7 @@ export const Edible = function({
           entity.modifyFullnessBy(foodValue);
           entity.setHp(entity.getHp() + healingValue);
           remainingConsumptions--;
+          console.log(this.describe(), remainingConsumptions);
         }
       }
     },

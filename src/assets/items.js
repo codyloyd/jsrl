@@ -60,7 +60,7 @@ ItemRepository.define(
     char: "%",
     fg: Colors.pink,
     foodValue: 75,
-    consuptions: 2,
+    consumptions: 2,
     mixins: [Edible]
   },
   { disableRandomCreation: true }

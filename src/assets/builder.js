@@ -47,8 +47,10 @@ Builder.prototype._generateLevel = function() {
     map[w] = new Array(this._height);
   }
 
-  console.log(ROT.Map)
-  const generator = new ROT.Map.Digger(this._width, this._height,{roomWidth: [7,9], roomHeight: [7,9]});
+  const generator = new ROT.Map.Digger(this._width, this._height, {
+    roomWidth: [7, 9],
+    roomHeight: [7, 9]
+  });
   // const generator = new ROT.Map.Uniform(this._width, this._height);
   // const generator = new ROT.Map.Rogue(this._width, this.height)
   // generator.randomize(0.5);

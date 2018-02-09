@@ -131,8 +131,8 @@ export const FoodConsumer = function({
     modifyFullnessBy: function(points) {
       fullness = Math.min(fullness + points, maxFullness);
       if (fullness <= 0) {
-        this.takeDamage(this, 1)
-        sendMessage(this, 'you REALLY need to eat something')
+        this.takeDamage(this, 1);
+        sendMessage(this, "you REALLY need to eat something");
       } else if (fullness > maxFullness) {
       }
     },
@@ -181,22 +181,24 @@ export const PlayerActor = function() {
     act: function() {
       if (acting) return;
 
-      turnCounter++
+      turnCounter++;
 
       if (!this.isAlive()) {
         this.getGame()._currentScreen.setGameEnded(true);
-        const score = (this.getKillCount()) * (this.getZ() + 1)
-        const name = prompt(`your score was ${score}.  Enter your name to submit it to the leaderboard.`)
+        const score = this.getKillCount() * (this.getZ() + 1);
+        const name = prompt(
+          `your score was ${score}.  Enter your name to submit it to the leaderboard.`
+        );
         if (name) {
-          this.getGame()._highScoresDB.add({name, score})
+          this.getGame()._highScoresDB.add({ name, score });
         }
         sendMessage(this, "press ENTER to continue");
       }
       acting = true;
       this.addTurnHunger();
       if (this.getHungerState() == "Not Hungry") {
-        if(turnCounter % 6 == 0) {
-          this.addHp(1)
+        if (turnCounter % 6 == 0) {
+          this.addHp(1);
         }
       }
       this.getScreen().render(this.getGame().getDisplay(), this.getGame());
@@ -271,7 +273,7 @@ export const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
       hp = Math.min(newHp, maxHp);
     },
     addHp: function(amount) {
-      this.setHp(hp + amount)
+      this.setHp(hp + amount);
     },
     getHp: function() {
       return hp;
@@ -287,7 +289,7 @@ export const Destructible = function({ maxHp = 10, hp, defenseValue = 0 }) {
           this.tryDropCorpse();
         }
         if (this.hasMixin("InventoryHolder")) {
-          this.dropAllItems()
+          this.dropAllItems();
         }
         attacker.addKill(this.getMaxHp());
         this.kill();
@@ -333,8 +335,8 @@ export const Attacker = function({ attackValue = 1 }) {
     getKillCount: function() {
       return killCounter;
     },
-    addKill: function(amount){
-      killCounter += amount
+    addKill: function(amount) {
+      killCounter += amount;
     },
     attack: function(target) {
       if (target.hasMixin("Destructible")) {
@@ -361,10 +363,10 @@ export const Thrower = function({ throwingDistance = 5 }) {
   return {
     name: "Thrower",
     throwItem: function(item, direction) {
-      if(!direction) {
-        sendMessage(this, 'invalid direction')
+      if (!direction) {
+        sendMessage(this, "invalid direction");
         return;
-      };
+      }
       const rangeArray = this.getMap().lookInDirection(
         direction,
         throwingDistance
@@ -413,20 +415,28 @@ export const Thrower = function({ throwingDistance = 5 }) {
   };
 };
 
-export const InventoryHolder = function({ inventorySlots = 10, items=[], itemProbability=1 }) {
-  items = items.map(item => Math.random() < itemProbability ? ItemRepository.create(item) : null)
+export const InventoryHolder = function({
+  inventorySlots = 10,
+  items = [],
+  itemProbability = 1
+}) {
+  items = items.map(
+    item =>
+      Math.random() < itemProbability ? ItemRepository.create(item) : null
+  );
   return {
     name: "InventoryHolder",
     getItems: function() {
-      return items.sort((a,b) => a.getName() > b.getName());
+      return items;
     },
     getItem: function(i) {
       return items[i];
     },
     addItem: function(item) {
-      for (let i = 0; i < 22; i++) {
+      for (let i = 0; i < inventorySlots; i++) {
         if (!items[i]) {
           items[i] = item;
+          items.sort((a, b) => a.describe() > b.describe());
           return true;
         }
       }
@@ -440,6 +450,7 @@ export const InventoryHolder = function({ inventorySlots = 10, items=[], itemPro
         this.unequip(items[i]);
       }
       delete items[i];
+      items.sort((a, b) => a.describe() > b.describe());
     },
     canAddItem: function() {
       for (let i = 0; i < inventorySlots; i++) {
@@ -466,7 +477,7 @@ export const InventoryHolder = function({ inventorySlots = 10, items=[], itemPro
       return added === indices.length;
     },
     dropAllItems: function() {
-      items.forEach((item, i) => this.dropItem(i))
+      items.forEach((item, i) => this.dropItem(i));
     },
     dropItem: function(i) {
       if (items[i]) {
