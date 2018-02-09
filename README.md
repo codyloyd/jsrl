@@ -11,7 +11,7 @@ This was written as my first RL game in preparation for [7drl](http://7drl.org).
 - view inventory: `i`
 - eat: `e` (including potions)
 - wield: `w`
-- wear: `w`
+- wear: `W`
 - throw: `t` (can only throw in 4 directions--no diagonals)
 
 ## to run locally:
