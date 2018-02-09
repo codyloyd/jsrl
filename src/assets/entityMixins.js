@@ -52,6 +52,7 @@ export const Sight = function({ sightRadius = 5 }) {
 };
 
 export const TaskActor = function({ tasks = ["wander"] }) {
+  let huntingTarget = null;
   return {
     name: "TaskActor",
     groupName: "Actor",
@@ -66,7 +67,10 @@ export const TaskActor = function({ tasks = ["wander"] }) {
     },
     canDoTask: function(task) {
       if (task === "hunt") {
-        return this.hasMixin("Sight") && this.canSee(this.getMap().getPlayer());
+        return (
+          this.hasMixin("Sight") &&
+          (this.canSee(this.getMap().getPlayer()) || huntingTarget)
+        );
       } else if (task === "wander") {
         return true;
       } else {
@@ -74,6 +78,7 @@ export const TaskActor = function({ tasks = ["wander"] }) {
       }
     },
     hunt: function() {
+      console.log(this.getName() + " is hunting");
       const player = this.getMap().getPlayer();
       const offsets =
         Math.abs(player.getX() - this.getX()) +
@@ -83,11 +88,15 @@ export const TaskActor = function({ tasks = ["wander"] }) {
         return;
       }
 
+      if (this.canSee(player)) {
+        huntingTarget = { x: player.getX(), y: player.getY() };
+      }
+
       const source = this;
       const z = source.getZ();
       const path = new ROT.Path.AStar(
-        player.getX(),
-        player.getY(),
+        huntingTarget.x,
+        huntingTarget.y,
         function(x, y) {
           var entity = source.getMap().getEntityAt(x, y, z);
           if (entity && entity !== player && entity !== source) {

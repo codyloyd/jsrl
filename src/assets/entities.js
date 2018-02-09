@@ -116,7 +116,7 @@ EntityRepository.define(
     name: "warrior zombie",
     char: "Z",
     fg: Colors.darkGreen,
-    speed: 1100,
+    speed: 1200,
     maxHp: 35,
     attackValue: 6,
     sightRadius: 35,
