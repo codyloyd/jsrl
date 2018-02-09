@@ -344,26 +344,28 @@ const loseScreen = {
 
 const directionScreen = function(okFunction) {
   this.render = function(display) {
-    display.drawText(0, 1, "Which direction?");
+    display.drawText(0, 0, "Which direction?");
   };
   this.handleInput = function(inputType, inputData) {
     if (inputType == "keydown") {
       let direction;
-      if (inputData.keyCode === ROT.VK_8 || inputData.keyCode === ROT.VK_K) {
+      if (inputData.keyCode === ROT.VK_UP || inputData.keyCode === ROT.VK_8 || inputData.keyCode === ROT.VK_K) {
         direction = 8;
       }
-      if (inputData.keyCode === ROT.VK_2 || inputData.keyCode === ROT.VK_J) {
+      if (inputData.keyCode === ROT.VK_DOWN || inputData.keyCode === ROT.VK_2 || inputData.keyCode === ROT.VK_J) {
         direction = 2;
       }
-      if (inputData.keyCode === ROT.VK_4 || inputData.keyCode === ROT.VK_H) {
+      if (inputData.keyCode === ROT.VK_LEFT || inputData.keyCode === ROT.VK_4 || inputData.keyCode === ROT.VK_H) {
         direction = 4;
       }
-      if (inputData.keyCode === ROT.VK_6 || inputData.keyCode === ROT.VK_L) {
+      if (inputData.keyCode === ROT.VK_RIGHT || inputData.keyCode === ROT.VK_6 || inputData.keyCode === ROT.VK_L) {
         direction = 6;
       }
-      okFunction(direction);
-      playScreen.setSubScreen(undefined);
-      playScreen._map.getEngine().unlock();
+      if (direction) {
+        okFunction(direction);
+        playScreen.setSubScreen(undefined);
+        playScreen._map.getEngine().unlock();
+      }
     }
   };
 };

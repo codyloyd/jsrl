@@ -188,7 +188,6 @@ export const PlayerActor = function() {
         const score = (this.getKillCount()) * (this.getZ() + 1)
         const name = prompt(`your score was ${score}.  Enter your name to submit it to the leaderboard.`)
         if (name) {
-          console.log('testtttt')
           this.getGame()._highScoresDB.add({name, score})
         }
         sendMessage(this, "press ENTER to continue");
@@ -361,7 +360,11 @@ export const Attacker = function({ attackValue = 1 }) {
 export const Thrower = function({ throwingDistance = 5 }) {
   return {
     name: "Thrower",
-    throwItem: function(item, direction = 8) {
+    throwItem: function(item, direction) {
+      if(!direction) {
+        sendMessage(this, 'invalid direction')
+        return;
+      };
       const rangeArray = this.getMap().lookInDirection(
         direction,
         throwingDistance
