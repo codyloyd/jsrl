@@ -5,13 +5,14 @@ This was written as my first RL game in preparation for [7drl](http://7drl.org).
 [you can play the game here](http://codyloyd.com/jsrl)
 
 ## Game Keybindings:
-movement: arrow-keys, numpad, or vi-keys.
-up or down stairs: `<` or `>`
-pick up item: `,`
-view inventory: `i`
-eat: `e` (including potions)
-wield: `w`
-throw: `t` (can only throw in 4 directions--no diagonals)
+- movement: arrow-keys, numpad, or vi-keys.
+- up or down stairs: `<` or `>`
+- pick up item: `,`
+- view inventory: `i`
+- eat: `e` (including potions)
+- wield: `w`
+- wear: `w`
+- throw: `t` (can only throw in 4 directions--no diagonals)
 
 ## to run locally:
 run `npm install`
